@@ -1,0 +1,77 @@
+.home-page {
+    padding: 2% 16%;
+    @media (max-width: 768px) {
+        padding: 4%;
+    }
+    .landing-container {
+        display: flex;
+        align-items: center;
+        @media (max-width: 768px) {
+            display: block;
+        }
+        .info-box {
+            width: 60%;
+            @media (max-width: 768px) {
+                text-align: center;
+                width: 100%;
+            }
+            .title {
+                font-size: 24px;
+                font-weight: 700;
+                display: block;
+            }
+            .subtitle {
+                margin-top: 10px;
+                color: gray;
+                font-size: 20px;
+                font-weight: 400;
+                display: block;
+            }
+            .btn-container {
+                display: flex;
+                margin-top: 20px;
+                @media (max-width: 768px) {
+                    justify-content: center;
+                }
+                .primary-btn {
+                    background-color: #2F3A8F;
+                    color: white;
+                    border-radius: 16px;
+                    margin-left: 12px;
+                    width: 150px;
+                    font-weight: bold;
+                }
+                .secondary-btn {
+                    background-color: transparent;
+                    border: 2px solid #2F3A8F;
+                    color: #2F3A8F;
+                    border-radius: 16px;
+                    margin-right: 12px;
+                    width: 150px;
+                    font-weight: bold;
+                }
+                .link {
+                    text-decoration: none;
+                }
+            }
+        }
+        .image-container {
+            background-color: #CDBDFF;
+            padding: 32px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            @media (max-width: 768px) {
+                margin-top: 16px;
+            }
+            .image-slider {
+                width: 300px;
+                overflow: hidden;
+                background-color: transparent;
+                .flickity-enabled:focus {
+                    outline: none;
+                }
+            }
+        }
+    }
+}
