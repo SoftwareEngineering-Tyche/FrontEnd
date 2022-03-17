@@ -2,10 +2,9 @@
 
 .connect-wallet{
     display: table;
-    width: 30%;
     margin: 40px auto 0;
     text-align: center;
-    padding-bottom: 30px;
+    padding: 30px 16px;
 }
 .connect-wallet h3{
     font-size: 22px;

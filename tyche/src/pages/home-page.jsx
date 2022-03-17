@@ -8,6 +8,7 @@ import slide4 from "../assets/images/slide4.svg";
 import slide5 from "../assets/images/slide5.svg";
 import Button from '@mui/material/Button';
 import Flickity from 'react-flickity-component';
+import TopCategories from "../components/top-categories";
 
 function HomePage () {
     return (
@@ -34,15 +35,16 @@ function HomePage () {
                 <div className="image-container">
                     <div className="image-slider">
                         <Flickity options={flickityOptions}>
-                            <img src={slide1} width={300} />
-                            <img src={slide2} width={300} />
-                            <img src={slide3} width={300} />
-                            <img src={slide4} width={300} />
-                            <img src={slide5} width={300} />
+                            <img src={slide1} width={320} />
+                            <img src={slide2} width={320} />
+                            <img src={slide3} width={320} />
+                            <img src={slide4} width={320} />
+                            <img src={slide5} width={320} />
                         </Flickity>
                     </div>
                 </div>
             </div>
+            <TopCategories/>
         </div>
     );
 }

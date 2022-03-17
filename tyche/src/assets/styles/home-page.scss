@@ -6,11 +6,11 @@
     .landing-container {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         @media (max-width: 768px) {
             display: block;
         }
         .info-box {
-            width: 60%;
             @media (max-width: 768px) {
                 text-align: center;
                 width: 100%;
@@ -61,11 +61,12 @@
             border-radius: 16px;
             display: flex;
             justify-content: center;
+            align-items: center;
             @media (max-width: 768px) {
                 margin-top: 16px;
             }
             .image-slider {
-                width: 300px;
+                width: 320px;
                 overflow: hidden;
                 background-color: transparent;
                 .flickity-enabled:focus {
