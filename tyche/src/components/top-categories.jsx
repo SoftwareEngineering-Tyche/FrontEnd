@@ -24,8 +24,8 @@ function TopCategories () {
                 <CardActionArea sx={{width:'200px'}}>
                     <CardMedia sx={{display:'flex', justifyContent:'center', padding:'0px', margin:'0px'}}><img src={imageSample} height={150} width={150}/></CardMedia>
                     <CardContent sx={{padding:'6px 16px'}}>
-                        <div>عنوان دسته‌بندی</div>
-                        <div>توضیحات مربوط به دسته بندی</div>
+                        <div style={{color:'#2F3A8F'}}>عنوان دسته‌بندی</div>
+                        <div style={{color:'#CDBDFF'}}>توضیحات مربوط به دسته بندی</div>
                     </CardContent>
                 </CardActionArea>
             </Card>
@@ -58,7 +58,7 @@ const flickityOptions = {
     draggable: true,
     prevNextButtons: false,
     contain: true,
-    groupCells: 5,
+    groupCells: window.innerWidth < 768 ? 2 : 5,
     freeScroll: false,
     cellAlign: 'center',
     wrapAround: true
