@@ -76,3 +76,23 @@
         }
     }
 }
+.descriptions {
+    margin-top: 36px;
+    background-color: #CDBDFF;
+    padding: 12px;
+    border-radius: 16px;
+    .accordion {
+        .accordion-summery {
+            color: #2F3A8F;
+            font-weight: 600;
+        }
+        .accordion-detail {
+            padding: 0 16px 16px;
+            color: gray;
+            font-weight: 400;
+        }
+        .icon {
+            color: #2F3A8F;
+        }
+    }
+}

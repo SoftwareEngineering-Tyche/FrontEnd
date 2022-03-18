@@ -9,6 +9,7 @@ import slide5 from "../assets/images/slide5.svg";
 import Button from '@mui/material/Button';
 import Flickity from 'react-flickity-component';
 import TopCategories from "../components/top-categories";
+import HomePageDescriptions from "../components/descriptions";
 
 function HomePage () {
     return (
@@ -45,6 +46,7 @@ function HomePage () {
                 </div>
             </div>
             <TopCategories/>
+            <HomePageDescriptions/>
         </div>
     );
 }
