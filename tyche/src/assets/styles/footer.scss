@@ -8,7 +8,7 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
-        color: darkslategray;
+        font-size: 12px;
         margin-bottom: 10px;
         @media (max-width: 768px) {
             justify-content: space-around;
@@ -21,8 +21,9 @@
             text-align: center;
             margin: 8px 0;
             .icon-container {
-                width: 36px;
-                height: 36px;
+                width: 32px;
+                height: 32px;
+                margin-bottom: 4px;
                 .icon {
                     max-width: 40px;
                     max-height: 40px;
@@ -39,6 +40,10 @@
         }
         .contact {
             margin-top: 16px;
+            .title {
+                font-size: small;
+                font-weight: bold;
+            }
             .contact-info {
                 display: flex;
                 align-items: center;
@@ -47,7 +52,7 @@
                 }
                 .email-address {
                     text-decoration: none;
-                    color: black;
+                    color: #424750;
                     :hover {
                         color: #CDBDFF;
                     }
@@ -67,15 +72,20 @@
                 align-items: center;
                 .title-txt {
                     margin-right: 8px;
-                    font-size: 20px;
-                    font-weight: 400;
+                    font-size: large;
+                    font-weight: bold   ;
                 }
             }
             .sub-title {
                 color: gray;
+                font-size: small;
             }
         }
         .user-email {
+            .title {
+                font-size: small;
+                font-weight: bold;
+            }
             .email-form {
                 display: flex;
                 align-items: center;
@@ -84,7 +94,7 @@
                 .email-input {
                     background-color: transparent;
                     border-radius: 8px;
-                    border: 1px solid #2F3A8F;
+                    border: 1px solid rgba(66, 71, 80, .5);
                     padding: 7px;
                     width: 100%;
                 }
@@ -105,12 +115,16 @@
                 width: 100%;
                 margin-bottom: 16px;
             }
+            .service-title {
+                font-size: small;
+                font-weight: bold;
+            }
             .services {
                 display: flex;
                 flex-direction: column;
                 .service {
                     color: gray;
-                    font-size: 14px;
+                    font-size: small;
                     cursor: pointer;
                 }
                 .service:hover {
@@ -121,7 +135,7 @@
     }
     .copy-right {
         margin-top: 24px;
-        font-size: 14px;
+        font-size: small;
         color: #2F3A8F;
     }
 }
