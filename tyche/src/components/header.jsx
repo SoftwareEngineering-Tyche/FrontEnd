@@ -38,7 +38,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    paddingRight: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: { width: '50ch' },
@@ -71,26 +71,26 @@ function Header() {
     </Menu>
   );
   const list = (anchor) => (
-    <Box sx={{ width: 250 }} onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
+    <Box sx={{ width: 250, direction:'ltr !important' }} onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
       <List>
         <ListItem button>
-          <ListItemIcon sx={{minWidth:'unset', marginLeft:'8px'}}><AccountCircle/></ListItemIcon>
+          <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><AccountCircle/></ListItemIcon>
           <span>پروفایل</span>
         </ListItem>
         <ListItem button>
-          <ListItemIcon sx={{minWidth:'unset', marginLeft:'8px'}}><AccountBalanceWalletIcon/></ListItemIcon>
+          <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><AccountBalanceWalletIcon/></ListItemIcon>
           <span>کیف پول</span>
         </ListItem>
         <ListItem button>
-          <ListItemIcon sx={{minWidth:'unset', marginLeft:'8px'}}><StarIcon/></ListItemIcon>
+          <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><StarIcon/></ListItemIcon>
           <span>علاقه‌مندی‌ها</span>
         </ListItem>
         <ListItem button>
-          <ListItemIcon sx={{minWidth:'unset', marginLeft:'8px'}}><ShoppingBasketIcon/></ListItemIcon>
+          <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><ShoppingBasketIcon/></ListItemIcon>
           <span>دارایی‌های من</span>
         </ListItem>
         <ListItem button>
-          <ListItemIcon sx={{minWidth:'unset', marginLeft:'8px'}}><SettingsIcon/></ListItemIcon>
+          <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><SettingsIcon/></ListItemIcon>
           <span>تنظیمات</span>
         </ListItem>
       </List>
@@ -99,17 +99,17 @@ function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <SwipeableDrawer anchor={'right'} open={state['right']} onClose={toggleDrawer('right', false)} onOpen={toggleDrawer('right', true)} sx={{direction:'rtl'}}>
-          {list('right')}
+        <SwipeableDrawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)} onOpen={toggleDrawer('left', true)} sx={{direction:'rtl'}}>
+          {list('left')}
         </SwipeableDrawer>
         <Toolbar sx={{backgroundColor:'#2F3A8F'}}>
           <IconButton size="large" edge="start" color="inherit" aria-label="open drawer">
-            <MenuIcon onClick={toggleDrawer('right', true)}/>
+            <MenuIcon onClick={toggleDrawer('left', true)}/>
           </IconButton>
-          <span style={{marginRight: '12px'}}>تایکی</span>
+          <span style={{marginLeft: '12px'}}>تایکی</span>
           <div style={{display:'flex', justifyContent:'center', width:'100%'}}>
             <Search>
-              <SearchIconWrapper><SearchIcon /></SearchIconWrapper>
+              <SearchIconWrapper><SearchIcon sx={{padding:'0px'}}/></SearchIconWrapper>
               <StyledInputBase placeholder="جستجو... " inputProps={{ 'aria-label': 'search' }}/>
             </Search>
           </div>
