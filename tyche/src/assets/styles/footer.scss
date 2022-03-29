@@ -3,22 +3,125 @@
     @media (max-width: 768px) {
         padding: 4%;
     }
-    background-color: darkgray;
-    display: flex;
-    justify-content: center;
+    background-color: lightgray;
     .options {
         width: 100%;
         display: flex;
         justify-content: space-between;
+        color: darkslategray;
+        margin-bottom: 10px;
+        @media (max-width: 768px) {
+            justify-content: space-around;
+        }
         .option {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            .icon {
-                max-width: 40px;
-                max-height: 40px;
+            text-align: center;
+            margin: 8px 0;
+            .icon-container {
+                width: 36px;
+                height: 36px;
+                .icon {
+                    max-width: 40px;
+                    max-height: 40px;
+                }
             }
         }
+    }
+    .actions-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 24px;
+        @media (max-width: 768px) {
+            display: block;
+        }
+        .contact {
+            margin-top: 16px;
+            .contact-info {
+                display: flex;
+                align-items: center;
+                .email-icon {
+                    margin-left: 8px;
+                }
+                .email-address {
+                    text-decoration: none;
+                    color: black;
+                    :hover {
+                        color: #CDBDFF;
+                    }
+                }
+            }
+        }
+        .tyche-info {
+            @media (min-width: 768px) {
+                max-width: 30%;
+            }
+            @media (max-width: 768px) {
+                width: 100%;
+                margin-bottom: 16px;
+            }
+            .title {
+                display: flex;
+                align-items: center;
+                .title-txt {
+                    margin-right: 8px;
+                    font-size: 20px;
+                    font-weight: 400;
+                }
+            }
+            .sub-title {
+                color: gray;
+            }
+        }
+        .user-email {
+            .email-form {
+                display: flex;
+                align-items: center;
+                margin-top: 8px;
+                width: 100%;
+                .email-input {
+                    background-color: transparent;
+                    border-radius: 8px;
+                    border: 1px solid #2F3A8F;
+                    padding: 7px;
+                    width: 100%;
+                }
+                .btn {
+                    background-color: #CDBDFF;
+                    color: #2F3A8F;
+                    margin-right: 8px;
+                    border-radius: 8px;
+                }
+                .disabled-btn {
+                    background-color: darkgray;
+                    color: gray;
+                }
+            }
+        }
+        .services-container {
+            @media (max-width: 768px) {
+                width: 100%;
+                margin-bottom: 16px;
+            }
+            .services {
+                display: flex;
+                flex-direction: column;
+                .service {
+                    color: gray;
+                    font-size: 14px;
+                    cursor: pointer;
+                }
+                .service:hover {
+                    color: #2F3A8F;
+                }
+            }
+        }
+    }
+    .copy-right {
+        margin-top: 24px;
+        font-size: 14px;
+        color: #2F3A8F;
     }
 }

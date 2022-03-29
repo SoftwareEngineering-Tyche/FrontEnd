@@ -36,6 +36,7 @@
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "sass": "^1.49.9",
+    "stylis-plugin-rtl": "^2.1.1",
     "web-vitals": "^2.1.4",
     "web3": "^1.7.1",
     "yekan-font": "^1.0.0"
