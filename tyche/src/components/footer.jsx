@@ -44,7 +44,7 @@ function Footer() {
         return (<>
             <div className="option">
                 <div className="icon-container"><img src={nftIcon} className="icon" /></div>
-                <span>اضاقه کردن آثار دلخواه</span>
+                <span>اضافه کردن آثار دلخواه</span>
             </div>
             <div className="option">
                 <div className="icon-container"><img src={saleIcon} className="icon" /></div>
@@ -55,7 +55,7 @@ function Footer() {
     const getCustomerServices = () => {
         return (
             <div className="services-container">
-                <div>خدمات مشتریان</div>
+                <div className="service-title">خدمات مشتریان</div>
                 <div className="services">
                     <span className="service">پاسخ به پرسش‌های متداول</span>
                     <span className="service">حریم خصوصی</span>
@@ -68,7 +68,7 @@ function Footer() {
     const getMyAccountServices = () => {
         return (
             <div className="services-container">
-                <div>حساب کاربری من</div>
+                <div className="service-title">حساب کاربری من</div>
                 <div className="services">
                     <span className="service">پروفایل</span>
                     <span className="service">علاقه‌مندی‌‌ها</span>
@@ -102,7 +102,7 @@ function Footer() {
                 : <> {getMyAccountServices()} {getCustomerServices()} </>}
                 <div>
                     <div className="user-email">
-                        <div>از آخرین اخبار تایکی مطلع شوید</div>
+                        <div className="title">از آخرین اخبار تایکی مطلع شوید</div>
                         <div className="email-form">
                             <input
                                 type="text"
@@ -127,7 +127,7 @@ function Footer() {
                         </div>
                     </div>
                     <div className="contact">
-                        ارتباط با ما
+                        <span className="title">ارتباط با ما</span>
                         <div className="contact-info">
                             <EmailRoundedIcon classes={{ root: "email-icon" }} />
                             <a href="mailto:contact.tyche.team@gmail.com" className="email-address">
