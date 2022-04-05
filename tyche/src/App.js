@@ -10,6 +10,7 @@ import HomePage from './pages/home-page';
 import LoginPage from './pages/login-page';
 import Header from './components/header';
 import Footer from './components/footer';
+import ProfilePage from './pages/profile-page';
 
 const cacheRtl = createCache({ key: "muirtl", stylisPlugins: [prefixer, rtlPlugin] });
 
@@ -35,6 +36,7 @@ function App() {
             <Routes>
               <Route path='/' element={<HomePage/>} />
               <Route path='/login' element={<LoginPage/>} />
+              <Route path='/profile' element={<ProfilePage/>} />
             </Routes>
           </BrowserRouter>
           <Footer/>

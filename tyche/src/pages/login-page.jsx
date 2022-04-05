@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { connect } from "react-redux";
+import { login } from "../store/authentication/action"
 
 function LoginPage () {
     const [defaultAccount, setDefaultAccount] = useState(null);
@@ -113,5 +115,8 @@ function LoginPage () {
         </div>
     );
 }
-
-export default LoginPage;
+export default connect(
+    state => ({ ethereum_address: state.authReducer.ethereum_address }),
+    dispatch => ({
+        login: userData => dispatch(login(userData)),
+    }))(LoginPage);
