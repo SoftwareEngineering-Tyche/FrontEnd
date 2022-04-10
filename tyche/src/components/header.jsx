@@ -18,6 +18,8 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import StarIcon from '@mui/icons-material/Star';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import SettingsIcon from '@mui/icons-material/Settings';
+import Link from '@mui/material/Link';
+import { useNavigate } from "react-router-dom";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -73,10 +75,12 @@ function Header() {
   const list = (anchor) => (
     <Box sx={{ width: 250, direction:'ltr !important' }} onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
       <List>
-        <ListItem button>
-          <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><AccountCircle/></ListItemIcon>
-          <span>پروفایل</span>
-        </ListItem>
+        <Link href='/profile' underline='none' color="inherit">
+          <ListItem button>
+              <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><AccountCircle/></ListItemIcon>
+              <span>پروفایل</span>
+          </ListItem>
+        </Link>
         <ListItem button>
           <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><AccountBalanceWalletIcon/></ListItemIcon>
           <span>کیف پول</span>

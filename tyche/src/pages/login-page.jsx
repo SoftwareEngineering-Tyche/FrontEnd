@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { connect } from "react-redux";
+import { login } from "../store/authentication/action";
+import { useDispatch, useSelector } from 'react-redux'
 
 function LoginPage () {
     const [defaultAccount, setDefaultAccount] = useState(null);
@@ -14,9 +17,11 @@ function LoginPage () {
             window.open('https://metamask.io/download/');
         }
     }
+    const dispatch = useDispatch();
     const accountChangedHandler = (newAccount) => {
         setDefaultAccount(newAccount);
         getUserBalance(newAccount.toString());
+        dispatch(login(newAccount));
     }
     const getUserBalance = (address) => {
         window.ethereum.request({method: 'eth_getBalance', params: [address, 'latest']}).then(balance => {
@@ -41,7 +46,6 @@ function LoginPage () {
             window.ethereum.on('chainChanged', chainChangedHandler);
         }
     });
-    
     return (
         <div>
             {!defaultAccount && <div className="connect-wallet">
@@ -113,5 +117,4 @@ function LoginPage () {
         </div>
     );
 }
-
 export default LoginPage;

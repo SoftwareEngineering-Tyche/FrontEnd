@@ -85,9 +85,9 @@ function Footer() {
                     <div>{getOptions1()}</div>
                     <div>{getOptions2()}</div>
                 </>
-                : <> {getOptions1()} {getOptions2()} </>}
+                    : <> {getOptions1()} {getOptions2()} </>}
             </div>
-            <Divider/>
+            <Divider />
             <div className="actions-container">
                 <div className="tyche-info">
                     <div className="title">
@@ -98,8 +98,8 @@ function Footer() {
                         اولین و بزرگ‌ترین پلتفرم ایرانی در حوزه توکن‌های غیر قابل تعویض (NFT) برای جمع‌آوری، خرید، فروش و جستجو در اقلام دیجیتال منحصر به فرد
                     </div>
                 </div>
-                {window.innerWidth <= 768 ? <><div style={{display:'flex'}}>{getMyAccountServices()} {getCustomerServices()}</div></>
-                : <> {getMyAccountServices()} {getCustomerServices()} </>}
+                {window.innerWidth <= 768 ? <><div style={{ display: 'flex' }}>{getMyAccountServices()} {getCustomerServices()}</div></>
+                    : <> {getMyAccountServices()} {getCustomerServices()} </>}
                 <div>
                     <div className="user-email">
                         <div className="title">از آخرین اخبار تایکی مطلع شوید</div>
@@ -111,18 +111,12 @@ function Footer() {
                                 onChange={event => { setEmail(event.target.value); checkEmail(event.target.value); }}
                                 className="email-input"
                             />
-                            <Button classes={{ root: 'btn', disabled: 'disabled-btn' }} disabled={!email} onClick={() => setPressSubmit(true)}>
-                                ثبت
-                            </Button>
+                            <Button classes={{ root: 'btn', disabled: 'disabled-btn' }} disabled={!email} onClick={() => setPressSubmit(true)}>ثبت</Button>
                             {isEmailValid && <Snackbar open={pressSubmit} autoHideDuration={3000} onClose={() => setPressSubmit(false)}>
-                                <Alert onClose={() => setPressSubmit(false)} severity="success" sx={{ width: '100%' }}>
-                                    ایمیل شما با موفقیت ثبت شد!
-                                </Alert>
+                                <Alert onClose={() => setPressSubmit(false)} severity="success" sx={{ width: '100%' }}>ایمیل شما با موفقیت ثبت شد!</Alert>
                             </Snackbar>}
                             {!isEmailValid && <Snackbar open={pressSubmit} autoHideDuration={3000} onClose={() => setPressSubmit(false)}>
-                                <Alert onClose={() => setPressSubmit(false)} severity="error" sx={{ width: '100%' }}>
-                                    آدرس ایمیل وارد شده نامعتبر است!
-                                </Alert>
+                                <Alert onClose={() => setPressSubmit(false)} severity="error" sx={{ width: '100%' }}>آدرس ایمیل وارد شده نامعتبر است!</Alert>
                             </Snackbar>}
                         </div>
                     </div>
@@ -137,9 +131,7 @@ function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="copy-right">
-                ۱۴۰۰-۱۴۰۱ کپی‌رایت © تمامی حقوق محفوظ است
-            </div>
+            <div className="copy-right">۱۴۰۰-۱۴۰۱ کپی‌رایت © تمامی حقوق محفوظ است</div>
         </div>
     );
 }
