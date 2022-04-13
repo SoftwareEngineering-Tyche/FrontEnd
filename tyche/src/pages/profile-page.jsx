@@ -33,7 +33,7 @@ function ProfilePage () {
     const [ethAddress, setEthAddress] = useState(null);
     const [tabValue, setTabValue] = useState(0);
     const [pressCopy, setPressCopy] = useState(false);
-    const [balance, setBalace] = useState();
+    const [balance, setBalace] = useState(null);
     
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
@@ -43,8 +43,10 @@ function ProfilePage () {
         setPressCopy(true);
     }
     if(window.ethereum !== undefined) {
-        window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {setEthAddress(accounts[0]);})
-        window.ethereum.request({method: 'eth_getBalance', params: [ethAddress, 'latest']}).then(balance => {setBalace(ethers.utils.formatEther(balance));})
+        window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+            setEthAddress(accounts[0]);
+            web3.eth.getBalance(accounts[0]).then(res => setBalace(ethers.utils.formatEther(res)));
+        })
     }
     return (
         <div className="profile-page">
