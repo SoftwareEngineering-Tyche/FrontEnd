@@ -22,29 +22,31 @@
                 .name {
                     color: white;
                     font-size: 18px;
-                    margin-bottom: 6px;
-                    @media (max-width: 768px) {
-                        margin-bottom: 26px;
+                    margin-bottom: 16px;
+                }
+                .wallet {
+                    display: flex;
+                    color: #62688F;
+                    align-items: center;
+                    .copy-btn {
+                        color: #62688F;
+                        padding: 2px 8px;
+                        min-width: unset;
+                        margin-right: 8px;
+                        border-color: #62688F;
                     }
                 }
             }
         }
-        .wallet {
-            display: flex;
-            color: #62688F;
-            align-items: center;
-            word-wrap: break-word;
-            white-space: -moz-pre-wrap; /* Mozilla */
-            white-space: -hp-pre-wrap; /* HP printers */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: pre-wrap; /* CSS 2.1 */
-            white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
-            word-wrap: break-word; /* IE */
-            word-break: break-all;
-            @media (max-width: 768px) {
-                margin-right: 8px;
-            }
+    }
+    .additional-information {
+        padding: 8px 26px;
+    }
+    .tabs-container {
+        padding: 26px;
+        .tabs-contents {
+            padding: 24px 0;
+            text-align: center;
         }
     }
 }
