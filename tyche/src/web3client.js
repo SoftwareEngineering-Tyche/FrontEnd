@@ -17,7 +17,6 @@ export function connectToWallet() {
         window.ethereum.request({ method: 'eth_requestAccounts' })
             .then(accounts => {
                 console.log(`selected account is ${accounts[0]}`);
-                toast.success('Wow so easy 1!', {position: 'top-center' });
                 account =  accounts[0];
             })
             .catch((err) => {
@@ -25,11 +24,9 @@ export function connectToWallet() {
             })
         window.ethereum.on('accountsChanged', function (accounts) {
             console.log(`selected account changed to ${accounts[0]}`);
-            toast.success('Wow so easy 2!', {position: 'top-center' });
             account = accounts[0];
         })
     }
-    toast.success('Wow so easy 3!', {position: 'top-center' });
     return account;
 }
 function checkConnection() {
