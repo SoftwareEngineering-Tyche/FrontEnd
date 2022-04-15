@@ -41,7 +41,10 @@ function App() {
             <Routes>
               <Route path='/' element={<HomePage/>} />
               <Route path='/login' element={<LoginPage/>} />
-              <Route path='/profile' element={<ProfilePage/>} />
+              <Route path='/profile/collections' element={<ProfilePage value={0}/>} />
+              <Route path='/profile/creations' element={<ProfilePage value={1}/>} />
+              <Route path='/profile/favorites' element={<ProfilePage value={2}/>} />
+              <Route path='/profile' element={<ProfilePage value={0}/>} />
             </Routes>
           </BrowserRouter>
           <Footer/>

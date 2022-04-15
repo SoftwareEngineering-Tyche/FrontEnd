@@ -20,6 +20,7 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Link from '@mui/material/Link';
 import { useNavigate } from "react-router-dom";
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -85,14 +86,24 @@ function Header() {
           <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><AccountBalanceWalletIcon/></ListItemIcon>
           <span>کیف پول</span>
         </ListItem>
-        <ListItem button>
-          <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><StarIcon/></ListItemIcon>
-          <span>علاقه‌مندی‌ها</span>
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><ShoppingBasketIcon/></ListItemIcon>
-          <span>دارایی‌های من</span>
-        </ListItem>
+        <Link href='/profile/favorites' underline='none' color="inherit">
+          <ListItem button>
+            <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><StarIcon/></ListItemIcon>
+            <span>علاقه‌مندی‌ها</span>
+          </ListItem>
+        </Link>
+        <Link href='/profile/collections' underline='none' color="inherit">
+          <ListItem button>
+            <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><ShoppingBasketIcon/></ListItemIcon>
+            <span>دارایی‌های من</span>
+          </ListItem>
+        </Link>
+        <Link href='/profile/creations' underline='none' color="inherit">
+          <ListItem button>
+            <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><DashboardIcon/></ListItemIcon>
+            <span>ساخته شده‌ها</span>
+          </ListItem>
+        </Link>
         <ListItem button>
           <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><SettingsIcon/></ListItemIcon>
           <span>تنظیمات</span>

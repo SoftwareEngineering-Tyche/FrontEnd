@@ -10,6 +10,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import imageSample from "../assets/images/image.png";
 import { Divider } from "@mui/material";
+import Link from '@mui/material/Link';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -70,10 +71,18 @@ function Footer() {
             <div className="services-container">
                 <div className="service-title">حساب کاربری من</div>
                 <div className="services">
-                    <span className="service">پروفایل</span>
-                    <span className="service">علاقه‌مندی‌‌ها</span>
-                    <span className="service">کیف پول</span>
-                    <span className="service">دارایی‌ها</span>
+                    <Link href='/profile' underline='none' color="inherit">
+                        <span className="service">پروفایل</span>
+                    </Link>
+                    <Link href='/profile/favorites' underline='none' color="inherit">
+                        <span className="service">علاقه‌مندی‌‌ها</span>
+                    </Link>
+                    <Link href='/profile/collections' underline='none' color="inherit">
+                        <span className="service">دارایی‌ها</span>
+                    </Link>
+                    <Link href='/profile/creations' underline='none' color="inherit">
+                        <span className="service">ساخته شده‌ها</span>
+                    </Link>
                 </div>
             </div>
         );
