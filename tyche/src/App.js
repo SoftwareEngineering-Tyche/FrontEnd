@@ -14,6 +14,7 @@ import LoginPage from './pages/login-page';
 import Header from './components/header';
 import Footer from './components/footer';
 import ProfilePage from './pages/profile-page';
+import Nft from './pages/create-nft';
 
 const cacheRtl = createCache({ key: "muirtl", stylisPlugins: [prefixer, rtlPlugin] });
 
@@ -45,6 +46,7 @@ function App() {
               <Route path='/profile/creations' element={<ProfilePage value={1}/>} />
               <Route path='/profile/favorites' element={<ProfilePage value={2}/>} />
               <Route path='/profile' element={<ProfilePage value={0}/>} />
+              <Route path='/nft' element={<Nft />} />
             </Routes>
           </BrowserRouter>
           <Footer/>
