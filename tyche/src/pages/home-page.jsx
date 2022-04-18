@@ -12,6 +12,7 @@ import TopCategories from "../components/top-categories";
 import HomePageDescriptions from "../components/descriptions";
 
 function HomePage () {
+	
     return (
         <div className="home-page">
             <div className="landing-container">
