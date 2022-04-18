@@ -36,7 +36,6 @@ function App() {
       <ThemeProvider theme={theme}>
         <div className="App" dir="rtl">
           <Header/>
-          {Init()}
           <BrowserRouter>
             <Routes>
               <Route path='/' element={<HomePage/>} />

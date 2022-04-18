@@ -16,9 +16,14 @@ import emptyCreationsIcon from '../assets/images/empty-creations.svg';
 import { Divider } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
+import Init from '../web3client';
 import { styled } from '@mui/material/styles';
 import { ethers } from "ethers";
 import Web3 from 'web3';
+import { hostUrl } from "../host-url";
+import axios from "axios";
+import { callAPI } from "../components/api-call";
+import profileBackground from "../assets/images/profile-background.jpg";
 
 const web3 = new Web3(window.ethereum);
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -42,12 +47,18 @@ function ProfilePage(props) {
     const [ethAddress, setEthAddress] = useState(null);
     const [tabValue, setTabValue] = useState(props.value);
     const [pressCopy, setPressCopy] = useState(false);
-    const [balance, setBalace] = useState(null);
+    const [balance, setBalace] = useState("0.00");
     const [isEditMode, setIsEditMode] = useState(false);
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-    const [bio, setBio] = useState("");
+    const [email, setEmail] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [bio, setBio] = useState(null);
     const [profilePic, setProfilePic] = useState(null);
+    const [profilePicFile, setProfilePicFile] = useState();
+    const [banner, setBanner] = useState(null);
+    const [bannerFile, setBannerFile] = useState();
+    const [collections, setCollections] = useState([]);
+    const [favorites, setFavorites] = useState([]);
+    const [socials, setsocials] = useState();
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isUsernameValid, setIsUsernameValid] = useState(true);
     const [onSubmit, setOnSubmit] = useState(false);
@@ -72,13 +83,19 @@ function ProfilePage(props) {
     const onProfilePicChange = (e) => {
         const [file] = e.target.files;
         setProfilePic(URL.createObjectURL(file));
+        setProfilePicFile(e.target.files[0]);
+    }
+    const onBannerChange = (e) => {
+        const [file] = e.target.files;
+        setBanner(URL.createObjectURL(file));
+        setBannerFile(e.target.files[0]);
     }
     const handleSubmit = () => {
+        setOnSubmit(true);
         setIsEditMode(false);
     }
     const handleCancel = () => {
         setIsEditMode(false);
-        setProfilePic(null);
     }
     useEffect(() => {
         if (isUsernameValid)
@@ -92,27 +109,62 @@ function ProfilePage(props) {
         else
           setemailhelper("فرمت ایمیل نامعتبر است");
     }, [isEmailValid]);
+    useEffect(() => {
+        if(onSubmit) {
+            const data = new FormData();
+            data.append("WalletInfo", ethAddress);
+            data.append("username", username);
+            data.append("bio", bio);
+            data.append("email", email);
+            data.append("avatar", profilePicFile);
+            data.append("banner", bannerFile)
+            callAPI({ method: "PUT", url: `${hostUrl}/Account/`, data: data });
+            setOnSubmit(false);
+        }
+    }, [onSubmit]);
+    useEffect(() => {
+        fetch(`${hostUrl}/Account/${ethAddress}`).then(response => response.json())
+            .then(data => {
+                if(data.username!=='null') setUsername(data.username);
+                if(data.email!=='null') setEmail(data.email);
+                if(data.bio!=='null') setBio(data.bio);
+                setCollections(data.collection);
+                setFavorites(data.favorite);
+                setsocials(data.socials);
+                if(data.banner && data.banner!=='/media/null' && data.banner!=='/media/undefined')
+                    setBanner(hostUrl + data.banner);
+                if(data.avatar && data.avatar!=='/media/null' && data.avatar!=='/media/undefined')
+                    setProfilePic((hostUrl + data.avatar));
+                fetch(document.getElementById('banner').src).then(res => res.blob()).then(blob => {
+                    const file = new File([blob], 'banner.jpg', blob)
+                    setBannerFile(file);
+                })
+                fetch(document.getElementById('profile').src).then(res => res.blob()).then(blob => {
+                    const file = new File([blob], 'profile.png', blob)
+                    setProfilePicFile(file);
+                })
+            }
+        )
+    }, [ethAddress]);
+
     if(window.ethereum !== undefined) {
         window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
             setEthAddress(accounts[0]);
             web3.eth.getBalance(accounts[0]).then(res => setBalace(ethers.utils.formatEther(res)));
         })
     }
+    
     return (
         <div className="profile-page">
             <div className="profile-info">
-                <div className="background"/>
+                {!banner ? <img src={profileBackground} className="background"/> : <img id="banner" src={banner} className="background"/>}
                 <div className="information">
                     <div className={profilePic ? "profile-picture" : "profile-picture no-pic"}>
-                        {!profilePic ? 
-                            <img src={defaultProfilePicture} width="120" height="120"/>
-                            :
-                            <img src={profilePic} width="120" height="120" />
-                        }
+                        {!profilePic ? <img src={defaultProfilePicture} width="120" height="120"/> : <img id="profile" src={profilePic} width="120" height="120" />}
                     </div>
                     <div className="name-and-wallet">
                         <div className="name">
-                            <span>نام کاربری: نامشخص</span>
+                            <span>{(username && username!=='null') ? username : 'بدون نام کابری'}</span>
                             <Button color="inherit" size="small" classes={{root: 'edit-btn'}} onClick={() => setIsEditMode(true)}>
                                 <EditIcon/>
                                 <span className="edit-text">ویرایش پروفایل</span>
@@ -131,6 +183,7 @@ function ProfilePage(props) {
                     </div>
                 </div>
             </div>
+            {bio && bio!=='null' && <div className="additional-information bio">{bio}</div>}
             {!isEditMode && <div className="additional-information"><div>موجودی کیف پول : {balance}</div></div>}
             <div className="contents">
                 {!isEditMode ? 
@@ -163,8 +216,14 @@ function ProfilePage(props) {
                                 <Grid item xs={12}>
                                     <label htmlFor="profile-pic">
                                         <Input accept="image/*" id="profile-pic" multiple type="file" onChange={onProfilePicChange}/>
+                                        <Button variant="outlined" component="span" sx={{marginRight:'8px'}}>
+                                            عکس پروفایل
+                                        </Button>
+                                    </label>
+                                    <label htmlFor="banner-pic">
+                                        <Input accept="image/*" id="banner-pic" multiple type="file" onChange={onBannerChange}/>
                                         <Button variant="outlined" component="span">
-                                            آپلود عکس پروفایل
+                                            عکس پس‌زمینه 
                                         </Button>
                                     </label>
                                 </Grid>

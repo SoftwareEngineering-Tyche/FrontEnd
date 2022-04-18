@@ -1,35 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { connect } from "react-redux";
-import { login } from "../store/authentication/action";
-import { useDispatch, useSelector } from 'react-redux'
+import Init from "../web3client";
 
 function LoginPage () {
-    const [defaultAccount, setDefaultAccount] = useState(null);
-    const [userBalance, setUserBalance] = useState(null);
     const [walletListButtonHandlerText, setWalletListButtonHandlerText] = useState('مشاهده همه');
+    const [isConnected, setIsConnected] = useState(false);
     const connectWalletHandler = () => {
-        if(window.ethereum) {
-            window.ethereum.request({method: 'eth_requestAccounts'}).then(res => {
-                accountChangedHandler(res[0]);
-            })
-        } else {
+        if(!window.ethereum)
             window.open('https://metamask.io/download/');
-        }
-    }
-    const dispatch = useDispatch();
-    const accountChangedHandler = (newAccount) => {
-        setDefaultAccount(newAccount);
-        getUserBalance(newAccount.toString());
-        dispatch(login(newAccount));
-    }
-    const getUserBalance = (address) => {
-        window.ethereum.request({method: 'eth_getBalance', params: [address, 'latest']}).then(balance => {
-            setUserBalance(ethers.utils.formatEther(balance));
-        })
-    }
-    const chainChangedHandler = () => {
-        window.location.reload();
     }
     const walletListClassHandler = () => {
         if(document.getElementById('wallet-list').className.includes('open')){
@@ -41,14 +20,17 @@ function LoginPage () {
         }
     }
     useEffect(() => {
-        if(window.ethereum) {
-            window.ethereum.on('accountsChanged', accountChangedHandler);
-            window.ethereum.on('chainChanged', chainChangedHandler);
-        }
-    });
+        if(window.ethereum)
+            window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
+                if(accounts.length > 0)
+                    setIsConnected(true);
+                else
+                    setIsConnected(false);
+            })
+    }, []);
     return (
         <div>
-            {!defaultAccount && <div className="connect-wallet">
+            {!isConnected && <div className="connect-wallet">{window.ethereum && Init()}
                 <h3>برای استفاده از تایکی شما به یک کیف پول اتریوم نیاز دارید</h3>
                 <p>به یکی از کیف پول های فعال ما متصل شوید و یا کیف پول جدیدی ایجاد کنید</p>
                 <div id="wallet-list" className="wallet-list">
@@ -107,12 +89,6 @@ function LoginPage () {
                     </div>
                     <button className="wallet-list-handler" onClick={walletListClassHandler}>{walletListButtonHandlerText}</button>
                 </div>
-            </div>}
-            {defaultAccount && <div>
-                <span>آدرس اتریوم شما : {defaultAccount}</span>
-            </div>}
-            {userBalance && <div>
-                <span>بالانس : {userBalance}</span>
             </div>}
         </div>
     );
