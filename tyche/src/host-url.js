@@ -1,1 +1,1 @@
-export const hostUrl = 'http://localhost:8000';
+export const hostUrl = window.location.host.includes('localhost') ? 'http://localhost:8000' : `http://${window.location.host}`
