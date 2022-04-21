@@ -36,6 +36,7 @@ function CreateNft() {
     const handleChange = (file) => {
       setFile(file);
     };
+    
 
     return (
         <>

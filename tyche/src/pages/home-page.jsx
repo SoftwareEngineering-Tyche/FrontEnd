@@ -27,7 +27,7 @@ function HomePage () {
                         <Button className="primary-btn">
                             شروع خرید
                         </Button>
-                        <Link to="/login" className="link">
+                        <Link to="/nft" className="link">
                             <Button className="secondary-btn">
                                 ساخت NFT
                             </Button>
