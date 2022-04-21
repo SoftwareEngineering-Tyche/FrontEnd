@@ -44,7 +44,7 @@ function CreateNft() {
     };
 
     //@ts-ignore
-    const { isAuthenticated, logout, user } = useMoralis();
+    const { authenticate, isAuthenticated, logout, user } = useMoralis();
     const router = useRouter();
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -53,12 +53,17 @@ function CreateNft() {
     const [image, setImage] = useState('');
 
     useEffect(() => {
-        if (!isAuthenticated) router.push("/");
+        console.log("isAuthenticated", isAuthenticated);
     }, [isAuthenticated]);
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true)
+        setLoading(true);
+
+        let appId = "CuiIZavqoAaqG0qhrqx9BTxOxF7wT6okzOjEjlkj";
+        let serverUrl = "https://ppkqibnytc17.usemoralis.com:2053/server";
+        Moralis.start({ serverUrl, appId});
+
         try {
             // save image to IPFS
             const file1 = new Moralis.File(file.name, file);
