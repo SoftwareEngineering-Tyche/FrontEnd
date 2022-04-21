@@ -10,9 +10,11 @@ import Button from '@mui/material/Button';
 import Flickity from 'react-flickity-component';
 import TopCategories from "../components/top-categories";
 import HomePageDescriptions from "../components/descriptions";
+import { useMoralis, MoralisProvider } from "react-moralis";
+import Moralis from "moralis";
 
 function HomePage () {
-	
+	const { authenticate, isAuthenticated } = useMoralis();
     return (
         <div className="home-page">
             <div className="landing-container">
@@ -28,7 +30,7 @@ function HomePage () {
                             شروع خرید
                         </Button>
                         <Link to="/nft" className="link">
-                            <Button className="secondary-btn">
+                            <Button className="secondary-btn" onClick={authenticate}>
                                 ساخت NFT
                             </Button>
                         </Link>

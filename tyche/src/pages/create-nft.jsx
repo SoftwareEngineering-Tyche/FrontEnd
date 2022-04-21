@@ -1,4 +1,4 @@
-import React , {useState,useRef} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../assets/styles/create-nft.scss";
 import ListIcon from '@mui/icons-material/List';
 import StarBorderPurple500Icon from '@mui/icons-material/StarBorderPurple500';
@@ -6,6 +6,12 @@ import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import etherumpic from "../assets/images/ethereum.png";
+
+import { useRouter } from "next/router";
+import { useMoralis, MoralisProvider } from "react-moralis";
+import Moralis from "moralis";
+import Web3 from "web3";
+import { contractABI, contractAddress } from "../contract";
 
 // react-bootstrap components
 import {
@@ -25,18 +31,74 @@ import {
 import SimpleReactValidator from 'simple-react-validator';
 import { ForkRight } from "@mui/icons-material";
 
-
+const web3 = new Web3(Web3.givenProvider);
 function CreateNft() {
 
     const simpleValidator = useRef(new SimpleReactValidator())
-    
+
     const fileTypes = ["JPEG", "PNG", "GIF"];
 
     const [file, setFile] = useState(null);
-    const handleChange = (file) => {
-      setFile(file);
+    const handleChange = (e) => {
+        setFile(e.target.files[0]);
     };
-    
+
+    //@ts-ignore
+    const { authenticate, isAuthenticated, logout, user } = useMoralis();
+    const router = useRouter();
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    //const [file, setFile] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [image, setImage] = useState('');
+
+    useEffect(() => {
+        console.log("isAuthenticated", isAuthenticated);
+    }, [isAuthenticated]);
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        let appId = "CuiIZavqoAaqG0qhrqx9BTxOxF7wT6okzOjEjlkj";
+        let serverUrl = "https://ppkqibnytc17.usemoralis.com:2053/server";
+        Moralis.start({ serverUrl, appId});
+
+        try {
+            // save image to IPFS
+            const file1 = new Moralis.File(file.name, file);
+            await file1.saveIPFS();
+            const file1url = file1.ipfs();
+
+            // generate metadata and save to ipfs
+            const metadata = {
+                name,
+                description,
+                image: file1url,
+            };
+            const file2 = new Moralis.File(`${name}metadata.json`, {
+                base64: Buffer.from(JSON.stringify(metadata)).toString("base64"),
+            });
+            await file2.saveIPFS();
+            const metadataurl = file2.ipfs();
+            setImage(file1url)
+            console.log(metadataurl);
+            // interact with smart contract
+            const contract = new web3.eth.Contract(contractABI, contractAddress);
+            const response = await contract.methods
+                .mint(metadataurl)
+                .send({ from: user.get("ethAddress") });
+            const tokenId = response.events.Transfer.returnValues.tokenId;
+
+            alert(
+                `NFT successfully minted. Contract address - ${contractAddress} and Token ID - ${tokenId}`
+            );
+        } catch (err) {
+            console.error(err);
+            alert("Something went wrong!");
+        }
+        setLoading(false)
+    };
 
     return (
         <>
@@ -47,17 +109,16 @@ function CreateNft() {
                             <div className="Container">
                                 <h4 className="title">ساخت یک NFT جدید</h4>
                             </div>
-                            <div style={{ border : "solid" , borderColor:"#2F3A8F",margin:"2%",padding:"5%" }}>
+                            <div style={{ border: "solid", borderColor: "#2F3A8F", margin: "2%", padding: "5%" }}>
                                 <Form className="form">
-
                                     <Row>
                                         <Col md="12" className="my-2">
                                             <Form.Group>
                                                 <label className="label"><b>عکس ،ویدیو ،صدا یا مدل 3D</b><span className="text-danger">*</span></label>
                                                 <p className="text">
-                                                انواع فایل های پشتیبانی شده: JPG، PNG، GIF، SVG، MP4، WEBM، MP3، WAV، OGG، GLB، GLTF. حداکثر حجم: 100 مگابایت.
+                                                    انواع فایل های پشتیبانی شده: JPG، PNG، GIF، SVG، MP4، WEBM، MP3، WAV، OGG، GLB، GLTF. حداکثر حجم: 100 مگابایت.
                                                 </p>
-                                                <input type={"file"} className="inputFile"/>
+                                                <input type={"file"} className="inputFile" onChange={handleChange} />
                                             </Form.Group>
                                         </Col>
 
@@ -67,9 +128,10 @@ function CreateNft() {
                                                     <b>نام</b>   <span className="text-danger">*</span>
                                                 </label >
                                                 <Form.Control
-                                                className="input"
+                                                    className="input"
                                                     placeholder="نام"
                                                     type="text"
+                                                    onChange={e => setName(e.target.value)}
                                                 ></Form.Control>
                                             </Form.Group>
                                         </Col>
@@ -77,18 +139,18 @@ function CreateNft() {
                                             <Form.Group>
                                                 <label htmlFor="exampleInputEmail1" className="label">
                                                     <b>لینک خارجی </b>
-                                                      <p className="text">
-                                                        با استفاده از این لینک خارجی کاربر میتواند به جزییات بیشتری در رابطه با nft مورد نظرخود بپردازد. 
+                                                    <p className="text">
+                                                        با استفاده از این لینک خارجی کاربر میتواند به جزییات بیشتری در رابطه با nft مورد نظرخود بپردازد.
                                                     </p>
                                                 </label>
                                                 <Form.Control
-                                                className="input"
+                                                    className="input"
                                                     placeholder=" لینک خارجی"
                                                     type="text"
                                                 ></Form.Control>
                                             </Form.Group>
                                         </Col>
-                                   
+
                                         <Col md="12" className="my-2">
                                             <Form.Group>
                                                 <label htmlFor="exampleInputEmail1" className="label">
@@ -98,10 +160,11 @@ function CreateNft() {
                                                     </p>
                                                 </label>
                                                 <Form.Control
-                                                className="input"
+                                                    className="input"
                                                     cols="80"
                                                     rows="4"
                                                     as="textarea"
+                                                    onChange={e => setDescription(e.target.value)}
                                                 ></Form.Control>
                                             </Form.Group>
                                         </Col>
@@ -117,10 +180,10 @@ function CreateNft() {
                                                     </p>
                                                 </label>
                                                 <select name="role" id="roles" className="input">
-                                                    <option  value="" disabled selected hidden >لطفا انتخاب کنید</option>
+                                                    <option value="" disabled selected hidden >لطفا انتخاب کنید</option>
                                                     <option value="C1" className="text">Co1</option>
                                                     <option value="C2" className="text">Co2</option>
-                                                    <option value="C3"className="text">Co3</option>
+                                                    <option value="C3" className="text">Co3</option>
                                                 </select>
                                             </Form.Group>
                                         </Col>
@@ -131,9 +194,9 @@ function CreateNft() {
                                                         <i className="fa fa-list bi flex-shrink-0 me-3 mt-2"></i>
                                                         <div>
                                                             <label className="label">
-                                                                <ListIcon className="Icon" style={{ paddingLeft : "3%" }}/>
+                                                                <ListIcon className="Icon" style={{ paddingLeft: "3%" }} />
                                                                 ویژگی ها
-                                                                </label>
+                                                            </label>
                                                             <p className="text">ویژگی های متنی که برای کاربر ظاهر میشود </p>
                                                         </div>
                                                     </div>
@@ -147,8 +210,8 @@ function CreateNft() {
                                                     <div className="col d-flex align-items-start">
                                                         <i className="fa fa-star bi flex-shrink-0 me-3 mt-2"></i>
                                                         <div>
-                                                            <label  className="label">
-                                                            <StarBorderPurple500Icon className="Icon" style={{ paddingLeft : "3%" }}/>
+                                                            <label className="label">
+                                                                <StarBorderPurple500Icon className="Icon" style={{ paddingLeft: "3%" }} />
                                                                 سطح ها</label>
                                                             <p className="text">صفات عددی که به عنوان نوار پیشرفت نشان داده می شوند</p>
                                                         </div>
@@ -163,9 +226,9 @@ function CreateNft() {
                                                     <div className="col d-flex align-items-start">
                                                         <i></i>
                                                         <div>
-                                                            
+
                                                             <label className="label" >
-                                                            <QueryStatsIcon className="Icon" style={{ paddingLeft : "3%" }}/>
+                                                                <QueryStatsIcon className="Icon" style={{ paddingLeft: "3%" }} />
                                                                 آمار</label>
                                                             <p className="text">صفات عددی که فقط به صورت اعداد نشان داده می شوند</p>
                                                         </div>
@@ -180,12 +243,12 @@ function CreateNft() {
                                                     <div >
                                                         <div>
                                                             <label className="label">
-                                                            <LockOpenIcon className="Icon" style={{ paddingLeft : "3%" }}/>
+                                                                <LockOpenIcon className="Icon" style={{ paddingLeft: "3%" }} />
                                                                 محتوای غیر قابل قفل شدن</label>
                                                             <p className="text">شامل محتوای غیر قابل بازگشایی میباشند که تنها توسط صاحب اثر میتوان آنها را فاش کرد. </p>
                                                         </div>
                                                     </div>
-                                                    <label className="label" style={{ paddingRight : "98%" }}>
+                                                    <label className="label" style={{ paddingRight: "98%" }}>
                                                         <input type="checkbox" />
                                                         <span class="slider round"></span>
                                                     </label>
@@ -198,12 +261,12 @@ function CreateNft() {
                                                     <div>
                                                         <div>
                                                             <label className="label">
-                                                            <WarningAmberIcon className="Icon" style={{ paddingLeft : "3%" }}/>
+                                                                <WarningAmberIcon className="Icon" style={{ paddingLeft: "3%" }} />
                                                                 محتوای حساس</label>
                                                             <p className="text">این مورد را به عنوان محتوای صریح و حساس تنظیم کنید</p>
                                                         </div>
                                                     </div>
-                                                    <label className="label" style={{ paddingRight : "98%" }}>
+                                                    <label className="label" style={{ paddingRight: "98%" }}>
                                                         <input type="checkbox" />
                                                         <span class="slider round"></span>
                                                     </label>
@@ -215,7 +278,7 @@ function CreateNft() {
                                                 <label htmlFor="exampleInputEmail1" className="label">
                                                     <b>موجودی</b>
                                                     <p className="text">تعداد مواردی که میتوان تولید کرد بدون داشتن هر گونه هزینه اضافه
-                                                  </p>
+                                                    </p>
 
                                                 </label>
                                                 <Form.Control
@@ -232,16 +295,17 @@ function CreateNft() {
                                                     <b>بلاک چین</b>
                                                 </label>
                                                 <div className="ether">
-                                                <div className="ethereum">
-                                                <span>Ethereum</span>
-                                                <img src={etherumpic} className="ethereumpic"/>
-                                                <button
-                                                className="letCreat" style={{ float: "left" }}
-                                              >
-                                               بساز
-                                                 </button>
-                                                 </div>
-                                                 </div>
+                                                    <div className="ethereum">
+                                                        <span>Ethereum</span>
+                                                        <img src={etherumpic} className="ethereumpic" />
+                                                        <button
+                                                            onClick={onSubmit}
+                                                            className="letCreat" style={{ float: "left" }}
+                                                        >
+                                                            بساز
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </Form.Group>
                                         </Col>
 
