@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import "../assets/styles/home-page.scss";
-import slide1 from "../assets/images/slide1.svg";
-import slide2 from "../assets/images/slide2.svg";
-import slide3 from "../assets/images/slide3.svg";
-import slide4 from "../assets/images/slide4.svg";
-import slide5 from "../assets/images/slide5.svg";
+import slide1 from "../assets/images/ezgif 1.svg";
+import slide2 from "../assets/images/ezgif3.svg";
+import slide3 from "../assets/images/ezgif2.svg";
+import slide4 from "../assets/images/ezgif4.svg";
+import slide5 from "../assets/images/ezgif5.svg";
 import Button from '@mui/material/Button';
 import Flickity from 'react-flickity-component';
 import TopCategories from "../components/top-categories";
