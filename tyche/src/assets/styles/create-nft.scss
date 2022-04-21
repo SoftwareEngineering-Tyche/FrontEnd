@@ -1,0 +1,126 @@
+.create-nft {
+    padding: 2% 16%;
+    @media (max-width: 768px) {
+        padding: 4%;
+    }
+    .Container{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        @media (max-width: 768px) {
+            display: block;
+        }
+        .title {
+            border: 2%;
+            font-size: 35px;
+            font-weight: 700;
+            display: block;
+            padding-right: 38%;
+            color: #2F3A8F;
+        }
+    }
+    .form{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        @media (max-width: 768px) {
+            display: block;
+        }
+        .label{
+            font-size: 20px;
+            font-weight: 350;
+            display: block;
+            padding: 2%;
+        }.label2{
+            font-size: 20px;
+            font-weight: 350;
+            display: block;
+            margin-right: 10%;
+        }
+        .text{
+            
+            font-size: 15px;
+            font-weight: 350;
+            display: list-item;
+            width: max-content;
+            padding-top: 5PX;
+        }
+        .input{   
+             background-color: rgb(255, 255, 255);
+            border-radius: 30px;
+            border-color: #2F3A8F;
+            position: inherit;
+            width: -webkit-fill-available;
+            padding-inline-start: 3%;
+            font-size: large;
+
+        }
+        .list{
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 350;
+            display: list-item;
+            width: max-content;
+            padding-top: 5PX;
+
+        }
+        .btn{
+                    min-width: unset;
+                    margin-right: 8px;
+                    position: sticky;
+                    right: 80%;
+                    border-color: #2F3A8F;
+                    background-color: aliceblue;
+                    border-radius: 20%;
+                    margin-bottom: 7%;
+        }
+        .addad{
+            border-color: #2F3A8F;
+            border-radius: 20px;
+            margin-inline-start: 80%;
+            height: 30px;
+            padding: 1%;
+            font-weight: bold;
+        }
+        .Icone{
+            padding-left: 10px;
+            padding: inherit;
+        }
+        .ether{
+            border: solid;
+            border-radius: 20px;
+            border-color: #2F3A8F;
+        }
+        .ethereum{
+            margin-inline-start: 8%;
+            margin-bottom: 1%;
+            font-weight: bold;
+
+        }
+        .ethereumpic{
+            margin-inline-start: 80%;
+            margin-top: 1%;
+        }
+        .letCreat{
+            border-color: #2F3A8F;
+            margin-top: 2%;
+            width: 109%;
+            height: 20%;
+            border-radius: 20px;
+            background-color: #2F3A8F;
+            color: white;
+            font-weight: bold;
+            font-size: larger;
+            
+            
+        }
+        .checkbox{
+            padding: 98%;
+            font-size: larger;
+            border-color: #2F3A8F;
+        }
+        .inputFile{
+            padding-Right:40%;
+        }
+    }
+}
