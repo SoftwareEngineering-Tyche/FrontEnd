@@ -111,6 +111,14 @@ function ProfilePage(props) {
     }, [isEmailValid]);
     useEffect(() => {
         if(onSubmit) {
+            fetch(document.getElementById('banner').src).then(res => res.blob()).then(blob => {
+                const file = new File([blob], 'banner.jpg', blob)
+                setBannerFile(file);
+            })
+            fetch(document.getElementById('profile').src).then(res => res.blob()).then(blob => {
+                const file = new File([blob], 'profile.png', blob)
+                setProfilePicFile(file);
+            })
             const data = new FormData();
             data.append("WalletInfo", ethAddress);
             data.append("username", username);
