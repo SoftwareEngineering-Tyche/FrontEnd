@@ -1,27 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "../assets/styles/profile-page.scss";
-import Button from '@mui/material/Button';
 import defaultProfilePicture from '../assets/images/default-profile-picture.png';
 import ethereumIcon from '../assets/icons/ethereum-icon.svg';
 import { connect } from "react-redux";
 import { login } from "../store/authentication/action";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import MuiAlert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 import EditIcon from '@mui/icons-material/Edit';
 import emptyCollectionsIcon from '../assets/images/empty-collections.svg';
 import emptyFavoritesIcon from '../assets/images/empty-favorites.svg';
 import emptyCreationsIcon from '../assets/images/empty-creations.svg';
-import { Divider } from "@mui/material";
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
+import { Divider, TextField, Grid, Snackbar, Tab, Tabs, Button } from "@mui/material";
 import Init from '../web3client';
 import { styled } from '@mui/material/styles';
 import { ethers } from "ethers";
 import Web3 from 'web3';
 import { hostUrl } from "../host-url";
-import axios from "axios";
 import { callAPI } from "../components/api-call";
 import profileBackground from "../assets/images/profile-background.jpg";
 
@@ -99,18 +92,18 @@ function ProfilePage(props) {
     }
     useEffect(() => {
         if (isUsernameValid)
-          setuserhelper("");
+            setuserhelper("");
         else
-          setuserhelper("فرمت نام کاربری نامعتبر است");
+            setuserhelper("فرمت نام کاربری نامعتبر است");
     }, [isUsernameValid]);
     useEffect(() => {
         if (isEmailValid)
-          setemailhelper("");
+            setemailhelper("");
         else
-          setemailhelper("فرمت ایمیل نامعتبر است");
+            setemailhelper("فرمت ایمیل نامعتبر است");
     }, [isEmailValid]);
     useEffect(() => {
-        if(onSubmit) {
+        if (onSubmit) {
             fetch(document.getElementById('banner').src).then(res => res.blob()).then(blob => {
                 const file = new File([blob], 'banner.jpg', blob)
                 setBannerFile(file);
@@ -133,15 +126,15 @@ function ProfilePage(props) {
     useEffect(() => {
         fetch(`${hostUrl}/Account/${ethAddress}`).then(response => response.json())
             .then(data => {
-                if(data.username!=='null') setUsername(data.username);
-                if(data.email!=='null') setEmail(data.email);
-                if(data.bio!=='null') setBio(data.bio);
+                if (data.username !== 'null') setUsername(data.username);
+                if (data.email !== 'null') setEmail(data.email);
+                if (data.bio !== 'null') setBio(data.bio);
                 setCollections(data.collection);
                 setFavorites(data.favorite);
                 setsocials(data.socials);
-                if(data.banner && data.banner!=='/media/null' && data.banner!=='/media/undefined')
+                if (data.banner && data.banner !== '/media/null' && data.banner !== '/media/undefined')
                     setBanner(hostUrl + data.banner);
-                if(data.avatar && data.avatar!=='/media/null' && data.avatar!=='/media/undefined')
+                if (data.avatar && data.avatar !== '/media/null' && data.avatar !== '/media/undefined')
                     setProfilePic((hostUrl + data.avatar));
                 fetch(document.getElementById('banner').src).then(res => res.blob()).then(blob => {
                     const file = new File([blob], 'banner.jpg', blob)
@@ -152,67 +145,66 @@ function ProfilePage(props) {
                     setProfilePicFile(file);
                 })
             }
-        )
+            )
     }, [ethAddress]);
 
-    if(window.ethereum !== undefined) {
+    if (window.ethereum !== undefined) {
         window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
             setEthAddress(accounts[0]);
             web3.eth.getBalance(accounts[0]).then(res => setBalace(ethers.utils.formatEther(res)));
         })
     }
-    
+
     return (
         <div className="profile-page">
+            {Init()}
             <div className="profile-info">
-                {!banner ? <img src={profileBackground} className="background"/> : <img id="banner" src={banner} className="background"/>}
+                {!banner ? <img src={profileBackground} className="background" /> : <img id="banner" src={banner} className="background" />}
                 <div className="information">
                     <div className={profilePic ? "profile-picture" : "profile-picture no-pic"}>
-                        {!profilePic ? <img src={defaultProfilePicture} width="120" height="120"/> : <img id="profile" src={profilePic} width="120" height="120" />}
+                        {!profilePic ? <img src={defaultProfilePicture} width="120" height="120" /> : <img id="profile" src={profilePic} width="120" height="120" />}
                     </div>
-                    <div className="name-and-wallet">
-                        <div className="name">
-                            <span>{(username && username!=='null') ? username : 'بدون نام کابری'}</span>
-                            <Button color="inherit" size="small" classes={{root: 'edit-btn'}} onClick={() => setIsEditMode(true)}>
-                                <EditIcon/>
-                                <span className="edit-text">ویرایش پروفایل</span>
-                            </Button>
-                        </div>
-                        <div className="wallet">
-                            <img src={ethereumIcon} width={18} height={18}/>
-                            <span>{ethAddress?.slice(0,5)}...{ethAddress?.slice(-3)}</span>
-                            <Button variant="outlined" size="small" classes={{root: 'copy-btn'}} onClick={() => copyEthAddress(ethAddress)}>
-                                <span>کپی آدرس</span>
-                            </Button>
-                            <Snackbar open={pressCopy} autoHideDuration={3000} onClose={() => setPressCopy(false)}>
-                                <Alert onClose={() => setPressCopy(false)} severity="success" sx={{ width: '100%' }}>آدرس اتریوم شما با موفقیت کپی شد</Alert>
-                            </Snackbar>
-                        </div>
-                    </div>
+                    <Button variant="outlined" color="inherit" size="small" classes={{ root: 'edit-btn' }} onClick={() => setIsEditMode(true)}>
+                        <EditIcon />
+                    </Button>
                 </div>
+                <div className="name">
+                    <span>{(username && username !== 'null') ? username : 'بدون نام کابری'}</span>
+                </div>
+                {bio && bio !== 'null' && <div className="additional-information bio">{bio}</div>}
+                <div className="wallet">
+                    <Button variant="outlined" onClick={() => copyEthAddress(ethAddress)} classes={{ root: 'copy-btn' }}>
+                        <img src={ethereumIcon} height={16} />
+                        <span style={{ display: 'flex', alignItems: 'center' }}>
+                            {ethAddress?.slice(0, 5)}...{ethAddress?.slice(-3)}
+                        </span>
+                    </Button>
+                    <Snackbar open={pressCopy} autoHideDuration={3000} onClose={() => setPressCopy(false)}>
+                        <Alert onClose={() => setPressCopy(false)} severity="success" sx={{ width: '100%' }}>آدرس اتریوم شما با موفقیت کپی شد</Alert>
+                    </Snackbar>
+                </div>
+                <div className="additional-information"><div>موجودی کیف پول : {balance}</div></div>
             </div>
-            {bio && bio!=='null' && <div className="additional-information bio">{bio}</div>}
-            {!isEditMode && <div className="additional-information"><div>موجودی کیف پول : {balance}</div></div>}
             <div className="contents">
-                {!isEditMode ? 
+                {!isEditMode ?
                     <div className="tabs-container">
                         <Tabs value={tabValue} onChange={handleTabChange}>
-                            <Tab label="جمع آوری شده‌ها" />
-                            <Tab label="ساخته شده‌ها" />
-                            <Tab label="علاقه‌مندی‌ها" />
+                            <Tab label="جمع آوری شده‌ها" classes={{root: 'tab'}}/>
+                            <Tab label="ساخته شده‌ها" classes={{root: 'tab'}}/>
+                            <Tab label="علاقه‌مندی‌ها" classes={{root: 'tab'}}/>
                         </Tabs>
-                        <Divider/>
+                        <Divider />
                         <div className='tabs-contents'>
                             <TabPanel value={tabValue} index={0}>
-                                <img src={emptyCollectionsIcon} height={150}/>
+                                <img src={emptyCollectionsIcon} height={150} />
                                 <div>هنوز هیچ اثری را جمع‌آوری نکرده‌اید</div>
                             </TabPanel>
                             <TabPanel value={tabValue} index={1}>
-                                <img src={emptyCreationsIcon} height={150}/>
+                                <img src={emptyCreationsIcon} height={150} />
                                 <div>هنوز هیچ اثری نساخته‌اید</div>
                             </TabPanel>
                             <TabPanel value={tabValue} index={2}>
-                                <img src={emptyFavoritesIcon} height={150}/>
+                                <img src={emptyFavoritesIcon} height={150} />
                                 <div>لیست علاقه‌مندی‌های شما خالی است</div>
                             </TabPanel>
                         </div>
@@ -223,15 +215,15 @@ function ProfilePage(props) {
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                     <label htmlFor="profile-pic">
-                                        <Input accept="image/*" id="profile-pic" multiple type="file" onChange={onProfilePicChange}/>
-                                        <Button variant="outlined" component="span" sx={{marginRight:'8px'}}>
+                                        <Input accept="image/*" id="profile-pic" multiple type="file" onChange={onProfilePicChange} />
+                                        <Button variant="outlined" component="span" sx={{ marginRight: '8px' }}>
                                             عکس پروفایل
                                         </Button>
                                     </label>
                                     <label htmlFor="banner-pic">
-                                        <Input accept="image/*" id="banner-pic" multiple type="file" onChange={onBannerChange}/>
+                                        <Input accept="image/*" id="banner-pic" multiple type="file" onChange={onBannerChange} />
                                         <Button variant="outlined" component="span">
-                                            عکس پس‌زمینه 
+                                            عکس پس‌زمینه
                                         </Button>
                                     </label>
                                 </Grid>

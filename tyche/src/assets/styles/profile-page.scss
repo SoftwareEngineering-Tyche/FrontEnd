@@ -5,22 +5,51 @@
             width: 100%;
             object-fit: cover;
         }
+
+        .wallet {
+            display: flex;
+            justify-content: center;
+            color: #62688F;
+            align-items: center;
+
+            .copy-btn {
+                color: #62688F;
+                min-width: unset;
+                border-color: #62688F;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 6px 0 4px 0;
+                border-radius: 24px;
+                font-weight: bold;
+            }
+        }
+
+        .name {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            margin-top: 2px;
+        }
+
         .information {
-            margin: -60px 24px 0 0;
+            margin: -60px 0 0 0;
             display: flex;
             align-items: center;
-            @media (max-width: 768px) {
-                margin-right: 8px;
-            }
+            justify-content: center;
+
             .profile-picture {
                 border-radius: 50%;
                 background-color: white;
                 width: 120px;
                 height: 120px;
                 overflow: hidden;
+
                 &.no-pic {
                     padding: 2px;
                 }
+
                 img {
                     aspect-ratio: 1;
                     align-items: center;
@@ -28,78 +57,77 @@
                     width: 100%;
                 }
             }
-            .name-and-wallet {
-                margin-top: -6px;
-                margin-right: 12px;
-                .name {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    color: white;
-                    font-size: 18px;
-                    margin-bottom: 16px;
+
+            .edit-btn {
+                min-width: unset;
+                position: absolute;
+                right: 24px;
+                margin-top: 24px;
+
+                @media (max-width: 768px) {
+                    right: 8px;
                 }
-                .wallet {
-                    display: flex;
-                    color: #62688F;
-                    align-items: center;
-                    .copy-btn {
-                        color: #62688F;
-                        padding: 2px 8px;
-                        min-width: unset;
-                        margin-right: 8px;
-                        border-color: #62688F;
-                    }
-                }
-                .edit-btn {
-                    padding: 4px 4px;
-                    min-width: unset;
-                    margin-right: 8px;
-                    position: absolute;
-                    left: 24px;
+
+                .edit-text {
+                    margin-right: 4px;
+                    padding: 2px;
+
                     @media (max-width: 768px) {
-                        left: 8px;
-                    }
-                    .edit-text {
-                        margin-right: 4px;
-                        padding: 2px;
-                        @media (max-width: 768px) {
-                            display: none;
-                        }
+                        display: none;
                     }
                 }
             }
         }
     }
+
     .edit-profile-btn {
         padding: 0px 36px;
     }
+
     .additional-information {
-        padding: 8px 26px;
+        display: flex;
+        justify-content: center;
+        color: gray;
+        padding: 0 8px;
+        text-align: center;
     }
+
     .contents {
         min-height: 420px;
-        padding: 26px;
+        padding: 16px;
+        display: flex;
+        justify-content: center;
         .tabs-container {
+            .tab {
+                @media (min-width: 768px) {
+                    margin: 0 26px;
+                    font-size: 16px;
+                }
+            }
             .tabs-contents {
                 padding: 24px 0;
                 text-align: center;
             }
         }
+
         .edit-profile-container {
             .get-input {
                 display: flex;
+
                 .subject {
                     margin-left: 8px;
                 }
             }
+
             .action {
                 margin: 46px 8px 0 0;
                 float: left;
+
                 &.submit {
                     color: white;
                     background-color: #2F3A8F;
                 }
+
                 &.cancel {
                     color: #2F3A8F;
                     border-color: #2F3A8F;

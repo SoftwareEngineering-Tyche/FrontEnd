@@ -4,25 +4,17 @@ import { useMoralis, MoralisProvider } from "react-moralis";
 import Moralis from "moralis";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../contract";
-import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { Badge, Card, Form, Navbar, Nav, Container, Row, Col, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import { Divider } from "@mui/material";
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import InputAdornment from '@mui/material/InputAdornment';
+import { Button, Divider, Link, TextField, Grid, InputLabel, MenuItem, FormHelperText, FormControl, Select, InputAdornment } from "@mui/material";
 import ethereumIcon from '../assets/icons/ethereum-icon.svg';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBulletedRounded';
 import QueryStatsRoundedIcon from '@mui/icons-material/QueryStatsRounded';
+import { hostUrl } from "../host-url";
+import { callAPI } from "../components/api-call";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -51,6 +43,17 @@ function CreateNft() {
         setIsUploadedFile(true);
         setUploadText('تغییر اثر');
     };
+
+    useEffect(() => {
+        if(window.ethereum) {
+            window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+                const data = new FormData();
+                data.append("WalletInfo", accounts[0]);
+                callAPI({ method: "POST", url: `${hostUrl}/Account/`, data: data });
+            })
+            .catch((err) => { console.log(err); })
+        }
+    }, []);
 
     useEffect(() => {
         console.log('isAuthenticated', isAuthenticated);
