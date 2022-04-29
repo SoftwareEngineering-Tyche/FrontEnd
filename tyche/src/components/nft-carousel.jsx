@@ -10,7 +10,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 
-function TopCategories () {
+function NftCarousel (props) {
     const flickityRef = useRef();
     function handleGotoNextSlide() {
         flickityRef.current.next();
@@ -24,8 +24,8 @@ function TopCategories () {
                 <CardActionArea sx={{width:'200px'}}>
                     <CardMedia sx={{display:'flex', justifyContent:'center', padding:'0px', margin:'0px'}}><img src={imageSample} height={150} width={150}/></CardMedia>
                     <CardContent sx={{padding:'6px 16px'}}>
-                        <div style={{color:'#2F3A8F'}}>عنوان دسته‌بندی</div>
-                        <div style={{color:'#CDBDFF', fontSize:'small'}}>توضیحات مربوط به دسته بندی</div>
+                        <div style={{color:'#2F3A8F'}}>نام اثر</div>
+                        <div style={{color:'#CDBDFF', fontSize:'small'}}>توضیحات اثر</div>
                     </CardContent>
                 </CardActionArea>
             </Card>
@@ -33,7 +33,7 @@ function TopCategories () {
     }
     return (
         <div className="top-categories">
-            <span className="title">دسته بندی‌های برتر</span>
+            <span className="title">{props.title}</span>
             <div className="categories-container">
                 <Flickity options={flickityOptions} flickityRef={ref => flickityRef.current = ref}>
                     {getCards()}
@@ -63,4 +63,4 @@ const flickityOptions = {
     cellAlign: 'center',
     wrapAround: true
 };
-export default TopCategories;
+export default NftCarousel;

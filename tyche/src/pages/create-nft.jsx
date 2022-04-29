@@ -5,7 +5,6 @@ import Moralis from "moralis";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../contract";
 import { styled } from '@mui/material/styles';
-import { Badge, Card, Form, Navbar, Nav, Container, Row, Col, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { Button, Divider, Link, TextField, Grid, InputLabel, MenuItem, FormHelperText, FormControl, Select, InputAdornment } from "@mui/material";
@@ -62,8 +61,8 @@ function CreateNft() {
     const onSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        let appId = "CuiIZavqoAaqG0qhrqx9BTxOxF7wT6okzOjEjlkj";
-        let serverUrl = "https://ppkqibnytc17.usemoralis.com:2053/server";
+        let appId = process.env.REACT_APP_APP_ID;
+        let serverUrl = process.env.REACT_APP_SERVER_URL;
         Moralis.start({ serverUrl, appId });
 
         try {
@@ -103,7 +102,7 @@ function CreateNft() {
     };
 
     return (
-        <Container fluid className="create-nft">
+        <div className="create-nft">
             {isCreated && tokenId ?
                 <div className="result">
                     <div className="success-created-container">
@@ -197,7 +196,7 @@ function CreateNft() {
                                                 <FormatListBulletedRoundedIcon />
                                                 <span className="property-title">ویژگی‌ها</span>
                                             </div>
-                                            <div className="property-subtitle">خصوصیات های متنی اثر</div>
+                                            <div className="property-subtitle">خصوصیات متنی اثر</div>
                                         </div>
                                         <Button variant="outlined"><AddRoundedIcon /></Button>
                                     </div>
@@ -210,7 +209,7 @@ function CreateNft() {
                                                 <QueryStatsRoundedIcon />
                                                 <span className="property-title">آمار</span>
                                             </div>
-                                            <div className="property-subtitle">خصوصیات های عددی اثر</div>
+                                            <div className="property-subtitle">خصوصیات عددی اثر</div>
                                         </div>
                                         <Button variant="outlined"><AddRoundedIcon /></Button>
                                     </div>
@@ -227,7 +226,7 @@ function CreateNft() {
                     </div>
                 </div>
             }
-        </Container>
+        </div>
     );
 }
 

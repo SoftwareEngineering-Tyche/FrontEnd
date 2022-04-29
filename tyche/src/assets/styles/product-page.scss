@@ -1,0 +1,39 @@
+.product-page {
+    padding: 2% 16%;
+    @media (max-width: 768px) {
+        padding: 4%;
+    }
+    .product-preview {
+        padding: 16px;
+        border-radius: 24px;
+        background-color: white;
+    }
+    .price-container {
+        margin: 8px 0;
+        padding: 16px;
+        border-radius: 12px;
+        background-color: white;
+        .action {
+            width: 48%;
+            &.buy {
+                background-color: #2F3A8F;
+            }
+            &.offer {
+                color: #2F3A8F;
+                border-color: #2F3A8F;
+            }
+        }
+    }
+    .accordion {
+        box-shadow: none;
+        border-radius: 12px !important;
+        &:before {
+            display: none;
+        }
+        .accordion-detail {
+            padding: 0 16px 16px;
+            color: gray;
+            font-weight: 400;
+        }
+    }
+}

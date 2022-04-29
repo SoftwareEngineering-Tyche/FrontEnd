@@ -5,7 +5,7 @@ body {
     sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #424750;
+  color: #424750 !important;
 }
 input, textarea, select { font-family:inherit; }
 textarea:focus, input:focus{
