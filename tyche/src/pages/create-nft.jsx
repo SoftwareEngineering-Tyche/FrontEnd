@@ -36,6 +36,7 @@ function CreateNft() {
     const [collection, setCollection] = useState();
     const [isCreated, setIsCreated] = useState(false);
     const [tokenId, setTokenId] = useState(null);
+    const [collections, setCollections] = useState([]);
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -44,13 +45,17 @@ function CreateNft() {
     };
 
     useEffect(() => {
-        if(window.ethereum) {
+        if (window.ethereum) {
             window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
-                const data = new FormData();
-                data.append("WalletInfo", accounts[0]);
-                callAPI({ method: "POST", url: `${hostUrl}/Account/`, data: data });
-            })
-            .catch((err) => { console.log(err); })
+                if (window.ethereum) {
+                    window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+                        callAPI({ method: "GET", url: `${hostUrl}/Accountcollection/${accounts[0]}` }).then(response => {
+                            console.log("response.status", response.status);
+                            console.log("response.payload", response.payload);
+                        });
+                    }).catch((err) => { console.log(err); })
+                }
+            }).catch((err) => { console.log(err); })
         }
     }, []);
 
@@ -61,6 +66,15 @@ function CreateNft() {
     const onSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+
+        const data = new FormData();
+        data.append("Name", name);
+        data.append("image", file);
+        data.append("Externallink", externalLink);
+        data.append("Description", description);
+        data.append("Price", 2);
+        callAPI({ method: "POST", url: `${hostUrl}/WorkArt/`, data: data });
+
         let appId = process.env.REACT_APP_APP_ID;
         let serverUrl = process.env.REACT_APP_SERVER_URL;
         Moralis.start({ serverUrl, appId });
@@ -172,9 +186,9 @@ function CreateNft() {
                                     <FormControl sx={{ margin: '0px' }} fullWidth>
                                         <InputLabel>کلکسیون</InputLabel>
                                         <Select fullWidth value={collection} label="کلکسیون" onChange={e => setCollection(e.target.value)}>
-                                            <MenuItem value="collection1">collection1</MenuItem>
-                                            <MenuItem value="collection2">collection2</MenuItem>
-                                            <MenuItem value="collection3">collection3</MenuItem>
+                                            <MenuItem value="create">
+                                                <Link href="/collection/create">+ ساخت کلکسیون جدید</Link>
+                                            </MenuItem>
                                         </Select>
                                         <FormHelperText>اثر شما در این کلکسیون نمایش داده می‌شود</FormHelperText>
                                     </FormControl>

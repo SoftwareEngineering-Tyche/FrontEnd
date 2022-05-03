@@ -16,6 +16,7 @@ import Footer from './components/footer';
 import ProfilePage from './pages/profile-page';
 import Nft from './pages/create-nft';
 import ProductPage from "./pages/product-page";
+import CollectionPage from "./pages/collection-page";
 import { MoralisProvider } from "react-moralis";
 import Moralis from "moralis";
 
@@ -50,6 +51,8 @@ function App() {
                 <Route path='/profile' element={<ProfilePage value={0}/>} />
                 <Route path='/nft' element={<Nft />} />
                 <Route path='/product/*' element={<ProductPage />} />
+                <Route path="/collection/create/*" element={<CollectionPage mode="create"/>}/>
+                <Route path="/collection/*" element={<CollectionPage mode="show"/>}/>
               </Routes>
             </BrowserRouter>
             <Footer/>

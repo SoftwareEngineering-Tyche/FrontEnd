@@ -124,28 +124,28 @@ function ProfilePage(props) {
         }
     }, [onSubmit]);
     useEffect(() => {
-        fetch(`${hostUrl}/Account/${ethAddress}`).then(response => response.json())
-            .then(data => {
-                if (data.username !== 'null') setUsername(data.username);
-                if (data.email !== 'null') setEmail(data.email);
-                if (data.bio !== 'null') setBio(data.bio);
-                setCollections(data.collection);
-                setFavorites(data.favorite);
-                setsocials(data.socials);
-                if (data.banner && data.banner !== '/media/null' && data.banner !== '/media/undefined')
-                    setBanner(hostUrl + data.banner);
-                if (data.avatar && data.avatar !== '/media/null' && data.avatar !== '/media/undefined')
-                    setProfilePic((hostUrl + data.avatar));
-                fetch(document.getElementById('banner').src).then(res => res.blob()).then(blob => {
-                    const file = new File([blob], 'banner.jpg', blob)
-                    setBannerFile(file);
-                })
-                fetch(document.getElementById('profile').src).then(res => res.blob()).then(blob => {
-                    const file = new File([blob], 'profile.png', blob)
-                    setProfilePicFile(file);
-                })
-            }
-            )
+
+        callAPI({ method: "GET", url: `${hostUrl}/Account/${ethAddress}` }).then(response => {
+            console.log("response.status", response.status);
+            if (response.payload.username !== 'null') setUsername(response.payload.username);
+            if (response.payload.email !== 'null') setEmail(response.payload.email);
+            if (response.payload.bio !== 'null') setBio(response.payload.bio);
+            setCollections(response.payload.collection);
+            setFavorites(response.payload.favorite);
+            setsocials(response.payload.socials);
+            if (response.payload.banner && response.payload.banner !== '/media/null' && response.payload.banner !== '/media/undefined')
+                setBanner(hostUrl + response.payload.banner);
+            if (response.payload.avatar && response.payload.avatar !== '/media/null' && response.payload.avatar !== '/media/undefined')
+                setProfilePic((hostUrl + response.payload.avatar));
+            fetch(document.getElementById('banner').src).then(res => res.blob()).then(blob => {
+                const file = new File([blob], 'banner.jpg', blob)
+                setBannerFile(file);
+            })
+            fetch(document.getElementById('profile').src).then(res => res.blob()).then(blob => {
+                const file = new File([blob], 'profile.png', blob)
+                setProfilePicFile(file);
+            })
+        });
     }, [ethAddress]);
 
     if (window.ethereum !== undefined) {
@@ -157,7 +157,6 @@ function ProfilePage(props) {
 
     return (
         <div className="profile-page">
-            {Init()}
             <div className="profile-info">
                 {!banner ? <img src={profileBackground} className="background" /> : <img id="banner" src={banner} className="background" />}
                 <div className="information">
@@ -189,9 +188,9 @@ function ProfilePage(props) {
                 {!isEditMode ?
                     <div className="tabs-container">
                         <Tabs value={tabValue} onChange={handleTabChange}>
-                            <Tab label="جمع آوری شده‌ها" classes={{root: 'tab'}}/>
-                            <Tab label="ساخته شده‌ها" classes={{root: 'tab'}}/>
-                            <Tab label="علاقه‌مندی‌ها" classes={{root: 'tab'}}/>
+                            <Tab label="جمع آوری شده‌ها" classes={{ root: 'tab' }} />
+                            <Tab label="ساخته شده‌ها" classes={{ root: 'tab' }} />
+                            <Tab label="علاقه‌مندی‌ها" classes={{ root: 'tab' }} />
                         </Tabs>
                         <Divider />
                         <div className='tabs-contents'>
