@@ -19,6 +19,7 @@ import ProductPage from "./pages/product-page";
 import CollectionPage from "./pages/collection-page";
 import { MoralisProvider } from "react-moralis";
 import Moralis from "moralis";
+import Explore from './components/explore';
 
 const cacheRtl = createCache({ key: "muirtl", stylisPlugins: [prefixer, rtlPlugin] });
 
@@ -40,8 +41,8 @@ function App() {
       <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={theme}>
           <div className="App" dir="rtl">
-            <Header/>
             <BrowserRouter>
+              <Header/>
               <Routes>
                 <Route path='/' element={<HomePage/>} />
                 <Route path='/login' element={<LoginPage/>} />
@@ -50,12 +51,13 @@ function App() {
                 <Route path='/profile/favorites' element={<ProfilePage value={2}/>} />
                 <Route path='/profile' element={<ProfilePage value={0}/>} />
                 <Route path='/nft' element={<Nft />} />
+                <Route path='/explore' element={<Explore />} />
                 <Route path='/product/*' element={<ProductPage />} />
                 <Route path='/collection/create/*' element={<CollectionPage mode="create"/>}/>
                 <Route path='/collection/*' element={<CollectionPage mode="show"/>}/>
               </Routes>
+              <Footer/>
             </BrowserRouter>
-            <Footer/>
           </div>
         </ThemeProvider>
       </CacheProvider>

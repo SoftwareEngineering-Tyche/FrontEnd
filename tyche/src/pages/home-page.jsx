@@ -26,9 +26,11 @@ function HomePage () {
                         نخستین پلتفرم ایرانی خرید و فروش NFT
                     </span>
                     <div className="btn-container">
+                        <Link to="/explore" className="link">
                         <Button className="primary-btn">
                             شروع خرید
                         </Button>
+                        </Link>
                         <Link to="/nft" className="link">
                             <Button className="secondary-btn" onClick={authenticate}>
                                 ساخت NFT

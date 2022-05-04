@@ -19,6 +19,7 @@ import StarIcon from '@mui/icons-material/Star';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
@@ -121,7 +122,7 @@ function Header() {
           <IconButton size="large" edge="start" color="inherit" aria-label="open drawer">
             <MenuIcon onClick={toggleDrawer('left', true)}/>
           </IconButton>
-          <span style={{marginLeft: '12px'}}>تایکی</span>
+          <RouterLink to="/" style={{marginLeft: '12px',color: '#fff',textDecoration: 'none'}}>تایکی</RouterLink>
           <div style={{display:'flex', justifyContent:'center', width:'100%'}}>
             <Search>
               <SearchIconWrapper><SearchIcon sx={{padding:'0px'}}/></SearchIconWrapper>
