@@ -82,3 +82,54 @@
 .wallet-list-handler:hover{
     box-shadow: 0 0 5px rgba(0,0,0,0.4);
 }
+.explore-title{
+    display: block;
+    text-align: center;
+    padding: 45px 0 25px;
+}
+.explore-container{
+    margin-bottom: 40px;
+}
+.explore-container .MuiTabs-fixed{
+    text-align: center;
+    margin-bottom: 30px !important;
+}
+.explore-container .MuiTabs-flexContainer{
+    display: inline-block !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+}
+.nft-collection-parent .header-image{
+    width: 100%;
+}
+.nft-collection-parent h5{
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 18px;
+}
+.nft-collection-parent .profile-image{
+    width: 60px;
+    border-radius: 100%;
+    border: 3px solid #fff;
+    position: relative;
+    right: 50%;
+    transform: translateX(50%);
+    margin-top: -30px;
+}
+.nft-collection-parent span{
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+.nft-collection-parent p{
+    text-align: center;
+    padding: 0 15px;
+    margin-bottom: 20px;
+}
+.nft-collection-parent,.nft-collection-parent a{
+    text-decoration: none;
+}

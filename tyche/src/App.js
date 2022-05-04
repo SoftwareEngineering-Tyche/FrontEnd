@@ -15,8 +15,11 @@ import Header from './components/header';
 import Footer from './components/footer';
 import ProfilePage from './pages/profile-page';
 import Nft from './pages/create-nft';
+import ProductPage from "./pages/product-page";
+import CollectionPage from "./pages/collection-page";
 import { MoralisProvider } from "react-moralis";
 import Moralis from "moralis";
+import Explore from './components/explore';
 
 const cacheRtl = createCache({ key: "muirtl", stylisPlugins: [prefixer, rtlPlugin] });
 
@@ -33,16 +36,13 @@ function App() {
       "fontFamily": `"Yekan", "Arial", sans-serif`,
     }
   });
-  let appId = "CuiIZavqoAaqG0qhrqx9BTxOxF7wT6okzOjEjlkj";
-  let serverUrl = "https://ppkqibnytc17.usemoralis.com:2053/server";
-
   return (
-    <MoralisProvider serverUrl={serverUrl} appId={appId}>
+    <MoralisProvider serverUrl={process.env.REACT_APP_SERVER_URL} appId={process.env.REACT_APP_APP_ID}>
       <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={theme}>
           <div className="App" dir="rtl">
-            <Header/>
             <BrowserRouter>
+              <Header/>
               <Routes>
                 <Route path='/' element={<HomePage/>} />
                 <Route path='/login' element={<LoginPage/>} />
@@ -51,9 +51,13 @@ function App() {
                 <Route path='/profile/favorites' element={<ProfilePage value={2}/>} />
                 <Route path='/profile' element={<ProfilePage value={0}/>} />
                 <Route path='/nft' element={<Nft />} />
+                <Route path='/explore' element={<Explore />} />
+                <Route path='/product/*' element={<ProductPage />} />
+                <Route path="/collection/create/*" element={<CollectionPage mode="create"/>}/>
+                <Route path="/collection/*" element={<CollectionPage mode="show"/>}/>
               </Routes>
+              <Footer/>
             </BrowserRouter>
-            <Footer/>
           </div>
         </ThemeProvider>
       </CacheProvider>

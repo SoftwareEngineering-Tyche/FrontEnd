@@ -5,7 +5,6 @@ import Moralis from "moralis";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../contract";
 import { styled } from '@mui/material/styles';
-import { Badge, Card, Form, Navbar, Nav, Container, Row, Col, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { Button, Divider, Link, TextField, Grid, InputLabel, MenuItem, FormHelperText, FormControl, Select, InputAdornment } from "@mui/material";
@@ -37,6 +36,7 @@ function CreateNft() {
     const [collection, setCollection] = useState();
     const [isCreated, setIsCreated] = useState(false);
     const [tokenId, setTokenId] = useState(null);
+    const [collections, setCollections] = useState([]);
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -45,13 +45,17 @@ function CreateNft() {
     };
 
     useEffect(() => {
-        if(window.ethereum) {
+        if (window.ethereum) {
             window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
-                const data = new FormData();
-                data.append("WalletInfo", accounts[0]);
-                callAPI({ method: "POST", url: `${hostUrl}/Account/`, data: data });
-            })
-            .catch((err) => { console.log(err); })
+                if (window.ethereum) {
+                    window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+                        callAPI({ method: "GET", url: `${hostUrl}/Accountcollection/${accounts[0]}` }).then(response => {
+                            console.log("response.status", response.status);
+                            console.log("response.payload", response.payload);
+                        });
+                    }).catch((err) => { console.log(err); })
+                }
+            }).catch((err) => { console.log(err); })
         }
     }, []);
 
@@ -62,8 +66,17 @@ function CreateNft() {
     const onSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        let appId = "CuiIZavqoAaqG0qhrqx9BTxOxF7wT6okzOjEjlkj";
-        let serverUrl = "https://ppkqibnytc17.usemoralis.com:2053/server";
+
+        const data = new FormData();
+        data.append("Name", name);
+        data.append("image", file);
+        data.append("Externallink", externalLink);
+        data.append("Description", description);
+        data.append("Price", 2);
+        callAPI({ method: "POST", url: `${hostUrl}/WorkArt/`, data: data });
+
+        let appId = process.env.REACT_APP_APP_ID;
+        let serverUrl = process.env.REACT_APP_SERVER_URL;
         Moralis.start({ serverUrl, appId });
 
         try {
@@ -103,7 +116,7 @@ function CreateNft() {
     };
 
     return (
-        <Container fluid className="create-nft">
+        <div className="create-nft">
             {isCreated && tokenId ?
                 <div className="result">
                     <div className="success-created-container">
@@ -173,9 +186,9 @@ function CreateNft() {
                                     <FormControl sx={{ margin: '0px' }} fullWidth>
                                         <InputLabel>کلکسیون</InputLabel>
                                         <Select fullWidth value={collection} label="کلکسیون" onChange={e => setCollection(e.target.value)}>
-                                            <MenuItem value="collection1">collection1</MenuItem>
-                                            <MenuItem value="collection2">collection2</MenuItem>
-                                            <MenuItem value="collection3">collection3</MenuItem>
+                                            <MenuItem value="create">
+                                                <Link href="/collection/create">+ ساخت کلکسیون جدید</Link>
+                                            </MenuItem>
                                         </Select>
                                         <FormHelperText>اثر شما در این کلکسیون نمایش داده می‌شود</FormHelperText>
                                     </FormControl>
@@ -197,7 +210,7 @@ function CreateNft() {
                                                 <FormatListBulletedRoundedIcon />
                                                 <span className="property-title">ویژگی‌ها</span>
                                             </div>
-                                            <div className="property-subtitle">خصوصیات های متنی اثر</div>
+                                            <div className="property-subtitle">خصوصیات متنی اثر</div>
                                         </div>
                                         <Button variant="outlined"><AddRoundedIcon /></Button>
                                     </div>
@@ -210,7 +223,7 @@ function CreateNft() {
                                                 <QueryStatsRoundedIcon />
                                                 <span className="property-title">آمار</span>
                                             </div>
-                                            <div className="property-subtitle">خصوصیات های عددی اثر</div>
+                                            <div className="property-subtitle">خصوصیات عددی اثر</div>
                                         </div>
                                         <Button variant="outlined"><AddRoundedIcon /></Button>
                                     </div>
@@ -227,7 +240,7 @@ function CreateNft() {
                     </div>
                 </div>
             }
-        </Container>
+        </div>
     );
 }
 

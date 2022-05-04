@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import Web3 from 'web3';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -51,7 +51,8 @@ function CheckConnection() {
         }
     })
 }
-export default function Init () {
+function Init () {
     CheckConnection();
     ConnectToWallet();
 }
+export default memo(Init);
