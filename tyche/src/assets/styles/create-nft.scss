@@ -12,6 +12,9 @@
             font-weight: bold;
             margin-bottom: 12px;
         }
+        .text {
+            font-size: 13px;
+        }
         .upload-btn {
             border: 1px solid #2F3A8F;
             color: #2F3A8F;
@@ -48,16 +51,6 @@
                     }
                 }
             }
-            .action {
-                margin: 24px 8px 0 0;
-                &.submit {
-                    background-color: #2F3A8F;
-                }
-                &.cancel {
-                    color: #2F3A8F;
-                    border-color: #2F3A8F;
-                }
-            }
         }
     }
     .result {
@@ -74,5 +67,15 @@
                 width: fit-content;
             }
         }
+    }
+    
+}
+.action {
+    &.submit {
+        background-color: #2F3A8F;
+    }
+    &.cancel {
+        color: #2F3A8F;
+        border-color: #2F3A8F;
     }
 }

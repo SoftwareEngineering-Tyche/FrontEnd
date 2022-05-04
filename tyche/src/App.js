@@ -51,8 +51,8 @@ function App() {
                 <Route path='/profile' element={<ProfilePage value={0}/>} />
                 <Route path='/nft' element={<Nft />} />
                 <Route path='/product/*' element={<ProductPage />} />
-                <Route path="/collection/create/*" element={<CollectionPage mode="create"/>}/>
-                <Route path="/collection/*" element={<CollectionPage mode="show"/>}/>
+                <Route path='/collection/create/*' element={<CollectionPage mode="create"/>}/>
+                <Route path='/collection/*' element={<CollectionPage mode="show"/>}/>
               </Routes>
             </BrowserRouter>
             <Footer/>

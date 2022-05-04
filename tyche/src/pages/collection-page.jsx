@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../assets/styles/create-collection.scss";
+import "../assets/styles/collection.scss";
 import { Button, Divider, Link, Grid, ButtonGroup, Accordion, AccordionSummary, AccordionDetails, TextField, InputLabel, MenuItem, FormHelperText, FormControl, Select, InputAdornment } from "@mui/material";
 import imageSample from "../assets/images/image.png";
 import collectionBanner from "../assets/images/collection-banner.jpg";
@@ -26,7 +26,32 @@ function CollectionPage(props) {
     const [isEditMode, setIsEditMode] = useState(false);
 
     useEffect(() => {
-
+        if (window.ethereum) {
+            window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+                callAPI({ method: "GET", url: `${hostUrl}/Accountcollection/${accounts[0]}` }).then(response => {
+                    if (response.status === 200) {
+                        response.payload.map(collection => {
+                            if (collection.id.toString() === window.location.pathname.split('/')[2]) {
+                                setName(collection.Name);
+                                setDescription(collection.Description);
+                                if (!collection.category.includes('undefined'))
+                                    setCategory(collection.category);
+                                if (collection.bannerimage && !collection.bannerimage.includes('undefined') && !collection.bannerimage.includes('null'))
+                                    setBannerImage(hostUrl + collection.bannerimage);
+                                if (collection.logoimage && !collection.logoimage.includes('undefined') && !collection.logoimage.includes('null'))
+                                    setLogoImage((hostUrl + collection.logoimage));
+                                fetch(document.getElementById('banner').src).then(res => res.blob()).then(blob => {
+                                    setBannerImageFile(new File([blob], 'banner.jpg', blob));
+                                })
+                                fetch(document.getElementById('logo').src).then(res => res.blob()).then(blob => {
+                                    setLogoImageFile(new File([blob], 'logo.png', blob));
+                                })
+                            }
+                        });
+                    }
+                });
+            }).catch((err) => { console.log(err); })
+        }
     }, []);
 
     const onLogoChange = (e) => {
@@ -42,25 +67,32 @@ function CollectionPage(props) {
     const handleSubmit = () => {
         setOnSubmit(true);
         setIsEditMode(false);
+        if (window.ethereum) {
+            window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+                if (props.mode === "create") {
+                    const data = new FormData();
+                    data.append("logoimage", logoImageFile);
+                    data.append("bannerimage", bannerImageFile);
+                    data.append("Name", name);
+                    data.append("Description", description);
+                    data.append("category", category);
+                    callAPI({ method: "POST", url: `${hostUrl}/collection/${accounts[0]}`, data: data });
+                }
+                else if (props.mode === "show") {
+                    const data = new FormData();
+                    if (logoImageFile) data.append("logoimage", logoImageFile);
+                    data.append("bannerimage", bannerImageFile);
+                    data.append("Name", name);
+                    data.append("Description", description);
+                    data.append("category", category);
+                    callAPI({ method: "PUT", url: `${hostUrl}/collection/${window.location.pathname.split('/')[2]}`, data: data });
+                }
+            }).catch((err) => { console.log(err); })
+        }
     }
     const handleCancel = () => {
         //setIsEditMode(false);
     }
-    useEffect(() => {
-
-        if (window.ethereum) {
-            window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
-                // const data = new FormData();
-                // data.append("WalletInfo", accounts[0]);
-                // callAPI({ method: "POST", url: `${hostUrl}/Account/`, data: data });
-
-                callAPI({ method: "GET", url: `${hostUrl}/Account/${accounts[0]}` }).then(response => {
-                    console.log("response.status", response.status);
-                    console.log("response.payload", response.payload);
-                });
-            }).catch((err) => { console.log(err); })
-        }
-    }, [onSubmit]);
     return (
         <div className="collection-page">
             <div className="collection-info">
@@ -76,7 +108,13 @@ function CollectionPage(props) {
                 <div className="name">
                     <span>{(name && name !== 'null') ? name : 'کلکسیون بی‌نام'}</span>
                 </div>
-                {<div className="additional-information bio">{(description && description !== 'null') ? description : 'بدون توضیحات'}</div>}
+                <div className="additional-information bio">
+                    {(description && description !== 'null') ? description : 'بدون توضیحات'}
+                </div>
+                <div className="additional-information bio">
+                    <span>دسته‌بندی : </span>&nbsp;
+                    {(category) ? category : 'نامشخص'}
+                </div>
             </div>
             <div className="contents">
                 {(props.mode === "create" || isEditMode) ?
@@ -106,12 +144,12 @@ function CollectionPage(props) {
                         <Grid item xs={12} md={6}>
                             <FormControl sx={{ margin: '0px' }} fullWidth>
                                 <InputLabel>دسته‌بندی</InputLabel>
-                                <Select fullWidth value={category} label="کلکسیون" onChange={e => setCategory(e.target.value)}>
-                                    <MenuItem value="art">هنر</MenuItem>
-                                    <MenuItem value="music">موزیک</MenuItem>
-                                    <MenuItem value="sport">ورزش</MenuItem>
-                                    <MenuItem value="photograpy">عکاسی</MenuItem>
-                                    <MenuItem value="utility">کاربردی</MenuItem>
+                                <Select defaultValue={category} fullWidth value={category} label="کلکسیون" onChange={e => setCategory(e.target.value)}>
+                                    <MenuItem value="هنر">هنر</MenuItem>
+                                    <MenuItem value="موزیک">موزیک</MenuItem>
+                                    <MenuItem value="ورزش">ورزش</MenuItem>
+                                    <MenuItem value="عکاسی">عکاسی</MenuItem>
+                                    <MenuItem value="کاربردی">کاربردی</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -130,9 +168,8 @@ function CollectionPage(props) {
                         </div>
                     </Grid>
                     :
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} className="mt-1" justifyContent="center">
                         آثار موجود در این کلکسیون
-
                     </Grid>
                 }
             </div>
