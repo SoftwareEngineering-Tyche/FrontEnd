@@ -56,6 +56,7 @@ function CreateNft() {
     const [properties, setProperties] = useState([""]);
     const [statisticsType, setStatisticsType] = useState([]);
     const [statistics, setStatistics] = useState([""]);
+    const [product, setProduct] = useState();
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -117,7 +118,7 @@ function CreateNft() {
             <Button onClick={() => { mode === "statistics" ? setStatistics(oldArray => [...oldArray, ""]) : setProperties(oldArray => [...oldArray, ""]) }}>
                 اضافه کردن خصوصیت بیشتر
             </Button>
-            <Divider className="my-2"/>
+            <Divider className="my-2" />
             <div className="d-flex justify-content-center">
                 <Button variant="contained" classes={{ root: 'action submit' }} onClick={() => { setIsOpenPropertyModal(false); setIsOpenStatisticsModal(false) }}>
                     ذخیره تغییرات
@@ -125,6 +126,23 @@ function CreateNft() {
             </div>
         </>);
     }
+
+    useEffect(() => {
+        if (product) {
+            properties.map((p, index) => {
+                const propertyData = new FormData();
+                propertyData.append("keyId", propertiesType[index]);
+                propertyData.append("value", p);
+                callAPI({ method: "POST", url: `${hostUrl}/WorkArtProperty/${product.id}`, data: propertyData })
+            });
+            statistics.map((s, index) => {
+                const statisticData = new FormData();
+                statisticData.append("sid", statisticsType[index]);
+                statisticData.append("value", s);
+                callAPI({ method: "POST", url: `${hostUrl}/WorkArtstatistic/${product.id}`, data: statisticData })
+            });
+        }
+    }, [product]);
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -136,7 +154,9 @@ function CreateNft() {
         data.append("Externallink", externalLink);
         data.append("Description", description);
         data.append("Price", price);
-        callAPI({ method: "POST", url: `${hostUrl}/WorkArt/${collection}`, data: data });
+        callAPI({ method: "POST", url: `${hostUrl}/WorkArt/${collection}`, data: data }).then(response => {
+            setProduct(response.payload);
+        });
 
         let appId = process.env.REACT_APP_APP_ID;
         let serverUrl = process.env.REACT_APP_SERVER_URL;

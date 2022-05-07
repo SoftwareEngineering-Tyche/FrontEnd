@@ -5,8 +5,7 @@ import Flickity from 'react-flickity-component';
 import imageSample from "../assets/images/image.png";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import Card from '@mui/material/Card';
-import { CardActionArea, CardContent, CardMedia, Link } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Link } from '@mui/material';
 import { callAPI } from "../components/api-call";
 import { hostUrl } from "../host-url";
 
@@ -22,14 +21,14 @@ function NftCarousel(props) {
     function getCard(product) {
         return (
             <Card sx={{ height: 220, borderRadius: '16px', overflow: 'unset', margin: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Link href={`/product/${product.id}`}>
+                <Link href={`/product/${product.id}`} underline="none">
                     <CardActionArea sx={{ width: '200px' }}>
                         <div style={{ height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '0px', margin: '0px' }}><img src={hostUrl + product.image} width={150} /></CardMedia>
                         </div>
                         <CardContent sx={{ padding: '6px 16px' }}>
                             <div style={{ color: '#2F3A8F', display: 'flex', justifyContent: 'center' }}>{product.Name}</div>
-                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small' }}>توضیحات اثر</div>
+                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small' }}>{product.Description}</div>
                         </CardContent>
                     </CardActionArea>
                 </Link>

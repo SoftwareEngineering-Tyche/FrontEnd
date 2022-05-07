@@ -17,11 +17,22 @@ import Web3 from 'web3';
 import { hostUrl } from "../host-url";
 import { callAPI } from "../components/api-call";
 import profileBackground from "../assets/images/profile-background.jpg";
+import { Card, CardActionArea, CardContent, CardMedia, Link } from '@mui/material';
+import { withStyles } from '@mui/styles';
 
 const web3 = new Web3(window.ethereum);
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
+const StyledTabs = withStyles({
+    root: {
+        "& div.MuiTabs-scroller": {
+            "& .MuiTabs-flexContainer": {
+                justifyContent: "center",
+            }
+        }
+    }
+})(Tabs);
 const Input = styled('input')({
     display: 'none',
 });
@@ -51,6 +62,7 @@ function ProfilePage(props) {
     const [bannerFile, setBannerFile] = useState();
     const [collections, setCollections] = useState([]);
     const [favorites, setFavorites] = useState([]);
+    const [creations, setCreations] = useState([]);
     const [socials, setsocials] = useState();
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isUsernameValid, setIsUsernameValid] = useState(true);
@@ -90,6 +102,25 @@ function ProfilePage(props) {
     const handleCancel = () => {
         setIsEditMode(false);
     }
+    function getCard(item, mode) {
+        return (
+            <Card sx={{ height: 220, borderRadius: '16px', overflow: 'unset', margin: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Link underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
+                    <CardActionArea sx={{ width: '180px' }}>
+                        <div style={{ height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '0px', margin: '0px' }}>
+                                {mode === 'product' ? <img src={hostUrl + item.image} width={150} /> : <img src={hostUrl + item.logoimage} width={150} />}
+                            </CardMedia>
+                        </div>
+                        <CardContent sx={{ padding: '6px 16px' }}>
+                            <div style={{ color: '#2F3A8F', display: 'flex', justifyContent: 'center' }}>{item.Name}</div>
+                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small' }}>{item.Description}</div>
+                        </CardContent>
+                    </CardActionArea>
+                </Link>
+            </Card>
+        );
+    }
     useEffect(() => {
         if (isUsernameValid)
             setuserhelper("");
@@ -102,6 +133,36 @@ function ProfilePage(props) {
         else
             setemailhelper("فرمت ایمیل نامعتبر است");
     }, [isEmailValid]);
+    useEffect(() => {
+        callAPI({ method: "GET", url: `${hostUrl}/Account/${ethAddress}` }).then(response => {
+            if (response.payload.username !== 'null') setUsername(response.payload.username);
+            if (response.payload.email !== 'null') setEmail(response.payload.email);
+            if (response.payload.bio !== 'null') setBio(response.payload.bio);
+            setFavorites(response.payload.favorite);
+            setsocials(response.payload.socials);
+            if (response.payload.banner && response.payload.banner !== '/media/null' && response.payload.banner !== '/media/undefined')
+                setBanner(hostUrl + response.payload.banner);
+            if (response.payload.avatar && response.payload.avatar !== '/media/null' && response.payload.avatar !== '/media/undefined')
+                setProfilePic((hostUrl + response.payload.avatar));
+            fetch(document.getElementById('banner').src).then(res => res.blob()).then(blob => {
+                const file = new File([blob], 'banner.jpg', blob)
+                setBannerFile(file);
+            })
+            fetch(document.getElementById('profile').src).then(res => res.blob()).then(blob => {
+                const file = new File([blob], 'profile.png', blob)
+                setProfilePicFile(file);
+            })
+        });
+        callAPI({ method: "GET", url: `${hostUrl}/Accountcollection/${ethAddress}` }).then(response => {
+            if (response.payload && response.payload.length > 0) setCollections(response.payload);
+        });
+        callAPI({ method: "GET", url: `${hostUrl}/AccountWorkarts/${ethAddress}` }).then(response => {
+            if (response.payload && response.payload.length > 0) setCreations(response.payload);
+        });
+        callAPI({ method: "GET", url: `${hostUrl}/Accountfavorites/${ethAddress}` }).then(response => {
+            if (response.payload && response.payload.length > 0) setFavorites(response.payload);
+        });
+    }, [ethAddress]);
     useEffect(() => {
         if (onSubmit) {
             fetch(document.getElementById('banner').src).then(res => res.blob()).then(blob => {
@@ -123,31 +184,6 @@ function ProfilePage(props) {
             setOnSubmit(false);
         }
     }, [onSubmit]);
-    useEffect(() => {
-
-        callAPI({ method: "GET", url: `${hostUrl}/Account/${ethAddress}` }).then(response => {
-            console.log("response.status", response.status);
-            if (response.payload.username !== 'null') setUsername(response.payload.username);
-            if (response.payload.email !== 'null') setEmail(response.payload.email);
-            if (response.payload.bio !== 'null') setBio(response.payload.bio);
-            setCollections(response.payload.collection);
-            setFavorites(response.payload.favorite);
-            setsocials(response.payload.socials);
-            if (response.payload.banner && response.payload.banner !== '/media/null' && response.payload.banner !== '/media/undefined')
-                setBanner(hostUrl + response.payload.banner);
-            if (response.payload.avatar && response.payload.avatar !== '/media/null' && response.payload.avatar !== '/media/undefined')
-                setProfilePic((hostUrl + response.payload.avatar));
-            fetch(document.getElementById('banner').src).then(res => res.blob()).then(blob => {
-                const file = new File([blob], 'banner.jpg', blob)
-                setBannerFile(file);
-            })
-            fetch(document.getElementById('profile').src).then(res => res.blob()).then(blob => {
-                const file = new File([blob], 'profile.png', blob)
-                setProfilePicFile(file);
-            })
-        });
-    }, [ethAddress]);
-
     if (window.ethereum !== undefined) {
         window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
             setEthAddress(accounts[0]);
@@ -187,24 +223,57 @@ function ProfilePage(props) {
             <div className="contents">
                 {!isEditMode ?
                     <div className="tabs-container">
-                        <Tabs value={tabValue} onChange={handleTabChange}>
+                        <StyledTabs value={tabValue} onChange={handleTabChange}>
                             <Tab label="جمع آوری شده‌ها" classes={{ root: 'tab' }} />
                             <Tab label="ساخته شده‌ها" classes={{ root: 'tab' }} />
                             <Tab label="علاقه‌مندی‌ها" classes={{ root: 'tab' }} />
-                        </Tabs>
+                        </StyledTabs>
                         <Divider />
                         <div className='tabs-contents'>
                             <TabPanel value={tabValue} index={0}>
-                                <img src={emptyCollectionsIcon} height={150} />
-                                <div>هنوز هیچ اثری را جمع‌آوری نکرده‌اید</div>
+                                {collections && collections.length > 0 &&
+                                    <div className="d-flex flex-wrap justify-content-center" style={{ width: '95vw' }}>
+                                        {collections.map((collection, index) => {
+                                            return (getCard(collection, 'collection'));
+                                        })}
+                                    </div>
+                                }
+                                {!collections || collections.length === 0 &&
+                                    <div style={{ width: '95vw' }}>
+                                        <img src={emptyCollectionsIcon} height={150} />
+                                        <div>هنوز هیچ اثری را جمع‌آوری نکرده‌اید</div>
+                                    </div>
+                                }
                             </TabPanel>
                             <TabPanel value={tabValue} index={1}>
-                                <img src={emptyCreationsIcon} height={150} />
-                                <div>هنوز هیچ اثری نساخته‌اید</div>
+                                {creations && creations.length > 0 &&
+                                    <div className="d-flex flex-wrap justify-content-center" style={{ width: '95vw' }}>
+                                        {creations.map((product, index) => {
+                                            return (getCard(product, 'product'));
+                                        })}
+                                    </div>
+                                }
+                                {!creations || creations.length === 0 &&
+                                    <div style={{ width: '95vw' }}>
+                                        <img src={emptyCreationsIcon} height={150} />
+                                        <div>هنوز هیچ اثری نساخته‌اید</div>
+                                    </div>
+                                }
                             </TabPanel>
                             <TabPanel value={tabValue} index={2}>
-                                <img src={emptyFavoritesIcon} height={150} />
-                                <div>لیست علاقه‌مندی‌های شما خالی است</div>
+                                {favorites && favorites.length > 0 &&
+                                    <div className="d-flex flex-wrap justify-content-center" style={{ width: '95vw' }}>
+                                        {favorites.map((product, index) => {
+                                            return (getCard(product, 'product'));
+                                        })}
+                                    </div>
+                                }
+                                {!favorites || favorites.length === 0 &&
+                                    <div style={{ width: '95vw' }}>
+                                        <img src={emptyFavoritesIcon} height={150} />
+                                        <div>لیست علاقه‌مندی‌های شما خالی است</div>
+                                    </div>
+                                }
                             </TabPanel>
                         </div>
                     </div>

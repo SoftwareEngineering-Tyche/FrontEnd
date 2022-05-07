@@ -34,7 +34,7 @@ function TopCategories () {
     return (
         <div className="top-categories">
             <span className="title">دسته بندی‌های برتر</span>
-            <div className="categories-container">
+            <div className="categories-container overflow-hidden">
                 <Flickity options={flickityOptions} flickityRef={ref => flickityRef.current = ref}>
                     {getCards()}
                     {getCards()}
