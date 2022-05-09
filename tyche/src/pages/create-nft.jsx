@@ -304,11 +304,24 @@ function CreateNft() {
                                         <div className="subject">
                                             <div className="property">
                                                 <FormatListBulletedRoundedIcon />
-                                                <span className="property-title">ویژگی‌ها</span>
+                                                <span className="property-title">ویژگی‌ها</span>&nbsp;
                                             </div>
                                             <div className="property-subtitle">خصوصیات متنی اثر</div>
                                         </div>
                                         <Button variant="outlined" onClick={() => setIsOpenPropertyModal(true)}><AddRoundedIcon /></Button>
+                                    </div>
+                                    <div className="d-flex flex-wrap">
+                                        {propertiesType && propertiesType.length > 0 &&
+                                            properties.map((prop, index) => {
+                                                if (prop && propertiesType[index])
+                                                    return (
+                                                        <div className="m-1" style={{ backgroundColor: 'white', padding: '4px 12px', borderRadius: '6px' }}>
+                                                            <div>{propertiesType[index]}</div>
+                                                            <div className="text-secondary">{prop}</div>
+                                                        </div>
+                                                    );
+                                            })
+                                        }
                                     </div>
                                     <Modal open={isOpenPropertyModal} onClose={() => setIsOpenPropertyModal(false)}>
                                         <Box sx={modalStyle} className="property-modal">
@@ -330,6 +343,19 @@ function CreateNft() {
                                             <div className="property-subtitle">خصوصیات عددی اثر</div>
                                         </div>
                                         <Button variant="outlined" onClick={() => setIsOpenStatisticsModal(true)}><AddRoundedIcon /></Button>
+                                    </div>
+                                    <div className="d-flex flex-wrap">
+                                        {statisticsType && statisticsType.length > 0 &&
+                                            statistics.map((stat, index) => {
+                                                if (stat && statisticsType[index])
+                                                    return (
+                                                        <div className="m-1" style={{ backgroundColor: 'white', padding: '4px 12px', borderRadius: '6px' }}>
+                                                            <div>{statisticsType[index]}</div>
+                                                            <div className="text-secondary">{stat}</div>
+                                                        </div>
+                                                    );
+                                            })
+                                        }
                                     </div>
                                     <Modal open={isOpenStatisticsModal} onClose={() => setIsOpenStatisticsModal(false)}>
                                         <Box sx={modalStyle} className="property-modal">
