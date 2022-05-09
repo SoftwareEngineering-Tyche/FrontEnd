@@ -14,6 +14,7 @@ import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBullete
 import QueryStatsRoundedIcon from '@mui/icons-material/QueryStatsRounded';
 import { hostUrl } from "../host-url";
 import { callAPI } from "../components/api-call";
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -198,6 +199,15 @@ function CreateNft() {
         setLoading(false)
     };
 
+    const removeProperty = (index) => {
+        setProperties(prev => { return [...prev.slice(0, index), ...prev.slice(index + 1)]; })
+        setPropertiesType(prev => { return [...prev.slice(0, index), ...prev.slice(index + 1)]; })
+    }
+    const removeStatistic = (index) => {
+        setStatistics(prev => { return [...prev.slice(0, index), ...prev.slice(index + 1)]; })
+        setStatisticsType(prev => { return [...prev.slice(0, index), ...prev.slice(index + 1)]; })
+    }
+
     return (
         <div className="create-nft">
             {isCreated && tokenId ?
@@ -303,7 +313,7 @@ function CreateNft() {
                                     <div className="property-container">
                                         <div className="subject">
                                             <div className="property">
-                                                <FormatListBulletedRoundedIcon />
+                                                <FormatListBulletedRoundedIcon sx={{ transform: "rotate(180deg)" }} />
                                                 <span className="property-title">ویژگی‌ها</span>&nbsp;
                                             </div>
                                             <div className="property-subtitle">خصوصیات متنی اثر</div>
@@ -315,7 +325,8 @@ function CreateNft() {
                                             properties.map((prop, index) => {
                                                 if (prop && propertiesType[index])
                                                     return (
-                                                        <div className="m-1" style={{ backgroundColor: 'white', padding: '4px 12px', borderRadius: '6px' }}>
+                                                        <div className="property-box">
+                                                            <AddCircleRoundedIcon onClick={() => removeProperty(index)} color="error" fontSize="small" className="remove-icon" sx={{ transform: "rotate(45deg)" }} />
                                                             <div>{propertiesType[index]}</div>
                                                             <div className="text-secondary">{prop}</div>
                                                         </div>
@@ -349,7 +360,8 @@ function CreateNft() {
                                             statistics.map((stat, index) => {
                                                 if (stat && statisticsType[index])
                                                     return (
-                                                        <div className="m-1" style={{ backgroundColor: 'white', padding: '4px 12px', borderRadius: '6px' }}>
+                                                        <div className="property-box">
+                                                            <AddCircleRoundedIcon onClick={() => removeStatistic(index)} color="error" fontSize="small" className="remove-icon" sx={{ transform: "rotate(45deg)" }} />
                                                             <div>{statisticsType[index]}</div>
                                                             <div className="text-secondary">{stat}</div>
                                                         </div>
