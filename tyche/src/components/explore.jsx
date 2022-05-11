@@ -1,14 +1,32 @@
-import React,{useState} from 'react';
+import React,{useState , useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, Tab, Tabs, Container, Card } from '@mui/material';
+import { hostUrl } from '../host-url';
+import { callAPI } from "../components/api-call";
+
+
+
 
 const Explore = () => {
 
     const [tab,setTab] = useState('trending');
+    const [Resault, setResault] = useState([]);
+
+    useEffect(() => {
+        let formData = new FormData();
+        formData.hotest = true;
+        formData.favorites = true;
+        formData.latest = true;
+        console.log(formData)
+        callAPI({method: 'GET',url: `${hostUrl}explore` ,data: formData }).then(response => {
+            setResault(response.payload);
+        });
+    },[]);
 
     const handleChange = (event,newValue) => {
         setTab(newValue);
     }
+
 
     const goToUrl = u => {
 
