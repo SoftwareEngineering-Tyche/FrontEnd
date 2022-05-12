@@ -132,13 +132,13 @@ function CreateNft() {
         if (product) {
             properties.map((p, index) => {
                 const propertyData = new FormData();
-                propertyData.append("keyId", propertiesType[index]);
+                propertyData.append("subject", propertiesType[index]);
                 propertyData.append("value", p);
                 callAPI({ method: "POST", url: `${hostUrl}/WorkArtProperty/${product.id}`, data: propertyData })
             });
             statistics.map((s, index) => {
                 const statisticData = new FormData();
-                statisticData.append("sid", statisticsType[index]);
+                statisticData.append("subject", statisticsType[index]);
                 statisticData.append("value", s);
                 callAPI({ method: "POST", url: `${hostUrl}/WorkArtstatistic/${product.id}`, data: statisticData })
             });

@@ -140,7 +140,7 @@ function ProductPage() {
                                     properties.map((prop, index) => {
                                         return (
                                             <div className="d-flex justify-content-between mx-1">
-                                                <span>{prop.keyId}</span>
+                                                <span>{prop.subject}</span>
                                                 <span>{prop.value}</span>
                                             </div>
                                         );
@@ -162,7 +162,7 @@ function ProductPage() {
                                     statistics.map((stat, index) => {
                                         return (
                                             <div className="d-flex justify-content-between mx-1">
-                                                <span>{stat.keyId}</span>
+                                                <span>{stat.subject}</span>
                                                 <span>{stat.value}</span>
                                             </div>
                                         );
