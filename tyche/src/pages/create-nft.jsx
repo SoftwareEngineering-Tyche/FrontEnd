@@ -14,6 +14,7 @@ import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBullete
 import QueryStatsRoundedIcon from '@mui/icons-material/QueryStatsRounded';
 import { hostUrl } from "../host-url";
 import { callAPI } from "../components/api-call";
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -131,13 +132,13 @@ function CreateNft() {
         if (product) {
             properties.map((p, index) => {
                 const propertyData = new FormData();
-                propertyData.append("keyId", propertiesType[index]);
+                propertyData.append("subject", propertiesType[index]);
                 propertyData.append("value", p);
                 callAPI({ method: "POST", url: `${hostUrl}/WorkArtProperty/${product.id}`, data: propertyData })
             });
             statistics.map((s, index) => {
                 const statisticData = new FormData();
-                statisticData.append("sid", statisticsType[index]);
+                statisticData.append("subject", statisticsType[index]);
                 statisticData.append("value", s);
                 callAPI({ method: "POST", url: `${hostUrl}/WorkArtstatistic/${product.id}`, data: statisticData })
             });
@@ -197,6 +198,15 @@ function CreateNft() {
         }
         setLoading(false)
     };
+
+    const removeProperty = (index) => {
+        setProperties(prev => { return [...prev.slice(0, index), ...prev.slice(index + 1)]; })
+        setPropertiesType(prev => { return [...prev.slice(0, index), ...prev.slice(index + 1)]; })
+    }
+    const removeStatistic = (index) => {
+        setStatistics(prev => { return [...prev.slice(0, index), ...prev.slice(index + 1)]; })
+        setStatisticsType(prev => { return [...prev.slice(0, index), ...prev.slice(index + 1)]; })
+    }
 
     return (
         <div className="create-nft">
@@ -303,12 +313,26 @@ function CreateNft() {
                                     <div className="property-container">
                                         <div className="subject">
                                             <div className="property">
-                                                <FormatListBulletedRoundedIcon />
-                                                <span className="property-title">ویژگی‌ها</span>
+                                                <FormatListBulletedRoundedIcon sx={{ transform: "rotate(180deg)" }} />
+                                                <span className="property-title">ویژگی‌ها</span>&nbsp;
                                             </div>
                                             <div className="property-subtitle">خصوصیات متنی اثر</div>
                                         </div>
                                         <Button variant="outlined" onClick={() => setIsOpenPropertyModal(true)}><AddRoundedIcon /></Button>
+                                    </div>
+                                    <div className="d-flex flex-wrap">
+                                        {propertiesType && propertiesType.length > 0 &&
+                                            properties.map((prop, index) => {
+                                                if (prop && propertiesType[index])
+                                                    return (
+                                                        <div className="property-box">
+                                                            <AddCircleRoundedIcon onClick={() => removeProperty(index)} color="error" fontSize="small" className="remove-icon" sx={{ transform: "rotate(45deg)" }} />
+                                                            <div>{propertiesType[index]}</div>
+                                                            <div className="text-secondary">{prop}</div>
+                                                        </div>
+                                                    );
+                                            })
+                                        }
                                     </div>
                                     <Modal open={isOpenPropertyModal} onClose={() => setIsOpenPropertyModal(false)}>
                                         <Box sx={modalStyle} className="property-modal">
@@ -330,6 +354,20 @@ function CreateNft() {
                                             <div className="property-subtitle">خصوصیات عددی اثر</div>
                                         </div>
                                         <Button variant="outlined" onClick={() => setIsOpenStatisticsModal(true)}><AddRoundedIcon /></Button>
+                                    </div>
+                                    <div className="d-flex flex-wrap">
+                                        {statisticsType && statisticsType.length > 0 &&
+                                            statistics.map((stat, index) => {
+                                                if (stat && statisticsType[index])
+                                                    return (
+                                                        <div className="property-box">
+                                                            <AddCircleRoundedIcon onClick={() => removeStatistic(index)} color="error" fontSize="small" className="remove-icon" sx={{ transform: "rotate(45deg)" }} />
+                                                            <div>{statisticsType[index]}</div>
+                                                            <div className="text-secondary">{stat}</div>
+                                                        </div>
+                                                    );
+                                            })
+                                        }
                                     </div>
                                     <Modal open={isOpenStatisticsModal} onClose={() => setIsOpenStatisticsModal(false)}>
                                         <Box sx={modalStyle} className="property-modal">

@@ -1,16 +1,40 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
+=======
+import React,{useState , useEffect} from 'react';
+>>>>>>> 26b1243c0c4bde34b68539dc1bd552cb2eb6cc5b
 import { Link } from 'react-router-dom';
 import { Grid, Tab, Tabs, Container, Card } from '@mui/material';
 import { hostUrl } from '../host-url';
 import { callAPI } from "../components/api-call";
+<<<<<<< HEAD
 import axios from "axios";
+=======
+
+>>>>>>> 26b1243c0c4bde34b68539dc1bd552cb2eb6cc5b
 
 
 
 const Explore = () => {
 
+<<<<<<< HEAD
     const [tab, setTab] = useState('trending');
     const [Resault, setResault] = useState([]);
+=======
+    const [tab,setTab] = useState('trending');
+    const [Resault, setResault] = useState([]);
+
+    useEffect(() => {
+        let formData = new FormData();
+        formData.hotest = true;
+        formData.favorites = true;
+        formData.latest = true;
+        console.log(formData)
+        callAPI({method: 'GET',url: `${hostUrl}explore` ,data: formData }).then(response => {
+            setResault(response.payload);
+        });
+    },[]);
+>>>>>>> 26b1243c0c4bde34b68539dc1bd552cb2eb6cc5b
 
     useEffect(() => {
 
