@@ -24,7 +24,7 @@ function NftCarousel(props) {
                 <Link href={`/product/${product.id}`} underline="none">
                     <CardActionArea sx={{ width: '200px' }}>
                         <div style={{ height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '0px', margin: '0px' }}><img src={hostUrl + product.image} width={150} /></CardMedia>
+                            <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '0px', margin: '0px' }}><img src={hostUrl + product.image} width={150} height={150}/></CardMedia>
                         </div>
                         <CardContent sx={{ padding: '6px 16px' }}>
                             <div style={{ color: '#2F3A8F', display: 'flex', justifyContent: 'center' }}>{product.Name}</div>

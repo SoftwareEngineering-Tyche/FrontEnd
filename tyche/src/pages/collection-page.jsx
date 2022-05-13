@@ -103,7 +103,7 @@ function CollectionPage(props) {
                     <CardActionArea sx={{ width: '180px' }}>
                         <div style={{ height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '0px', margin: '0px' }}>
-                                {mode === 'product' ? <img src={hostUrl + item.image} width={150} /> : <img src={hostUrl + item.logoimage} width={150} />}
+                                {mode === 'product' ? <img src={hostUrl + item.image} width={150} height={150}/> : <img src={hostUrl + item.logoimage} width={150} height={150}/>}
                             </CardMedia>
                         </div>
                         <CardContent sx={{ padding: '6px 16px' }}>

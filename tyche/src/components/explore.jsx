@@ -1,35 +1,26 @@
-import React,{useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, Tab, Tabs, Container, Card } from '@mui/material';
 import { hostUrl } from '../host-url';
 import { callAPI } from "../components/api-call";
 
-
-
-
 const Explore = () => {
 
-    const [tab,setTab] = useState('trending');
+    const [tab, setTab] = useState('all');
     const [Resault, setResault] = useState([]);
 
     useEffect(() => {
-        let formData = new FormData();
-        formData.hotest = true;
-        formData.favorites = true;
-        formData.latest = true;
-        console.log(formData)
-        callAPI({method: 'GET',url: `${hostUrl}explore` ,data: formData }).then(response => {
+        const data = new FormData();
+        data.append("hotest", "true");
+        data.append("favorites", "true");
+        data.append("latest", "true");
+        callAPI({ method: 'POST', url: `${hostUrl}/explore`, data: data }).then(response => {
             setResault(response.payload);
         });
-    },[]);
+    }, []);
 
-    const handleChange = (event,newValue) => {
+    const handleChange = (event, newValue) => {
         setTab(newValue);
-    }
-
-
-    const goToUrl = u => {
-
     }
 
     return (
@@ -38,387 +29,110 @@ const Explore = () => {
                 <h3 className="explore-title">مجموعه ات را پیدا کن</h3>
                 <div className="tab-container">
                     <Tabs value={tab} onChange={handleChange}>
-                        <Tab label="پر طرفدار ها" value="trending" />
-                        <Tab label="بهترین ها" value="top" />
-                        <Tab label="هنر" value="arts" />
-                        <Tab label="موسیقی" value="musics" />
-                        <Tab label="عکاسی" value="photography" />
-                        <Tab label="ورزشی" value="sport" />
-                        <Tab label="کارت بازرگانی" value="tradingCards" />
-                        <Tab label="دنیای مجازی" value="virtualWords" />
+                        <Tab label="همه" value="all" />
+                        <Tab label="پر طرفدار ها" value="favorites" />
+                        <Tab label="جذاب‌ترین‌ها" value="hotest" />
+                        <Tab label="آخرین‌ها" value="latest" />
                     </Tabs>
-                    {tab === 'trending' && (
-                    <Grid container spacing={4}>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
+                    {Resault.data && tab === 'all' && (
+                        <Grid container spacing={2}>
+                            {Resault.data.hotest[0].map((item, index) => {
+                                return (
+                                    <Grid item md={2.4} xs={4}>
+                                        <Link to={`/collection/${item.id}`} className="nft-collection-parent">
+                                            <Card>
+                                                <img src={hostUrl + item.bannerimage} className="header-image"/>
+                                                <img src={hostUrl + item.logoimage} className="profile-image" />
+                                                <h5>{item.Name}</h5>
+                                                <p>{item.Description}</p>
+                                            </Card>
+                                        </Link>
+                                    </Grid>
+                                );
+                            })}
+                            {Resault.data.favorites[0].map((item, index) => {
+                                return (
+                                    <Grid item md={2.4} xs={4}>
+                                        <Link to={`/collection/${item.id}`} className="nft-collection-parent">
+                                            <Card>
+                                                <img src={hostUrl + item.bannerimage} className="header-image"/>
+                                                <img src={hostUrl + item.logoimage} className="profile-image" />
+                                                <h5>{item.Name}</h5>
+                                                <p>{item.Description}</p>
+                                            </Card>
+                                        </Link>
+                                    </Grid>
+                                );
+                            })}
+                            {Resault.data.latest[0].map((item, index) => {
+                                return (
+                                    <Grid item md={2.4} xs={4}>
+                                        <Link to={`/collection/${item.id}`} className="nft-collection-parent">
+                                            <Card>
+                                                <img src={hostUrl + item.bannerimage} className="header-image"/>
+                                                <img src={hostUrl + item.logoimage} className="profile-image" />
+                                                <h5>{item.Name}</h5>
+                                                <p>{item.Description}</p>
+                                            </Card>
+                                        </Link>
+                                    </Grid>
+                                );
+                            })}
                         </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                    </Grid>
                     )}
-                    {tab === 'top' && (
-                    <Grid container spacing={4}>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
+                    {Resault.data && tab === 'hotest' && (
+                        <Grid container spacing={2}>
+                            {Resault.data.hotest[0].map((item, index) => {
+                                return (
+                                    <Grid item md={2.4} xs={4}>
+                                        <Link to={`/collection/${item.id}`} className="nft-collection-parent">
+                                            <Card>
+                                                <img src={hostUrl + item.bannerimage} className="header-image"/>
+                                                <img src={hostUrl + item.logoimage} className="profile-image" />
+                                                <h5>{item.Name}</h5>
+                                                <p>{item.Description}</p>
+                                            </Card>
+                                        </Link>
+                                    </Grid>
+                                );
+                            })}
                         </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                    </Grid>
                     )}
-                    {tab === 'arts' && (
-                        <Grid container spacing={4}>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
+                    {Resault.data && tab === 'favorites' && (
+                        <Grid container spacing={2}>
+                            {Resault.data.favorites[0].map((item, index) => {
+                                return (
+                                    <Grid item md={2.4} xs={4}>
+                                        <Link to={`/collection/${item.id}`} className="nft-collection-parent">
+                                            <Card>
+                                                <img src={hostUrl + item.bannerimage} className="header-image"/>
+                                                <img src={hostUrl + item.logoimage} className="profile-image" />
+                                                <h5>{item.Name}</h5>
+                                                <p>{item.Description}</p>
+                                            </Card>
+                                        </Link>
+                                    </Grid>
+                                );
+                            })}
                         </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                    </Grid>
                     )}
-                    {tab === 'musics' && (
-                        <Grid container spacing={4}>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
+                    {Resault.data && tab === 'latest' && (
+                        <Grid container spacing={2}>
+                            {Resault.data.latest[0].map((item, index) => {
+                                return (
+                                    <Grid item md={2.4} xs={4}>
+                                        <Link to={`/collection/${item.id}`} className="nft-collection-parent">
+                                            <Card>
+                                                <img src={hostUrl + item.bannerimage} className="header-image"/>
+                                                <img src={hostUrl + item.logoimage} className="profile-image" />
+                                                <h5>{item.Name}</h5>
+                                                <p>{item.Description}</p>
+                                            </Card>
+                                        </Link>
+                                    </Grid>
+                                );
+                            })}
                         </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                    </Grid>
-                    )}
-                    {tab === 'photography' && (
-                        <Grid container spacing={4}>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                    </Grid>
-                    )}
-                    {tab === 'sport' && (
-                        <Grid container spacing={4}>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                    </Grid>
-                    )}
-                    {tab === 'tradingCards' && (
-                        <Grid container spacing={4}>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                    </Grid>
-                    )}
-                    {tab === 'virtualWords' && (
-                        <Grid container spacing={4}>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Link to="/product/1" className="nft-collection-parent">
-                                <Card onClick={goToUrl('test')}>
-                                    <img src="/img/nft-sample.png" className="header-image" />
-                                    <img src="/img/collection-profile.png" className="profile-image" />
-                                    <h5>Collection Name Test</h5>
-                                    <span>by <a href="#">Zahra MahmoudZadeh</a></span>
-                                    <p>Lorem ipsum is placeholder text commonly used in the graphic, print.</p>
-                                </Card>
-                            </Link>
-                        </Grid>
-                    </Grid>
                     )}
                 </div>
             </div>
