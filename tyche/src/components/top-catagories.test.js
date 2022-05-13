@@ -6,5 +6,5 @@ import TopCatagories from "./top-categories";
 test('intial exp;ore', () => {
  render (<TopCatagories/>);
 
-    screen.getByRole('');
+    screen.debug();
 });

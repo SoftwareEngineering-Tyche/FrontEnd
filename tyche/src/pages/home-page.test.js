@@ -1,9 +1,10 @@
 import {render, screen} from "@testing-library/react"
-import ProfilePage from "./profile-page"
+import HomePage from "./home-page";
+
 
 
 test('intial product', () => {
- render (<ProfilePage/>);
+ render (<HomePage/>);
 
   screen.debug();
 });
