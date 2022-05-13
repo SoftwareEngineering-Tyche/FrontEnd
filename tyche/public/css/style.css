@@ -105,30 +105,32 @@
 .nft-collection-parent h5{
     display: block;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 5%;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 1.7vw;
+    padding: 0 10%;
 }
 .nft-collection-parent .profile-image{
-    width: 60px;
+    width: 35%;
     border-radius: 100%;
-    border: 3px solid #fff;
+    border: 3% solid #fff;
     position: relative;
     right: 50%;
     transform: translateX(50%);
-    margin-top: -30px;
+    margin-top: -15%;
 }
 .nft-collection-parent span{
     display: block;
     text-align: center;
-    font-size: 15px;
-    margin-bottom: 25px;
-    margin-top: 10px;
+    font-size: 1.1vw;
+    margin-bottom: 2.5%;
+    margin-top: 3%;
 }
 .nft-collection-parent p{
     text-align: center;
-    padding: 0 15px;
-    margin-bottom: 20px;
+    padding: 0 10%;
+    margin-bottom: 20%;
+    font-size: 0.8vw;
 }
 .nft-collection-parent,.nft-collection-parent a{
     text-decoration: none;
