@@ -231,49 +231,55 @@ function ProfilePage(props) {
                         <Divider />
                         <div className='tabs-contents'>
                             <TabPanel value={tabValue} index={0}>
-                                {collections && collections.length > 0 &&
-                                    <div className="d-flex flex-wrap justify-content-center" style={{ width: '95vw' }}>
-                                        {collections.map((collection, index) => {
-                                            return (getCard(collection, 'collection'));
-                                        })}
-                                    </div>
-                                }
-                                {!collections || collections.length === 0 &&
-                                    <div style={{ width: '95vw' }}>
-                                        <img src={emptyCollectionsIcon} height={150} />
-                                        <div>هنوز هیچ اثری را جمع‌آوری نکرده‌اید</div>
-                                    </div>
-                                }
+                                <div style={{ width: '95vw' }}>
+                                    {collections && collections.length > 0 &&
+                                        <div className="d-flex flex-wrap justify-content-center">
+                                            {collections.map((collection, index) => {
+                                                return (getCard(collection, 'collection'));
+                                            })}
+                                        </div>
+                                    }
+                                    {!collections || collections.length === 0 &&
+                                        <div>
+                                            <img src={emptyCollectionsIcon} height={150} />
+                                            <div>هنوز هیچ اثری را جمع‌آوری نکرده‌اید</div>
+                                        </div>
+                                    }
+                                </div>
                             </TabPanel>
                             <TabPanel value={tabValue} index={1}>
-                                {creations && creations.length > 0 &&
-                                    <div className="d-flex flex-wrap justify-content-center" style={{ width: '95vw' }}>
-                                        {creations.map((product, index) => {
-                                            return (getCard(product, 'product'));
-                                        })}
-                                    </div>
-                                }
-                                {!creations || creations.length === 0 &&
-                                    <div style={{ width: '95vw' }}>
-                                        <img src={emptyCreationsIcon} height={150} />
-                                        <div>هنوز هیچ اثری نساخته‌اید</div>
-                                    </div>
-                                }
+                                <div style={{ width: '95vw' }}>
+                                    {creations && creations.length > 0 &&
+                                        <div className="d-flex flex-wrap justify-content-center">
+                                            {creations.map((product, index) => {
+                                                return (getCard(product, 'product'));
+                                            })}
+                                        </div>
+                                    }
+                                    {!creations || creations.length === 0 &&
+                                        <div>
+                                            <img src={emptyCreationsIcon} height={150} />
+                                            <div>هنوز هیچ اثری نساخته‌اید</div>
+                                        </div>
+                                    }
+                                </div>
                             </TabPanel>
                             <TabPanel value={tabValue} index={2}>
-                                {favorites && favorites.length > 0 &&
-                                    <div className="d-flex flex-wrap justify-content-center" style={{ width: '95vw' }}>
-                                        {favorites.map((product, index) => {
-                                            return (getCard(product, 'product'));
-                                        })}
-                                    </div>
-                                }
-                                {!favorites || favorites.length === 0 &&
-                                    <div style={{ width: '95vw' }}>
-                                        <img src={emptyFavoritesIcon} height={150} />
-                                        <div>لیست علاقه‌مندی‌های شما خالی است</div>
-                                    </div>
-                                }
+                                <div style={{ width: '95vw' }}>
+                                    {favorites && favorites.length > 0 &&
+                                        <div className="d-flex flex-wrap justify-content-center">
+                                            {favorites.map((product, index) => {
+                                                return (getCard(product, 'product'));
+                                            })}
+                                        </div>
+                                    }
+                                    {!favorites || favorites.length === 0 &&
+                                        <div>
+                                            <img src={emptyFavoritesIcon} height={150} />
+                                            <div>لیست علاقه‌مندی‌های شما خالی است</div>
+                                        </div>
+                                    }
+                                </div>
                             </TabPanel>
                         </div>
                     </div>
