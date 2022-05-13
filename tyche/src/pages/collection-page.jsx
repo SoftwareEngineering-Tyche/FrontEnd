@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../assets/styles/collection.scss";
-import { Button, Divider, Link, Grid, ButtonGroup, Accordion, AccordionSummary, AccordionDetails, TextField, InputLabel, MenuItem, FormHelperText, FormControl, Select, InputAdornment } from "@mui/material";
+import { Button, Divider, Grid, ButtonGroup, Accordion, AccordionSummary, AccordionDetails, TextField, InputLabel, MenuItem, FormHelperText, FormControl, Select, InputAdornment } from "@mui/material";
 import imageSample from "../assets/images/image.png";
 import collectionBanner from "../assets/images/collection-banner.jpg";
 import 'bootstrap/dist/css/bootstrap.css';
@@ -8,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { styled } from '@mui/material/styles';
 import { callAPI } from "../components/api-call";
 import { hostUrl } from "../host-url";
+import { Card, CardActionArea, CardContent, CardMedia, Link } from '@mui/material';
 
 const Input = styled('input')({
     display: 'none',
@@ -21,7 +22,7 @@ function CollectionPage(props) {
     const [name, setName] = useState();
     const [description, setDescription] = useState();
     const [category, setCategory] = useState();
-    const [workArts, setWorkArts] = useState();
+    const [products, setProducts] = useState();
     const [onSubmit, setOnSubmit] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
 
@@ -51,6 +52,11 @@ function CollectionPage(props) {
                     }
                 });
             }).catch((err) => { console.log(err); })
+        }
+        if (window.location.pathname.split('/')[2] !== "create") {
+            callAPI({ method: "GET", url: `${hostUrl}/WorkArtCollections/${window.location.pathname.split('/')[2]}` }).then(response => {
+                setProducts(response.payload);
+            });
         }
     }, []);
 
@@ -90,6 +96,25 @@ function CollectionPage(props) {
             }).catch((err) => { console.log(err); })
         }
     }
+    function getCard(item, mode) {
+        return (
+            <Card sx={{ height: 220, borderRadius: '16px', overflow: 'unset', margin: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Link underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
+                    <CardActionArea sx={{ width: '180px' }}>
+                        <div style={{ height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '0px', margin: '0px' }}>
+                                {mode === 'product' ? <img src={hostUrl + item.image} width={150} /> : <img src={hostUrl + item.logoimage} width={150} />}
+                            </CardMedia>
+                        </div>
+                        <CardContent sx={{ padding: '6px 16px' }}>
+                            <div style={{ color: '#2F3A8F', display: 'flex', justifyContent: 'center' }}>{item.Name}</div>
+                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small' }}>{item.Description}</div>
+                        </CardContent>
+                    </CardActionArea>
+                </Link>
+            </Card>
+        );
+    }
     const handleCancel = () => {
         //setIsEditMode(false);
     }
@@ -116,9 +141,9 @@ function CollectionPage(props) {
                     {(category) ? category : 'نامشخص'}
                 </div>
             </div>
-            <div className="contents">
+            <div className="mb-4">
                 {(props.mode === "create" || isEditMode) ?
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} className="contents">
                         <Grid item xs={12}>
                             <label htmlFor="logo-img">
                                 <Input accept="image/*" id="logo-img" type="file" onChange={onLogoChange} />
@@ -168,8 +193,19 @@ function CollectionPage(props) {
                         </div>
                     </Grid>
                     :
-                    <Grid container spacing={2} className="mt-1" justifyContent="center">
-                        آثار موجود در این کلکسیون
+                    <Grid container className="mt-1" justifyContent="center">
+                        {products && products.length > 0 &&
+                            <div className="d-flex flex-wrap justify-content-center">
+                                {products.map((product, index) => {
+                                    return (getCard(product, 'product'));
+                                })}
+                            </div>
+                        }
+                        {!products || products.length === 0 &&
+                            <div className="d-flex flex-wrap justify-content-center">
+                                هنوز اثری در این کلکسیون ثبت نشده است
+                            </div>
+                        }
                     </Grid>
                 }
             </div>

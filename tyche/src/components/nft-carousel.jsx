@@ -1,53 +1,56 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "../assets/styles/top-categories.scss";
 import Button from '@mui/material/Button';
 import Flickity from 'react-flickity-component';
 import imageSample from "../assets/images/image.png";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Link } from '@mui/material';
+import { callAPI } from "../components/api-call";
+import { hostUrl } from "../host-url";
 
-function NftCarousel (props) {
+function NftCarousel(props) {
     const flickityRef = useRef();
+    const [collection, setCollection] = useState();
     function handleGotoNextSlide() {
         flickityRef.current.next();
     }
     function handleGotoPrevSlide() {
         flickityRef.current.previous();
     }
-    function getCards() {
+    function getCard(product) {
         return (
-            <Card sx={{ height:220, borderRadius:'16px', overflow:'unset', margin:'3px', display:'flex', justifyContent:'center', alignItems:'center' }}>
-                <CardActionArea sx={{width:'200px'}}>
-                    <CardMedia sx={{display:'flex', justifyContent:'center', padding:'0px', margin:'0px'}}><img src={imageSample} height={150} width={150}/></CardMedia>
-                    <CardContent sx={{padding:'6px 16px'}}>
-                        <div style={{color:'#2F3A8F'}}>نام اثر</div>
-                        <div style={{color:'#CDBDFF', fontSize:'small'}}>توضیحات اثر</div>
-                    </CardContent>
-                </CardActionArea>
+            <Card sx={{ height: 220, borderRadius: '16px', overflow: 'unset', margin: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Link href={`/product/${product.id}`} underline="none">
+                    <CardActionArea sx={{ width: '200px' }}>
+                        <div style={{ height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '0px', margin: '0px' }}><img src={hostUrl + product.image} width={150} /></CardMedia>
+                        </div>
+                        <CardContent sx={{ padding: '6px 16px' }}>
+                            <div style={{ color: '#2F3A8F', display: 'flex', justifyContent: 'center' }}>{product.Name}</div>
+                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small' }}>{product.Description}</div>
+                        </CardContent>
+                    </CardActionArea>
+                </Link>
             </Card>
         );
     }
+    useEffect(() => {
+        if (props.product) {
+            callAPI({ method: "GET", url: `${hostUrl}/WorkArtCollection/${props.product}` }).then(response => {
+                setCollection(response.payload);
+            });
+        }
+    }, []);
     return (
         <div className="top-categories">
             <span className="title">{props.title}</span>
-            <div className="categories-container">
-                <Flickity options={flickityOptions} flickityRef={ref => flickityRef.current = ref}>
-                    {getCards()}
-                    {getCards()}
-                    {getCards()}
-                    {getCards()}
-                    {getCards()}
-                    {getCards()}
-                    {getCards()}
-                </Flickity>
-                <div className="buttons">
-                    <Button classes={{root:'btn'}} onClick={handleGotoPrevSlide}><ArrowForwardIosRoundedIcon/></Button>
-                    <Button classes={{root:'btn'}} onClick={handleGotoNextSlide}><ArrowBackIosRoundedIcon/></Button>
-                </div>
+            <div className="categories-container d-flex">
+                {collection &&
+                    collection.map((product, index) => {
+                        return (getCard(product));
+                    })
+                }
             </div>
         </div>
     );
@@ -60,7 +63,7 @@ const flickityOptions = {
     contain: true,
     groupCells: window.innerWidth < 768 ? 2 : 5,
     freeScroll: false,
-    cellAlign: 'center',
+    cellAlign: 'right',
     wrapAround: true
 };
 export default NftCarousel;

@@ -3,6 +3,7 @@ import axios from "axios";
 export const callAPI = async (request) => {
     try {
         console.log("PROCESS\n", process)
+        console.log(request);
         const response = await axios({
             url: request.url,
             mode: 'no-cors',
