@@ -1,4 +1,4 @@
-import {render} from "@testing-library/react"
+import {render, screen} from "@testing-library/react"
 import Explore from "./explore";
 
 
@@ -6,5 +6,5 @@ import Explore from "./explore";
 test('intial exp;ore', () => {
  render (<Explore/>);
 
-    screen.debug();
+    screen.getAllByPlaceholderText();
 });
