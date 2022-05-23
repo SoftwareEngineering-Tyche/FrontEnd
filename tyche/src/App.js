@@ -65,8 +65,4 @@ function App() {
   );
 }
 
-export default connect(
-  null,
-  dispatch => ({
-    login: userData => dispatch(login(userData)),
-  }))(App);
+export default App;

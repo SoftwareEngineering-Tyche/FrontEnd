@@ -340,8 +340,4 @@ function ProfilePage(props) {
         </div>
     );
 }
-export default connect(
-    null,
-    dispatch => ({
-        login: userData => dispatch(login(userData)),
-    }))(ProfilePage);
+export default ProfilePage;
