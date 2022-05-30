@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../assets/styles/product-page.scss";
-import { Button, Divider, Link, Grid, ButtonGroup, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Button, Divider, Link, Grid, ButtonGroup, Accordion, AccordionSummary, AccordionDetails, Modal, Box, TextField } from "@mui/material";
 import imageSample from "../assets/images/image.png";
 import 'bootstrap/dist/css/bootstrap.css';
 import ShareRoundedIcon from '@mui/icons-material/ShareRounded';
@@ -17,7 +17,21 @@ import LinkIcon from '@mui/icons-material/Link';
 import NftCarousel from "../components/nft-carousel";
 import { callAPI } from "../components/api-call";
 import { hostUrl } from "../host-url";
+import { ethers } from "ethers";
+import Web3 from 'web3';
 
+const web3 = new Web3(window.ethereum);
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: window.innerWidth > 768 ? '35%' : '95%',
+    bgcolor: 'background.paper',
+    borderRadius: '12px',
+    boxShadow: 24,
+    p: 4,
+};
 function ProductPage() {
     const [name, setName] = useState("نامشخص");
     const [likeCount, setLikeCount] = useState(0);
@@ -29,8 +43,16 @@ function ProductPage() {
     const [collection, setCollection] = useState();
     const [properties, setProperties] = useState([]);
     const [statistics, setStatistics] = useState([]);
+    const [isOpenOfferModal, setIsOpenOfferModal] = useState(false);
+    const [balance, setBalance] = useState();
+    const [offerPrice, setOfferPrice] = useState();
 
     useEffect(() => {
+        if (window.ethereum !== undefined) {
+            window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+                web3.eth.getBalance(accounts[0]).then(res => setBalance(ethers.utils.formatEther(res)));
+            })
+        }
         callAPI({ method: "GET", url: `${hostUrl}/WorkArt/${window.location.pathname.split('/')[2]}` }).then(response => {
             console.log("response.status", response.status);
             if (response.payload.Name !== 'null') setName(response.payload.Name);
@@ -61,6 +83,19 @@ function ProductPage() {
                 text: window.location.href,
             }).then(() => console.log('Successful share')).catch(() => console.log('Error sharing'));
         }
+    }
+
+    const handleOpenOfferModal = () => {
+        if (window.ethereum !== undefined) {
+            window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+                web3.eth.getBalance(accounts[0]).then(res => setBalance(ethers.utils.formatEther(res)));
+            })
+        }
+        setIsOpenOfferModal(true);
+    }
+
+    function round(value, decimals) {
+        return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
     }
 
     return (
@@ -101,11 +136,33 @@ function ProductPage() {
                                 <Button variant="contained" classes={{ root: 'action buy' }}>
                                     خرید آنی
                                 </Button>
-                                <Button variant="outlined" classes={{ root: 'action offer' }}>
+                                <Button variant="outlined" classes={{ root: 'action offer' }} onClick={handleOpenOfferModal}>
                                     پیشنهاد قیمت
                                 </Button>
                             </Grid>
                         </Grid>
+                        <Modal open={isOpenOfferModal} onClose={() => setIsOpenOfferModal(false)}>
+                            {balance && <Box sx={modalStyle} className="property-modal">
+                                <div className="d-flex justify-content-center">پیشنهاد قیمت خود را برای این محصول ثبت کنید</div>
+                                <Divider className="my-2"/>
+                                <div className="d-flex justify-content-between">
+                                    <div>موجودی کیف پول شما :</div>
+                                    <div className="d-flex  mb-4">
+                                        <span className="text-secondary">ETH</span>&nbsp;
+                                        <span className="text-secondary">{round(balance, 4)}</span>
+                                    </div>
+                                </div>
+                                <TextField
+                                    fullWidth
+                                    label="پیشنهاد شما"
+                                    value={offerPrice}
+                                    onChange={e => setOfferPrice(e.target.value)}
+                                />
+                                <div className="d-flex flex-row-reverse mt-3">
+                                    <Button variant="outlined">ثبت پیشنهاد</Button>
+                                </div>
+                            </Box>}
+                        </Modal>
                     </div>
                     <div className="my-2">
                         <Accordion classes={{ root: 'accordion' }} defaultExpanded>
