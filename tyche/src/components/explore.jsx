@@ -6,56 +6,63 @@ import { callAPI } from "../components/api-call";
 import { margin, textAlign } from '@mui/system';
 import { Input, Button, TextField } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Explore = () => {
 
     const [tab, setTab] = useState('all');
     const [min, setMin] = useState(null);
     const [max, setMax] = useState(null);
-    const [Resault, setResault] = useState([]);
-    const [Sortcollection, setSortcollection] = useState([]);
-    const [Sortnftprice, setSortnftprice] = useState([]);
-    const [Filterresualt, setFilterresualt] = useState([]);
+    const [resault, setResault] = useState([]);
+    const [sortcollection, setSortcollection] = useState([]);
+    const [sortNftPrice, setSortnftprice] = useState([]);
+    const [filterResualt, setFilterResualt] = useState([]);
+    const [nftShow, setNftShow] = useState(false);
+    
+
 
     useEffect(() => {
         const data = new FormData();
         data.append("hotest", "true");
         data.append("favorites", "true");
         data.append("latest", "true");
-        callAPI({ method: 'POST', url: `hostUrl/explore`, data: data }).then(response => {
+        callAPI({ method: 'POST', url: `https://api.ludushub.io/explore`, data: data }).then(response => {
             setResault(response.payload);
         });
     }, []);
-   const useEffectSortCollection=() => {
+   useEffect(() => {
         const data = new FormData();
         data.append("params", "liked");
         data.append("kind", "ascending");
-        callAPI({ method: 'POST', url: `hostUrl/sortCollection`, data: data }).then(response => {
+        callAPI({ method: 'POST', url: `https://api.ludushub.io/sortCollection`, data: data }).then(response => {
             setSortcollection(response.payload);
         });
-    };
-   const useEffectSortNFT=() => {
+    },[]);
+   useEffect(() => {
         const data = new FormData();
         data.append("params", "price");
         data.append("kind", "descending");
-        callAPI({ method: 'POST', url: `hostUrl/sortNFT`, data: data }).then(response => {
+        callAPI({ method: 'POST', url: `https://api.ludushub.io/sortNFT`, data: data }).then(response => {
             setSortnftprice(response.payload);
         });
-    };
+    },[]);
     const FindNFT=()=>{
         if (min < max)
-        {const data = new FormData();
-            data.append("hotest", "true");
-            data.append("favorites", "true");
-            data.append("latest", "true");
-            callAPI({ method: 'POST', url: `hostUrl/`, data: data }).then(response => {
-                setFilterresualt(response.payload);
+        {
+            setNftShow(true);
+            const data = new FormData();
+            data.append("price_l", min);
+            data.append("price_h", max);
+            data.append("blockchain", "Ether");
+            callAPI({ method: 'POST', url: `https://api.ludushub.io/filterNFT`, data: data }).then(response => {
+                setFilterResualt(response.payload);
             });}
     }
 
     const handleChange = (event, newValue) => {
         setTab(newValue);
     }
+    
     return (
         <div>
             <aside className='browse-sidebar'>
@@ -96,7 +103,7 @@ const Explore = () => {
                     </div>
                 </div>
             </aside>
-        <main className='mainbody'>
+        {!nftShow && <main className='mainbody'>
         <Container maxWidth="xl">
             <div className="explore-container">
                 <h3 className="explore-title">مجموعه ات را پیدا کن</h3>
@@ -104,12 +111,12 @@ const Explore = () => {
                     <Tabs value={tab} onChange={handleChange}>
                         <Tab label="همه" value="all" />
                         <Tab label="پر طرفدار ها" value="favorites" />
-                        <Tab label="جذاب‌ترین‌ها" value="hotest" />
-                        <Tab label="آخرین‌ها" value="latest" />
+                        {/* <Tab label="جذاب‌ترین‌ها" value="hotest" />
+                        <Tab label="آخرین‌ها" value="latest" /> */}
                     </Tabs>
-                    {Resault.data && tab === 'all' && (
+                    {resault.data && tab === 'all' && (
                         <Grid container spacing={2}>
-                            {Resault.data.hotest[0].map((item, index) => {
+                            {resault.data.hotest[0].map((item, index) => {
                                 return (
                                     <Grid item md={2.4} xs={4}>
                                         <Link to={`/collection/${item.id}`} className="nft-collection-parent">
@@ -123,7 +130,7 @@ const Explore = () => {
                                     </Grid>
                                 );
                             })}
-                            {Resault.data.favorites[0].map((item, index) => {
+                            {resault.data.favorites[0].map((item, index) => {
                                 return (
                                     <Grid item md={2.4} xs={4}>
                                         <Link to={`/collection/${item.id}`} className="nft-collection-parent">
@@ -137,7 +144,7 @@ const Explore = () => {
                                     </Grid>
                                 );
                             })}
-                            {Resault.data.latest[0].map((item, index) => {
+                            {resault.data.latest[0].map((item, index) => {
                                 return (
                                     <Grid item md={2.4} xs={4}>
                                         <Link to={`/collection/${item.id}`} className="nft-collection-parent">
@@ -153,9 +160,9 @@ const Explore = () => {
                             })}
                         </Grid>
                     )}
-                    {Resault.data && tab === 'hotest' && (
+                    {resault.data && tab === 'hotest' && (
                         <Grid container spacing={2}>
-                            {Resault.data.hotest[0].map((item, index) => {
+                            {resault.data.hotest[0].map((item, index) => {
                                 return (
                                     <Grid item md={2.4} xs={4}>
                                         <Link to={`/collection/${item.id}`} className="nft-collection-parent">
@@ -171,9 +178,9 @@ const Explore = () => {
                             })}
                         </Grid>
                     )}
-                    {Sortcollection.data && tab === 'favorites' && (
+                    {sortcollection.data && tab === 'favorites' && (
                         <Grid container spacing={2}>
-                            {Sortcollection.data.favorites[0].map((item, index) => {
+                            {sortcollection.data.map((item, index) => {
                                 return (
                                     <Grid item md={2.4} xs={4}>
                                         <Link to={`/collection/${item.id}`} className="nft-collection-parent">
@@ -189,9 +196,9 @@ const Explore = () => {
                             })}
                         </Grid>
                     )}
-                    {Resault.data && tab === 'latest' && (
+                    {resault.data && tab === 'latest' && (
                         <Grid container spacing={2}>
-                            {Resault.data.latest[0].map((item, index) => {
+                            {resault.data.latest[0].map((item, index) => {
                                 return (
                                     <Grid item md={2.4} xs={4}>
                                         <Link to={`/collection/${item.id}`} className="nft-collection-parent">
@@ -210,7 +217,93 @@ const Explore = () => {
                 </div>
             </div>
         </Container>
-        </main>
+        </main>}
+        {nftShow && <main className='mainbody'>
+            <Container>
+            <div className="explore-container">
+            <h3 className="explore-title">NFT ها بر اساس فیلتر انتخابی</h3>
+             <Grid container spacing={2}>
+                        <Grid item md={2.4} xs={4}>
+                            <Link to={`/product/1`} className="nft-collection-parent">
+                                <Card>
+                                    <img src={'/img/nft-sample.png'} className="header-image"/>
+                                    <img src={'/img/collection-profile.png'} className="profile-image" />
+                                    <h5>NFT Name</h5>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
+                                    <h4 className='price-number'>price number $</h4>
+                                </Card>
+                            </Link>
+                        </Grid>
+                        <Grid item md={2.4} xs={4}>
+                            <Link to={`/product/1`} className="nft-collection-parent">
+                                <Card>
+                                    <img src={'/img/nft-sample.png'} className="header-image"/>
+                                    <img src={'/img/collection-profile.png'} className="profile-image" />
+                                    <h5>NFT Name</h5>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
+                                    <h4 className='price-number'>price number $</h4>
+                                </Card>
+                            </Link>
+                        </Grid>
+                        <Grid item md={2.4} xs={4}>
+                            <Link to={`/product/1`} className="nft-collection-parent">
+                                <Card>
+                                    <img src={'/img/nft-sample.png'} className="header-image"/>
+                                    <img src={'/img/collection-profile.png'} className="profile-image" />
+                                    <h5>NFT Name</h5>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
+                                    <h4 className='price-number'>price number $</h4>
+                                </Card>
+                            </Link>
+                        </Grid>
+                        <Grid item md={2.4} xs={4}>
+                            <Link to={`/product/1`} className="nft-collection-parent">
+                                <Card>
+                                    <img src={'/img/nft-sample.png'} className="header-image"/>
+                                    <img src={'/img/collection-profile.png'} className="profile-image" />
+                                    <h5>NFT Name</h5>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
+                                    <h4 className='price-number'>price number $</h4>
+                                </Card>
+                            </Link>
+                        </Grid>
+                        <Grid item md={2.4} xs={4}>
+                            <Link to={`/product/1`} className="nft-collection-parent">
+                                <Card>
+                                    <img src={'/img/nft-sample.png'} className="header-image"/>
+                                    <img src={'/img/collection-profile.png'} className="profile-image" />
+                                    <h5>NFT Name</h5>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
+                                    <h4 className='price-number'>price number $</h4>
+                                </Card>
+                            </Link>
+                        </Grid>
+                        <Grid item md={2.4} xs={4}>
+                            <Link to={`/product/1`} className="nft-collection-parent">
+                                <Card>
+                                    <img src={'/img/nft-sample.png'} className="header-image"/>
+                                    <img src={'/img/collection-profile.png'} className="profile-image" />
+                                    <h5>NFT Name</h5>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
+                                    <h4 className='price-number'>price number $</h4>
+                                </Card>
+                            </Link>
+                        </Grid>
+                        <Grid item md={2.4} xs={4}>
+                            <Link to={`/product/1`} className="nft-collection-parent">
+                                <Card>
+                                    <img src={'/img/nft-sample.png'} className="header-image"/>
+                                    <img src={'/img/collection-profile.png'} className="profile-image" />
+                                    <h5>NFT Name</h5>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
+                                    <h4 className='price-number'>price number $</h4>
+                                </Card>
+                            </Link>
+                        </Grid>
+            </Grid>
+            </div>
+            </Container>
+        </main>}
         </div>
     );
 }

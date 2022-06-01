@@ -188,6 +188,17 @@
     background-color: #2F3A8F !important;
                     color: white !important;
                     border-radius: 16px !important;
-                    width: 15vw !important;
+                    width: 98% !important;
                     font-weight: bold !important;
+}
+.back-icon{
+    margin-right: 99%;
+    margin-bottom: 1%;
+}
+.price-number{
+    color: blue;
+    display: block;
+    text-align: center;
+    font-size: 0.8vw;
+    padding: 0 5%;
 }
