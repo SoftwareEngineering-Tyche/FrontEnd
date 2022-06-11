@@ -52,6 +52,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function Header() {
 
   const [state, setState] = React.useState({top: false, left: false, bottom: false, right: false,});
+  const [searchText, setSearchText] = React.useState(null);
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift'))
       return;
@@ -126,9 +127,13 @@ function Header() {
           <div style={{display:'flex', justifyContent:'center', width:'100%'}}>
             <Search>
               <SearchIconWrapper><SearchIcon sx={{padding:'0px'}}/></SearchIconWrapper>
+<<<<<<< HEAD
               <StyledInputBase  value={this.state.value}
                  onChange={e => this.onChangeHandler(e)} 
                  placeholder="جستجو... " inputProps={{ 'aria-label': 'search' }}/>
+=======
+              <StyledInputBase placeholder="جستجو... " inputProps={{ 'aria-label': 'search' }} value={searchText} onChange={(e) => setSearchText(e.target.value)}/>
+>>>>>>> 46a9c03fe39f050309ca6f0c9370f85d96f17dde
             </Search>
           </div>
           <Box sx={{ flexGrow: 1 }} />
