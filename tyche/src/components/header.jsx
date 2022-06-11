@@ -126,7 +126,9 @@ function Header() {
           <div style={{display:'flex', justifyContent:'center', width:'100%'}}>
             <Search>
               <SearchIconWrapper><SearchIcon sx={{padding:'0px'}}/></SearchIconWrapper>
-              <StyledInputBase placeholder="جستجو... " inputProps={{ 'aria-label': 'search' }}/>
+              <StyledInputBase  value={this.state.value}
+                 onChange={e => this.onChangeHandler(e)} 
+                 placeholder="جستجو... " inputProps={{ 'aria-label': 'search' }}/>
             </Search>
           </div>
           <Box sx={{ flexGrow: 1 }} />
