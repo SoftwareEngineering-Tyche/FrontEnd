@@ -19,8 +19,20 @@ import { callAPI } from "../components/api-call";
 import { hostUrl } from "../host-url";
 import { ethers } from "ethers";
 import Web3 from 'web3';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const web3 = new Web3(window.ethereum);
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const modalStyle = {
     position: 'absolute',
     top: '50%',
@@ -46,11 +58,15 @@ function ProductPage() {
     const [isOpenOfferModal, setIsOpenOfferModal] = useState(false);
     const [balance, setBalance] = useState();
     const [offerPrice, setOfferPrice] = useState();
+    const [ethAccount, setEthAccount] = useState();
+    const [offers, setOffers] = useState();
+    const [offerErrorMessage, setOfferErrorMessage] = useState();
+    const [isSubmitOfferSucceeded, setIsSubmitOfferSucceeded] = useState(false);
 
     useEffect(() => {
         if (window.ethereum !== undefined) {
             window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
-                web3.eth.getBalance(accounts[0]).then(res => setBalance(ethers.utils.formatEther(res)));
+                setEthAccount(accounts[0]);
             })
         }
         callAPI({ method: "GET", url: `${hostUrl}/WorkArt/${window.location.pathname.split('/')[2]}` }).then(response => {
@@ -74,6 +90,10 @@ function ProductPage() {
         callAPI({ method: "GET", url: `${hostUrl}/WorkArtstatistic/${window.location.pathname.split('/')[2]}` }).then(response => {
             setStatistics(response.payload);
         });
+        callAPI({ method: "GET", url: `${hostUrl}/WorkArtOffer/${window.location.pathname.split('/')[2]}` }).then(response => {
+            setOffers(response.payload);
+            console.log(response.payload);
+        });
     }, []);
 
     const shareProduct = () => {
@@ -85,11 +105,15 @@ function ProductPage() {
         }
     }
 
-    const handleOpenOfferModal = () => {
-        if (window.ethereum !== undefined) {
-            window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
-                web3.eth.getBalance(accounts[0]).then(res => setBalance(ethers.utils.formatEther(res)));
-            })
+    async function handleOpenOfferModal() {
+        try {
+            const correctedAccount = web3.utils.toChecksumAddress(ethAccount);
+            const balanceInWei = await web3.eth.getBalance(correctedAccount);
+            setBalance(
+                Number(web3.utils.fromWei(balanceInWei, 'ether')).toFixed(5),
+            );
+        } catch (error) {
+            console.log(error.message);
         }
         setIsOpenOfferModal(true);
     }
@@ -98,8 +122,41 @@ function ProductPage() {
         return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
     }
 
+    const handleSubmitOffer = () => {
+        if (offerPrice > balance) {
+            setOfferErrorMessage("قیمت پیشنهادی از موجودی شما بیشتر می‌باشد!")
+        }
+        else {
+            const data = new FormData();
+            data.append("From", ethAccount);
+            data.append("Price", offerPrice);
+            callAPI({ method: "POST", url: `${hostUrl}/WorkArtOffer/${window.location.pathname.split('/')[2]}`, data: data });
+            setIsSubmitOfferSucceeded(true);
+            setIsOpenOfferModal(false);
+        }
+    }
+
+    const handleAcceptOffer = (offerID) => {
+        const data = new FormData();
+        data.append("status", "accepted");
+        data.append("workArtID", window.location.pathname.split('/')[2])
+        callAPI({ method: "POST", url: `${hostUrl}/worrkartofferaccept/${offerID}`, data: data });
+    }
+
+    const handleRejectOffer = (offerID) => {
+        const data = new FormData();
+        data.append("status", "rejected");
+        data.append("workArtID", window.location.pathname.split('/')[2])
+        callAPI({ method: "POST", url: `${hostUrl}/worrkartofferaccept/${offerID}`, data: data });
+    }
+
     return (
         <div className="product-page">
+            <Snackbar open={isSubmitOfferSucceeded} autoHideDuration={3000} onClose={() => setIsSubmitOfferSucceeded(false)}>
+                <Alert onClose={() => setIsSubmitOfferSucceeded(false)} severity="success" sx={{ width: '100%' }}>
+                    پیشنهاد شما با موفقیت ثبت شد!
+                </Alert>
+            </Snackbar>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <div className="product-preview">
@@ -142,9 +199,9 @@ function ProductPage() {
                             </Grid>
                         </Grid>
                         <Modal open={isOpenOfferModal} onClose={() => setIsOpenOfferModal(false)}>
-                            {balance && <Box sx={modalStyle} className="property-modal">
+                            {/*balance && */<Box sx={modalStyle} className="property-modal">
                                 <div className="d-flex justify-content-center">پیشنهاد قیمت خود را برای این محصول ثبت کنید</div>
-                                <Divider className="my-2"/>
+                                <Divider className="my-2" />
                                 <div className="d-flex justify-content-between">
                                     <div>موجودی کیف پول شما :</div>
                                     <div className="d-flex  mb-4">
@@ -158,8 +215,9 @@ function ProductPage() {
                                     value={offerPrice}
                                     onChange={e => setOfferPrice(e.target.value)}
                                 />
+                                {offerPrice > balance && <div className="text-danger mt-1">{offerErrorMessage}</div>}
                                 <div className="d-flex flex-row-reverse mt-3">
-                                    <Button variant="outlined">ثبت پیشنهاد</Button>
+                                    <Button variant="outlined" onClick={handleSubmitOffer}>ثبت پیشنهاد</Button>
                                 </div>
                             </Box>}
                         </Modal>
@@ -251,7 +309,53 @@ function ProductPage() {
                                 <span className="mx-2">پیشنهادهای قیمت</span>
                             </AccordionSummary>
                             <AccordionDetails classes={{ root: 'accordion-detail' }}>
-                                لیست پیشنهادها
+                                <TableContainer >
+                                    <Table aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="center">قیمت پیشنهادی (ETH)</TableCell>
+                                                <TableCell align="center">تاریخ</TableCell>
+                                                <TableCell align="center">شخص</TableCell>
+                                                <TableCell align="center">تعیین وضعیت</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {offers && offers.length > 0 && offers.map((offer) => (
+                                                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                    <TableCell align="center">
+                                                        <div className="">
+                                                            <span className="text-secondary">{offer.Price}</span>&nbsp;
+                                                        </div>
+                                                    </TableCell>
+                                                    {offer.Date &&
+                                                        <TableCell align="center">
+                                                            {(offer.Date.replace("T", " ")).replace("-", "/").replace("-", "/")}
+                                                        </TableCell>
+                                                    }
+                                                    <TableCell align="center">{offer.From?.slice(0, 5)}...{offer.From?.slice(-3)}</TableCell>
+                                                    <TableCell align="center">
+                                                        <div>
+                                                            {offer.status === "accepted" &&
+                                                                <span>قبول شده</span>
+                                                            }
+                                                            {offer.status === "rejected" &&
+                                                                <span>رد شده</span>
+                                                            }
+                                                            {offer.status === "Pending" && <ButtonGroup variant="outlined">
+                                                                <Button classes={{ root: 'action-btn' }} onClick={() => handleAcceptOffer(offer.id)}>
+                                                                    قبول
+                                                                </Button>
+                                                                <Button classes={{ root: 'action-btn' }} onClick={() => handleRejectOffer(offer.id)}>
+                                                                    رد
+                                                                </Button>
+                                                            </ButtonGroup>}
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                             </AccordionDetails>
                         </Accordion>
                     </div>
