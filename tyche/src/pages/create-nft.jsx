@@ -58,6 +58,7 @@ function CreateNft() {
     const [statisticsType, setStatisticsType] = useState([]);
     const [statistics, setStatistics] = useState([""]);
     const [product, setProduct] = useState();
+    const [ethAccount, setEthAccount] = useState();
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -70,6 +71,7 @@ function CreateNft() {
             window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
                 if (window.ethereum) {
                     window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+                        setEthAccount(accounts[0]);
                         callAPI({ method: "GET", url: `${hostUrl}/Accountcollection/${accounts[0]}` }).then(response => {
                             if (response.status === 200) {
                                 let names = [], ids = [];
@@ -155,6 +157,7 @@ function CreateNft() {
         data.append("Externallink", externalLink);
         data.append("Description", description);
         data.append("Price", price);
+        data.append("WalletInfo", ethAccount);
         callAPI({ method: "POST", url: `${hostUrl}/WorkArt/${collection}`, data: data }).then(response => {
             setProduct(response.payload);
         });

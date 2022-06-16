@@ -94,6 +94,9 @@ function ProductPage() {
             setOffers(response.payload);
             console.log(response.payload);
         });
+        callAPI({ method: "GET", url: `${hostUrl}/workartwalletinfo/${window.location.pathname.split('/')[2]}` }).then(response => {
+            alert(response.payload);
+        });
     }, []);
 
     const shareProduct = () => {
