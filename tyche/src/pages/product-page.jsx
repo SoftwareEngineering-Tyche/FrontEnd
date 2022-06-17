@@ -132,23 +132,12 @@ function ProductPage() {
     async function handleBuybtnClick(e) {
         e.preventDefault();
         setIsLoading(true);
-
         let appId = process.env.REACT_APP_APP_ID;
         let serverUrl = process.env.REACT_APP_SERVER_URL;
         Moralis.start({ serverUrl, appId });
-
         let productTokenId = localStorage.getItem(window.location.pathname.split('/')[2]);
-
         try {
-            alert('hooray!');
-            
             // const response = await contract.methods.transferFrom(contractAddress, "0xA66956d157def004840A47508fA6051B3B14f0ba", productTokenId);
-            // alert(response);
-            // console.log("response", response);
-            //const tokenId = response.events.Transfer.returnValues.tokenId;
-
-            alert(`owner: ${owner} , ethAccount: ${ethAccount}, price: ${price}`);
-
             window.ethereum.request({
                 method: 'eth_sendTransaction',
                 params: [
@@ -162,7 +151,6 @@ function ProductPage() {
 
         } catch (err) {
             console.log("Something went wrong!");
-            alert(err);
         }
         setIsLoading(false);
     }
