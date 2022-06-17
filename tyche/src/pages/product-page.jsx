@@ -187,6 +187,12 @@ function ProductPage() {
         callAPI({ method: "POST", url: `${hostUrl}/worrkartofferaccept/${offerID}`, data: data });
     }
 
+    const getAccountInfo = (acc) => {
+        callAPI({ method: "GET", url: `${hostUrl}/Account/${acc}` }).then(response => {
+            return response;
+        });
+    }
+
     return (
         <div className="product-page">
             <Snackbar open={isSubmitOfferSucceeded} autoHideDuration={3000} onClose={() => setIsSubmitOfferSucceeded(false)}>
@@ -369,7 +375,9 @@ function ProductPage() {
                                                             {(offer.Date.replace("T", " ")).replace("-", "/").replace("-", "/")}
                                                         </TableCell>
                                                     }
-                                                    <TableCell align="center">{offer.From?.slice(0, 5)}...{offer.From?.slice(-3)}</TableCell>
+                                                    <TableCell align="center">
+                                                        {offer.From?.slice(0, 5)}...{offer.From?.slice(-3)}
+                                                    </TableCell>
                                                     <TableCell align="center">
                                                         <div>
                                                             {offer.status === "accepted" &&
@@ -378,14 +386,20 @@ function ProductPage() {
                                                             {offer.status === "rejected" &&
                                                                 <span>رد شده</span>
                                                             }
-                                                            {offer.status === "Pending" && <ButtonGroup variant="outlined">
-                                                                <Button classes={{ root: 'action-btn' }} onClick={() => handleAcceptOffer(offer.id)}>
-                                                                    قبول
-                                                                </Button>
-                                                                <Button classes={{ root: 'action-btn' }} onClick={() => handleRejectOffer(offer.id)}>
-                                                                    رد
-                                                                </Button>
-                                                            </ButtonGroup>}
+                                                            {offer.status === "Pending" && <>
+                                                                {owner === ethAccount ?
+                                                                    <ButtonGroup variant="outlined">
+                                                                        <Button classes={{ root: 'action-btn' }} onClick={() => handleAcceptOffer(offer.id)}>
+                                                                            قبول
+                                                                        </Button>
+                                                                        <Button classes={{ root: 'action-btn' }} onClick={() => handleRejectOffer(offer.id)}>
+                                                                            رد
+                                                                        </Button>
+                                                                    </ButtonGroup>
+                                                                    :
+                                                                    <span>در حال بررسی</span>
+                                                                }
+                                                            </>}
                                                         </div>
                                                     </TableCell>
                                                 </TableRow>

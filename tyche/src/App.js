@@ -20,6 +20,7 @@ import CollectionPage from "./pages/collection-page";
 import { MoralisProvider } from "react-moralis";
 import Moralis from "moralis";
 import Explore from './components/explore';
+import SearchPage from "./pages/search-page";
 
 const cacheRtl = createCache({ key: "muirtl", stylisPlugins: [prefixer, rtlPlugin] });
 
@@ -55,6 +56,7 @@ function App() {
                 <Route path='/product/*' element={<ProductPage />} />
                 <Route path='/collection/create/*' element={<CollectionPage mode="create"/>}/>
                 <Route path='/collection/*' element={<CollectionPage mode="show"/>}/>
+                <Route path='/search/:text' element={<SearchPage/>}/>
               </Routes>
               <Footer/>
             </BrowserRouter>

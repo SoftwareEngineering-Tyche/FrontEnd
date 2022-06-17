@@ -104,17 +104,17 @@ function ProfilePage(props) {
     }
     function getCard(item, mode) {
         return (
-            <Card sx={{ height: 220, borderRadius: '16px', overflow: 'unset', margin: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Card sx={{ borderRadius: '16px', overflow: 'unset', margin: '4px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Link underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
-                    <CardActionArea sx={{ width: '180px' }}>
-                        <div style={{ height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '0px', margin: '0px' }}>
-                                {mode === 'product' ? <img src={hostUrl + item.image} width={150} height={150} /> : <img src={hostUrl + item.logoimage} width={150} height={150}/>}
+                    <CardActionArea sx={{ width: '220px', margin: '8px' }}>
+                        <div style={{ height: '70%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '4px', margin: '0px' }}>
+                                {mode === 'product' ? <img src={hostUrl + item.image} width={150} height={150} /> : <img src={hostUrl + item.logoimage} width={150} height={150} style={{ borderRadius: '50%' }} />}
                             </CardMedia>
                         </div>
-                        <CardContent sx={{ padding: '6px 16px' }}>
+                        <CardContent sx={{ padding: '8px 16px', height: '30%' }}>
                             <div style={{ color: '#2F3A8F', display: 'flex', justifyContent: 'center' }}>{item.Name}</div>
-                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small' }}>{item.Description}</div>
+                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small', textAlign:'center' }}>{item.Description}</div>
                         </CardContent>
                     </CardActionArea>
                 </Link>

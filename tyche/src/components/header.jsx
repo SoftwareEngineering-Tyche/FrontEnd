@@ -20,8 +20,10 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useHistory } from "react-router-dom";
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import { callAPI } from "../components/api-call";
+import { hostUrl } from "../host-url";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -51,7 +53,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function Header() {
 
-  const [state, setState] = React.useState({top: false, left: false, bottom: false, right: false,});
+  const [state, setState] = React.useState({ top: false, left: false, bottom: false, right: false, });
   const [searchText, setSearchText] = React.useState(null);
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift'))
@@ -60,54 +62,58 @@ function Header() {
   };
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  let navigate = useNavigate();
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
+  const handleSearchText = () => {
+    navigate(`/search/${searchText}`);
+  }
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
   const renderMobileMenu = (
     <Menu anchorEl={mobileMoreAnchorEl} keepMounted open={isMobileMenuOpen} onClose={handleMobileMenuClose}>
-      <div style={{minWidth:'100px'}}>
-        <div style={{display:'flex', justifyContent:'center'}}>ساخت</div>
-        <div style={{display:'flex', justifyContent:'center'}}>دسته‌بندی‌ها</div>
-        <div style={{display:'flex', justifyContent:'center'}}>درباره ما</div>
+      <div style={{ minWidth: '100px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>ساخت</div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>دسته‌بندی‌ها</div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>درباره ما</div>
       </div>
     </Menu>
   );
   const list = (anchor) => (
-    <Box sx={{ width: 250, direction:'ltr !important' }} onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
+    <Box sx={{ width: 250, direction: 'ltr !important' }} onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
       <List>
         <Link href='/profile' underline='none' color="inherit">
           <ListItem button>
-              <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><AccountCircle/></ListItemIcon>
-              <span>پروفایل</span>
+            <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><AccountCircle /></ListItemIcon>
+            <span>پروفایل</span>
           </ListItem>
         </Link>
         <ListItem button>
-          <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><AccountBalanceWalletIcon/></ListItemIcon>
+          <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><AccountBalanceWalletIcon /></ListItemIcon>
           <span>کیف پول</span>
         </ListItem>
         <Link href='/profile/favorites' underline='none' color="inherit">
           <ListItem button>
-            <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><StarIcon/></ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><StarIcon /></ListItemIcon>
             <span>علاقه‌مندی‌ها</span>
           </ListItem>
         </Link>
         <Link href='/profile/collections' underline='none' color="inherit">
           <ListItem button>
-            <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><ShoppingBasketIcon/></ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><ShoppingBasketIcon /></ListItemIcon>
             <span>دارایی‌های من</span>
           </ListItem>
         </Link>
         <Link href='/profile/creations' underline='none' color="inherit">
           <ListItem button>
-            <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><DashboardIcon/></ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><DashboardIcon /></ListItemIcon>
             <span>ساخته شده‌ها</span>
           </ListItem>
         </Link>
         <ListItem button>
-          <ListItemIcon sx={{minWidth:'unset', marginRight:'8px'}}><SettingsIcon/></ListItemIcon>
+          <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><SettingsIcon /></ListItemIcon>
           <span>تنظیمات</span>
         </ListItem>
       </List>
@@ -116,25 +122,35 @@ function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <SwipeableDrawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)} onOpen={toggleDrawer('left', true)} sx={{direction:'rtl'}}>
+        <SwipeableDrawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)} onOpen={toggleDrawer('left', true)} sx={{ direction: 'rtl' }}>
           {list('left')}
         </SwipeableDrawer>
-        <Toolbar sx={{backgroundColor:'#2F3A8F'}}>
+        <Toolbar sx={{ backgroundColor: '#2F3A8F' }}>
           <IconButton size="large" edge="start" color="inherit" aria-label="open drawer">
-            <MenuIcon onClick={toggleDrawer('left', true)}/>
+            <MenuIcon onClick={toggleDrawer('left', true)} />
           </IconButton>
-          <RouterLink to="/" style={{marginLeft: '12px',color: '#fff',textDecoration: 'none'}}>تایکی</RouterLink>
-          <div style={{display:'flex', justifyContent:'center', width:'100%'}}>
+          <RouterLink to="/" style={{ marginLeft: '12px', color: '#fff', textDecoration: 'none' }}>تایکی</RouterLink>
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <Search>
-              <SearchIconWrapper><SearchIcon sx={{padding:'0px'}}/></SearchIconWrapper>
-              <StyledInputBase placeholder="جستجو... " inputProps={{ 'aria-label': 'search' }} value={searchText} onChange={(e) => setSearchText(e.target.value)}/>
+              <SearchIconWrapper><SearchIcon sx={{ padding: '0px' }} /></SearchIconWrapper>
+              <StyledInputBase
+                placeholder="جستجو... "
+                inputProps={{ 'aria-label': 'search' }}
+                value={searchText}
+                onChange={e => setSearchText(e.target.value)}
+                onKeyPress={event => {
+                  if (event.key === 'Enter') {
+                    handleSearchText()
+                  }
+                }}
+              />
             </Search>
           </div>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <span style={{marginLeft:'10px', cursor:'pointer'}}>ساخت</span>
-            <span style={{marginLeft:'10px', cursor:'pointer'}}>دسته‌بندی‌ها</span>
-            <span style={{marginLeft:'10px', width:'58px', cursor:'pointer'}}>درباره ما</span>
+            <span style={{ marginLeft: '10px', cursor: 'pointer' }}>ساخت</span>
+            <span style={{ marginLeft: '10px', cursor: 'pointer' }}>دسته‌بندی‌ها</span>
+            <span style={{ marginLeft: '10px', width: '58px', cursor: 'pointer' }}>درباره ما</span>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton size="large" aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
