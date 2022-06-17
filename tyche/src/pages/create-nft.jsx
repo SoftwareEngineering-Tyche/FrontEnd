@@ -188,12 +188,14 @@ function CreateNft() {
             // interact with smart contract
             const contract = new web3.eth.Contract(contractABI, contractAddress);
             const response = await contract.methods
-                .mint(metadataurl)
+                .createToken(metadataurl)
                 .send({ from: user.get("ethAddress") });
             const tokenId = response.events.Transfer.returnValues.tokenId;
 
             setIsCreated(true);
             setTokenId(tokenId);
+            if (product && tokenId)
+                localStorage.setItem(product.id, tokenId);
             console.log(`NFT successfully minted. Contract address - ${contractAddress} and Token ID - ${tokenId}`);
 
         } catch (err) {

@@ -28,8 +28,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { useMoralis, MoralisProvider } from "react-moralis";
+import Moralis from "moralis";
+import { contractABI, contractAddress } from "../contract";
 
 const web3 = new Web3(window.ethereum);
+const contract = new web3.eth.Contract(contractABI, contractAddress);
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -62,8 +66,12 @@ function ProductPage() {
     const [offers, setOffers] = useState();
     const [offerErrorMessage, setOfferErrorMessage] = useState();
     const [isSubmitOfferSucceeded, setIsSubmitOfferSucceeded] = useState(false);
+    const [isLoading, setIsLoading] = useState();
+    const [owner, setOwner] = useState();
 
-    useEffect(() => {
+    useEffect(async () => {
+        const owner = await contract.methods.ownerOf(2);
+        console.log("owner", owner)
         if (window.ethereum !== undefined) {
             window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
                 setEthAccount(accounts[0]);
@@ -95,7 +103,7 @@ function ProductPage() {
             console.log(response.payload);
         });
         callAPI({ method: "GET", url: `${hostUrl}/workartwalletinfo/${window.location.pathname.split('/')[2]}` }).then(response => {
-            alert(response.payload);
+            setOwner(response.payload);
         });
     }, []);
 
@@ -119,6 +127,44 @@ function ProductPage() {
             console.log(error.message);
         }
         setIsOpenOfferModal(true);
+    }
+
+    async function handleBuybtnClick(e) {
+        e.preventDefault();
+        setIsLoading(true);
+
+        let appId = process.env.REACT_APP_APP_ID;
+        let serverUrl = process.env.REACT_APP_SERVER_URL;
+        Moralis.start({ serverUrl, appId });
+
+        let productTokenId = localStorage.getItem(window.location.pathname.split('/')[2]);
+
+        try {
+            alert('hooray!');
+            
+            // const response = await contract.methods.transferFrom(contractAddress, "0xA66956d157def004840A47508fA6051B3B14f0ba", productTokenId);
+            // alert(response);
+            // console.log("response", response);
+            //const tokenId = response.events.Transfer.returnValues.tokenId;
+
+            alert(`owner: ${owner} , ethAccount: ${ethAccount}, price: ${price}`);
+
+            window.ethereum.request({
+                method: 'eth_sendTransaction',
+                params: [
+                    {
+                        from: owner,
+                        to: ethAccount,
+                        value: parseInt(web3.utils.toWei(`${price}`, "ether")).toString(16),
+                    },
+                ],
+            }).then((txHash) => console.log(txHash)).catch((error) => console.log(error));
+
+        } catch (err) {
+            console.log("Something went wrong!");
+            alert(err);
+        }
+        setIsLoading(false);
     }
 
     function round(value, decimals) {
@@ -193,7 +239,7 @@ function ProductPage() {
                                 {/* <span className="mx-1 text-secondary">(${convert(price, 'ether', 'tether')})</span> */}
                             </Grid>
                             <Grid item xs={12} md={6} justifyContent="space-between" sx={{ display: 'flex' }}>
-                                <Button variant="contained" classes={{ root: 'action buy' }}>
+                                <Button variant="contained" classes={{ root: 'action buy' }} onClick={handleBuybtnClick}>
                                     خرید آنی
                                 </Button>
                                 <Button variant="outlined" classes={{ root: 'action offer' }} onClick={handleOpenOfferModal}>
