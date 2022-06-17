@@ -226,7 +226,7 @@ const Explore = () => {
                 {filterResualt.data.map((item, index) => {
                     return (
                         <Grid item md={2.4} xs={4}>
-                            <Link to={`/collection/${item.id}`} className="nft-collection-parent">
+                            <Link to={`/product/${item.id}`} className="nft-collection-parent">
                                 <Card>
                                     <img src={hostUrl + item.bannerimage} className="header-image"/>
                                     <img src={hostUrl + item.logoimage} className="profile-image"/>
