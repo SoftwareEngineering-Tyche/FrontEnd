@@ -222,84 +222,23 @@ const Explore = () => {
             <Container>
             <div className="explore-container">
             <h3 className="explore-title">NFT ها بر اساس فیلتر انتخابی</h3>
+            {filterResualt.data && <Grid container spacing={2}>
+                {filterResualt.data.map((item, index) => {
+                    return (
+                        <Grid item md={2.4} xs={4}>
+                            <Link to={`/product/${item.id}`} className="nft-collection-parent">
+                                <Card>
+                                    <img src={hostUrl + item.bannerimage} className="header-image"/>
+                                    <img src={hostUrl + item.logoimage} className="profile-image"/>
+                                    <h5>{item.Name}</h5>
+                                    <p>{item.Description}</p>
+                                </Card>
+                            </Link>
+                        </Grid>
+                    );
+                    })}
+                </Grid>}
              <Grid container spacing={2}>
-                        <Grid item md={2.4} xs={4}>
-                            <Link to={`/product/1`} className="nft-collection-parent">
-                                <Card>
-                                    <img src={'/img/nft-sample.png'} className="header-image"/>
-                                    <img src={'/img/collection-profile.png'} className="profile-image" />
-                                    <h5>NFT Name</h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
-                                    <h4 className='price-number'>price number $</h4>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item md={2.4} xs={4}>
-                            <Link to={`/product/1`} className="nft-collection-parent">
-                                <Card>
-                                    <img src={'/img/nft-sample.png'} className="header-image"/>
-                                    <img src={'/img/collection-profile.png'} className="profile-image" />
-                                    <h5>NFT Name</h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
-                                    <h4 className='price-number'>price number $</h4>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item md={2.4} xs={4}>
-                            <Link to={`/product/1`} className="nft-collection-parent">
-                                <Card>
-                                    <img src={'/img/nft-sample.png'} className="header-image"/>
-                                    <img src={'/img/collection-profile.png'} className="profile-image" />
-                                    <h5>NFT Name</h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
-                                    <h4 className='price-number'>price number $</h4>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item md={2.4} xs={4}>
-                            <Link to={`/product/1`} className="nft-collection-parent">
-                                <Card>
-                                    <img src={'/img/nft-sample.png'} className="header-image"/>
-                                    <img src={'/img/collection-profile.png'} className="profile-image" />
-                                    <h5>NFT Name</h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
-                                    <h4 className='price-number'>price number $</h4>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item md={2.4} xs={4}>
-                            <Link to={`/product/1`} className="nft-collection-parent">
-                                <Card>
-                                    <img src={'/img/nft-sample.png'} className="header-image"/>
-                                    <img src={'/img/collection-profile.png'} className="profile-image" />
-                                    <h5>NFT Name</h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
-                                    <h4 className='price-number'>price number $</h4>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item md={2.4} xs={4}>
-                            <Link to={`/product/1`} className="nft-collection-parent">
-                                <Card>
-                                    <img src={'/img/nft-sample.png'} className="header-image"/>
-                                    <img src={'/img/collection-profile.png'} className="profile-image" />
-                                    <h5>NFT Name</h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
-                                    <h4 className='price-number'>price number $</h4>
-                                </Card>
-                            </Link>
-                        </Grid>
-                        <Grid item md={2.4} xs={4}>
-                            <Link to={`/product/1`} className="nft-collection-parent">
-                                <Card>
-                                    <img src={'/img/nft-sample.png'} className="header-image"/>
-                                    <img src={'/img/collection-profile.png'} className="profile-image" />
-                                    <h5>NFT Name</h5>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, corrupti?</p>
-                                    <h4 className='price-number'>price number $</h4>
-                                </Card>
-                            </Link>
-                        </Grid>
             </Grid>
             </div>
             </Container>
