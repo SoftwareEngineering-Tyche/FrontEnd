@@ -5,10 +5,7 @@ import imageSample from "../assets/images/image.png";
 import 'bootstrap/dist/css/bootstrap.css';
 import { callAPI } from "../components/api-call";
 import { hostUrl } from "../host-url";
-import { ethers } from "ethers";
 import Web3 from 'web3';
-import Paper from '@mui/material/Paper';
-import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { useMoralis, MoralisProvider } from "react-moralis";
 import Moralis from "moralis";
@@ -26,7 +23,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 function SearchPage(props) {
     const [searchResults, setSearchResults] = useState();
     const [isLoading, setIsLoading] = useState(true);
-    const [isNotFound, setIsNotFound] = useState(false);
     const { text } = useParams();
     useEffect(() => {
         setIsLoading(true)
@@ -40,7 +36,10 @@ function SearchPage(props) {
     function getCard(item, mode) {
         return (
             <Card sx={{ borderRadius: '16px', overflow: 'unset', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Link underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
+                <Link
+                    underline="none"
+                    href={mode === 'product' ? `/product/${item.id}` : mode=== 'collection' ? `/collection/${item.id}` : `/user-profile/${item.WalletInfo}`}
+                >
                     <CardActionArea sx={{ width: '220px', margin: '8px' }}>
                         <div style={{ height: '70%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '4px', margin: '0px' }}>
@@ -57,7 +56,7 @@ function SearchPage(props) {
                         </CardContent>
                     </CardActionArea>
                 </Link>
-            </Card>
+            </Card >
         );
     }
     if (isLoading)
@@ -115,6 +114,7 @@ function SearchPage(props) {
                         }
                         {searchResults.data.NFTs && searchResults.data.NFTs.length === 0 &&
                             searchResults.data.collections && searchResults.data.collections.length === 0 &&
+                            searchResults.data.accounts && searchResults.data.accounts.length === 0 &&
                             <div className="not-found-section">
                                 <div>
                                     <img src={notFoundIcon} />

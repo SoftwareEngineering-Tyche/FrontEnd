@@ -19,6 +19,7 @@ import { callAPI } from "../components/api-call";
 import profileBackground from "../assets/images/profile-background.jpg";
 import { Card, CardActionArea, CardContent, CardMedia, Link } from '@mui/material';
 import { withStyles } from '@mui/styles';
+import { useParams } from 'react-router-dom';
 
 const web3 = new Web3(window.ethereum);
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -69,6 +70,7 @@ function ProfilePage(props) {
     const [onSubmit, setOnSubmit] = useState(false);
     const [emailhelper, setemailhelper] = useState("");
     const [userhelper, setuserhelper] = useState("");
+    const { id } = useParams();
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
@@ -114,13 +116,27 @@ function ProfilePage(props) {
                         </div>
                         <CardContent sx={{ padding: '8px 16px', height: '30%' }}>
                             <div style={{ color: '#2F3A8F', display: 'flex', justifyContent: 'center' }}>{item.Name}</div>
-                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small', textAlign:'center' }}>{item.Description}</div>
+                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small', textAlign: 'center' }}>{item.Description}</div>
                         </CardContent>
                     </CardActionArea>
                 </Link>
             </Card>
         );
     }
+    useEffect(() => {
+        if (window.ethereum !== undefined) {
+            if (id) {
+                setEthAddress(id);
+                //web3.eth.getBalance(id).then(res => setBalace(ethers.utils.formatEther(res)));
+            }
+            else {
+                window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
+                    setEthAddress(accounts[0]);
+                    web3.eth.getBalance(accounts[0]).then(res => setBalace(ethers.utils.formatEther(res)));
+                })
+            }
+        }
+    }, [id]);
     useEffect(() => {
         if (isUsernameValid)
             setuserhelper("");
@@ -184,12 +200,6 @@ function ProfilePage(props) {
             setOnSubmit(false);
         }
     }, [onSubmit]);
-    if (window.ethereum !== undefined) {
-        window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
-            setEthAddress(accounts[0]);
-            web3.eth.getBalance(accounts[0]).then(res => setBalace(ethers.utils.formatEther(res)));
-        })
-    }
 
     return (
         <div className="profile-page">
@@ -199,9 +209,9 @@ function ProfilePage(props) {
                     <div className={profilePic ? "profile-picture" : "profile-picture no-pic"}>
                         {!profilePic ? <img src={defaultProfilePicture} width="120" height="120" /> : <img id="profile" src={profilePic} width="120" height="120" />}
                     </div>
-                    <Button variant="outlined" color="inherit" size="small" classes={{ root: 'edit-btn' }} onClick={() => setIsEditMode(true)}>
+                    {!id && <Button variant="outlined" color="inherit" size="small" classes={{ root: 'edit-btn' }} onClick={() => setIsEditMode(true)}>
                         <EditIcon />
-                    </Button>
+                    </Button>}
                 </div>
                 <div className="name">
                     <span>{(username && username !== 'null') ? username : 'بدون نام کابری'}</span>
@@ -218,7 +228,7 @@ function ProfilePage(props) {
                         <Alert onClose={() => setPressCopy(false)} severity="success" sx={{ width: '100%' }}>آدرس اتریوم شما با موفقیت کپی شد</Alert>
                     </Snackbar>
                 </div>
-                <div className="additional-information"><div>موجودی کیف پول : {balance}</div></div>
+                {!id && <div className="additional-information"><div>موجودی کیف پول : {balance}</div></div>}
             </div>
             <div className="contents">
                 {!isEditMode ?
@@ -259,27 +269,31 @@ function ProfilePage(props) {
                                     {!creations || creations.length === 0 &&
                                         <div>
                                             <img src={emptyCreationsIcon} height={150} />
-                                            <div>هنوز هیچ اثری نساخته‌اید</div>
+                                            <div>هنوز هیچ اثری ساخته نشده</div>
                                         </div>
                                     }
                                 </div>
                             </TabPanel>
                             <TabPanel value={tabValue} index={2}>
-                                <div style={{ width: '95vw' }}>
-                                    {favorites && favorites.length > 0 &&
-                                        <div className="d-flex flex-wrap justify-content-center">
-                                            {favorites.map((product, index) => {
-                                                return (getCard(product, 'product'));
-                                            })}
-                                        </div>
-                                    }
-                                    {!favorites || favorites.length === 0 &&
-                                        <div>
-                                            <img src={emptyFavoritesIcon} height={150} />
-                                            <div>لیست علاقه‌مندی‌های شما خالی است</div>
-                                        </div>
-                                    }
-                                </div>
+                                {id ?
+                                    <div>این بخش از اطلاعات کاربر برای شما قابل مشاهده نیست</div>
+                                    :
+                                    <div style={{ width: '95vw' }}>
+                                        {favorites && favorites.length > 0 &&
+                                            <div className="d-flex flex-wrap justify-content-center">
+                                                {favorites.map((product, index) => {
+                                                    return (getCard(product, 'product'));
+                                                })}
+                                            </div>
+                                        }
+                                        {!favorites || favorites.length === 0 &&
+                                            <div>
+                                                <img src={emptyFavoritesIcon} height={150} />
+                                                <div>لیست علاقه‌مندی‌های شما خالی است</div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
                             </TabPanel>
                         </div>
                     </div>

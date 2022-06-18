@@ -51,6 +51,7 @@ function App() {
                 <Route path='/profile/creations' element={<ProfilePage value={1}/>} />
                 <Route path='/profile/favorites' element={<ProfilePage value={2}/>} />
                 <Route path='/profile' element={<ProfilePage value={0}/>} />
+                <Route path='/user-profile/:id' element={<ProfilePage value={0}/>} />
                 <Route path='/nft' element={<Nft />} />
                 <Route path='/explore' element={<Explore />} />
                 <Route path='/product/*' element={<ProductPage />} />
