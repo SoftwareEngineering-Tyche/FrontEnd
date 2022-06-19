@@ -108,7 +108,7 @@
     text-align: center;
     margin-top: 5%;
     font-weight: bold;
-    font-size: 1.7vw;
+    font-size: 25px;
     padding: 0 10%;
 }
 .nft-collection-parent .profile-image{
@@ -133,6 +133,7 @@
     padding: 0 10%;
     margin-bottom: 20%;
     font-size: 0.8vw;
+    height: 50px;
 }
 .nft-collection-parent,.nft-collection-parent a{
     text-decoration: none;
@@ -144,8 +145,6 @@
     padding-top: 5%;
     position: absolute;
     top: 70px;
-    width: 15vw;
-    margin-right: 2vw;
 }
 .filterbox_title{
     text-align: center;  
@@ -164,7 +163,6 @@
 }
 .mainbody{
     flex: 1 1;
-    margin-right: 15vw;
     margin-top: 5vh;
     min-height: 80vh;
     padding: 0 0 0 1.75rem;
@@ -191,6 +189,9 @@
                     width: 98% !important;
                     font-weight: bold !important;
 }
+.reset-find-btn{
+    background-color: crimson !important;
+}
 .back-icon{
     margin-right: 99%;
     margin-bottom: 1%;
@@ -201,4 +202,8 @@
     text-align: center;
     font-size: 0.8vw;
     padding: 0 5%;
+}
+#nftfilter-price{
+    font-size: 13px;
+    color: blue;
 }
