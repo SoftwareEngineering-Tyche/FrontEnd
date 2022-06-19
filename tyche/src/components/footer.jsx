@@ -8,7 +8,7 @@ import saleIcon from '../assets/images/sale.svg';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import imageSample from "../assets/images/image.png";
+import logo from "../assets/images/app-logo.png";
 import { Divider } from "@mui/material";
 import Link from '@mui/material/Link';
 
@@ -100,7 +100,7 @@ function Footer() {
             <div className="actions-container">
                 <div className="tyche-info">
                     <div className="title">
-                        <img src={imageSample} width={36} height={36} />
+                        <img src={logo} width={36} height={36} style={{borderRadius:'50%'}}/>
                         <span className="title-txt">تایکی</span>
                     </div>
                     <div className="sub-title">

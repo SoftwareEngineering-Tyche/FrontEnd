@@ -45,7 +45,7 @@ function SearchPage(props) {
                             <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '4px', margin: '0px' }}>
                                 {mode === 'product' && <img src={hostUrl + item.image} width={150} height={150} />}
                                 {mode === 'collection' && <img src={hostUrl + item.logoimage} width={150} height={150} style={{ borderRadius: '50%' }} />}
-                                {mode === 'account' && <img src={hostUrl + item.avatar} width={150} height={150} style={{ borderRadius: '50%' }} />}
+                                {mode === 'account' && <img src={item.avatar ? hostUrl + item.avatar : imageSample} width={150} height={150} style={{ borderRadius: '50%' }} />}
                             </CardMedia>
                         </div>
                         <CardContent sx={{ padding: '8px 16px', height: '30%' }}>
