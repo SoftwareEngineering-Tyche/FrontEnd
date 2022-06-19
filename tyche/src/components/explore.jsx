@@ -71,7 +71,7 @@ const Explore = () => {
     
     return (
         <div>
-        {!nftShow && <main className='mainbody'>
+        {!nftShow && <main className='mainbody' data-test='main-body'>
         <Container maxWidth="xl">
             <div className="explore-container">
                 <Grid container spacing={2}>
@@ -85,7 +85,7 @@ const Explore = () => {
                                 <label className='min-max-parent'>
                                         <div>
                                         
-                                            <TextField fullWidth type="number" label="حداقل" value={min} onChange={e=>setMin(e.target.value)} InputLabelProps={{ shrink:true }}
+                                            <TextField fullWidth type="number" data-test="min-input" label="حداقل" value={min} onChange={e=>setMin(e.target.value)} InputLabelProps={{ shrink:true }}
                                             InputProps={{
                                                 startAdornment: <InputAdornment position="start">ETH</InputAdornment>,
                                             }}
@@ -98,7 +98,7 @@ const Explore = () => {
                                 <label className='min-max-parent'>
                                         <div>
                                             
-                                            <TextField fullWidth type="number" label="حداکثر" value={max} onChange={e=>setMax(e.target.value)} InputLabelProps={{ shrink:true }} 
+                                            <TextField fullWidth type="number" data-test="max-input" label="حداکثر" value={max} min="0" onChange={e=>setMax(e.target.value)} InputLabelProps={{ shrink:true }} 
                                             InputProps={{
                                                 startAdornment: <InputAdornment position="start">ETH</InputAdornment>,
                                             }}
@@ -108,7 +108,7 @@ const Explore = () => {
                                 </label>
                                 </div>
                                 <div>
-                                <Button className="findbtn" onClick={FindNFT}>
+                                <Button className="findbtn" data-test="filter-button" onClick={FindNFT}>
                                         پیدا کن
                                     </Button>
                                 </div>
@@ -118,7 +118,7 @@ const Explore = () => {
                     <Grid xs={9}>
                         <h3 className="explore-title">مجموعه ات را پیدا کن</h3>
                         <div className="tab-container">
-                            <Tabs value={tab} onChange={handleChange}>
+                            <Tabs value={tab} data-test="explore-tabs" onChange={handleChange}>
                                 <Tab label="همه" value="all" />
                                 <Tab label="پر طرفدار ها" value="favorites" />
                                 {/* <Tab label="جذاب‌ترین‌ها" value="hotest" />
