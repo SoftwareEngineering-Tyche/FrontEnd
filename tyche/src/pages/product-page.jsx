@@ -382,13 +382,15 @@ function ProductPage() {
                                                             {(offer.Date.replace("T", " ")).replace("-", "/").replace("-", "/")}
                                                         </TableCell>
                                                     }
-                                                    <Link href={`/user-profile/${offer.From}`}>
-                                                        <TableCell align="center" onClick={() => handleGoToUserProfile(offer.From)}>
+
+                                                    <TableCell align="center" onClick={() => handleGoToUserProfile(offer.From)}>
+                                                        <Link href={`/user-profile/${offer.From}`}>
                                                             <Button variant="outlined">
                                                                 {offer.From?.slice(0, 5)}...{offer.From?.slice(-3)}
                                                             </Button>
-                                                        </TableCell>
-                                                    </Link>
+                                                        </Link>
+                                                    </TableCell>
+
                                                     <TableCell align="center">
                                                         <div>
                                                             {offer.status === "accepted" &&

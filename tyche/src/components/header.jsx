@@ -97,15 +97,6 @@ function Header() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const renderMobileMenu = (
-    <Menu anchorEl={mobileMoreAnchorEl} keepMounted open={isMobileMenuOpen} onClose={handleMobileMenuClose}>
-      <div style={{ minWidth: '100px' }}>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>ساخت</div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>دسته‌بندی‌ها</div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>درباره ما</div>
-      </div>
-    </Menu>
-  );
   const list = (anchor) => (
     <Box sx={{ width: 250, direction: 'ltr !important' }} onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
       <List>
@@ -219,14 +210,8 @@ function Header() {
             <span style={{ marginLeft: '10px', cursor: 'pointer' }}>دسته‌بندی‌ها</span>
             <span style={{ marginLeft: '10px', width: '58px', cursor: 'pointer' }}>درباره ما</span>
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton size="large" aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
-              <MoreIcon />
-            </IconButton>
-          </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
     </Box>
   );
 }
