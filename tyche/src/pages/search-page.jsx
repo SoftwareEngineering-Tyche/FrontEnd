@@ -73,7 +73,7 @@ function SearchPage(props) {
                         {searchResults.data.collections && searchResults.data.collections.length > 0 &&
                             <Grid item xs={12} md={12} className="section" justifyContent='center'>
                                 <div className="section-title">کلکسیون ها</div>
-                                <Grid container spacing={1}>
+                                <Grid container spacing={1} justifyContent='center'>
                                     {searchResults.data.collections.map((collection, index) => {
                                         return (
                                             <Grid item xs={6} sm={4} md={3} lg={2} className="">
@@ -87,7 +87,7 @@ function SearchPage(props) {
                         {searchResults.data.NFTs && searchResults.data.NFTs.length > 0 &&
                             <Grid item xs={12} md={12} className="section" justifyContent='center'>
                                 <div className="section-title">آثار</div>
-                                <Grid container spacing={1}>
+                                <Grid container spacing={1} justifyContent='center'>
                                     {searchResults.data.NFTs.map((product, index) => {
                                         return (
                                             <Grid item xs={6} sm={4} md={3} lg={2} className="">
@@ -101,7 +101,7 @@ function SearchPage(props) {
                         {searchResults.data.accounts && searchResults.data.accounts.length > 0 &&
                             <Grid item xs={12} md={12} className="section" justifyContent='center'>
                                 <div className="section-title">اشخاص</div>
-                                <Grid container spacing={1}>
+                                <Grid container spacing={1} justifyContent='center'>
                                     {searchResults.data.accounts.map((account, index) => {
                                         return (
                                             <Grid item xs={6} sm={4} md={3} lg={2} className="">

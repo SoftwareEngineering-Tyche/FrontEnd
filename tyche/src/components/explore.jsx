@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Grid, Tab, Tabs, Container, Card, Alert } from '@mui/material';
 import { hostUrl } from '../host-url';
 import { callAPI } from "../components/api-call";
-import { margin, textAlign } from '@mui/system';
 import { Input, Button, TextField } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -18,8 +17,6 @@ const Explore = () => {
     const [sortNftPrice, setSortnftprice] = useState([]);
     const [filterResualt, setFilterResualt] = useState([]);
     const [nftShow, setNftShow] = useState(false);
-
-
 
     useEffect(async () => {
         const data = new FormData();
@@ -243,26 +240,22 @@ const Explore = () => {
                                         <div>
                                             <label className='min-max-parent'>
                                                 <div>
-
                                                     <TextField fullWidth type="number" label="حداقل" value={min} onChange={e => setMin(e.target.value)} InputLabelProps={{ shrink: true }}
                                                         InputProps={{
                                                             startAdornment: <InputAdornment position="start">ETH</InputAdornment>,
                                                         }}
                                                     />
-
                                                 </div>
                                             </label>
                                         </div>
                                         <div>
                                             <label className='min-max-parent'>
                                                 <div>
-
                                                     <TextField fullWidth type="number" label="حداکثر" value={max} onChange={e => setMax(e.target.value)} InputLabelProps={{ shrink: true }}
                                                         InputProps={{
                                                             startAdornment: <InputAdornment position="start">ETH</InputAdornment>,
                                                         }}
                                                     />
-
                                                 </div>
                                             </label>
                                         </div>
@@ -279,26 +272,28 @@ const Explore = () => {
                             </Grid>
                             <Grid xs={9}>
                                 <h3 className="explore-title">NFT ها بر اساس فیلتر انتخابی</h3>
-                                {filterResualt.data && filterResualt.data.length > 0 ? <Grid container spacing={2}>
-                                    {filterResualt.data.map((item, index) => {
-                                        return (
-                                            <Grid item md={2.4} xs={4} key={index}>
-                                                <Link to={`/product/${item.id}`} className="nft-collection-parent">
-                                                    <Card>
-                                                        <img src={hostUrl + item.image} className="header-image" />
-                                                        <h5>{item.Name}</h5>
-                                                        <p>{item.Description}</p>
-                                                        <p id='nftfilter-price'>{item.Price}ETH</p>
-                                                    </Card>
-                                                </Link>
-                                            </Grid>
-                                        );
-                                    })}
-                                </Grid>
+                                {filterResualt.data && filterResualt.data.length > 0 ?
+                                    <Grid container spacing={2}>
+                                        {filterResualt.data.map((item, index) => {
+                                            return (
+                                                <Grid item md={2.4} xs={4} key={index}>
+                                                    <Link to={`/product/${item.id}`} className="nft-collection-parent">
+                                                        <Card>
+                                                            <img src={hostUrl + item.image} className="header-image" />
+                                                            <h5>{item.Name}</h5>
+                                                            <p>{item.Description}</p>
+                                                            <p id='nftfilter-price'>{item.Price}ETH</p>
+                                                        </Card>
+                                                    </Link>
+                                                </Grid>
+                                            );
+                                        })}
+                                    </Grid>
                                     :
                                     <Grid container spacing={2}>
                                         <Alert severity="info">بر اساس فیلتر مورد نظر NFT یافت نشد</Alert>
-                                    </Grid>}
+                                    </Grid>
+                                }
                             </Grid>
                         </Grid>
                     </div>
