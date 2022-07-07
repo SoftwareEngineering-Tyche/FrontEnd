@@ -1,20 +1,23 @@
 @import './sprite.css';
 
-.connect-wallet{
+.connect-wallet {
     display: table;
     margin: 40px auto 0;
     text-align: center;
     padding: 30px 16px;
 }
-.connect-wallet h3{
+
+.connect-wallet h3 {
     font-size: 22px;
     margin-bottom: 0 !important;
 }
-.connect-wallet p{
+
+.connect-wallet p {
     display: block;
     margin-bottom: 25px;
 }
-.wallet-list{
+
+.wallet-list {
     background: #fff;
     border: 1px solid rgb(191, 191, 191);
     border-radius: 10px;
@@ -24,10 +27,12 @@
     position: relative;
     transition: all ease-in-out 0.5s;
 }
-.wallet-list.open{
+
+.wallet-list.open {
     height: 753px;
 }
-.wallet-item{
+
+.wallet-item {
     position: relative;
     cursor: pointer;
     direction: ltr;
@@ -36,38 +41,47 @@
     border-bottom: 1px solid rgb(191, 191, 191);
     transition: all ease-in-out 0.3s;
 }
-.wallet-item.disable{
+
+.wallet-item.disable {
     opacity: 0.6;
     cursor: not-allowed;
 }
-.wallet-item.disable:hover{
+
+.wallet-item.disable:hover {
     box-shadow: unset;
 }
-.wallet-item:first-child{
+
+.wallet-item:first-child {
     border-radius: 10px 10px 0 0;
 }
-.wallet-item:last-child{
+
+.wallet-item:last-child {
     border-radius: 0 0 10px 10px;
 }
-.wallet-item:hover{
-    box-shadow: 0 0 5px rgba(0,0,0,0.4);
+
+.wallet-item:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
-.wallet-item:last-child{
+
+.wallet-item:last-child {
     border-bottom: unset;
 }
-.wallet-item i{
+
+.wallet-item i {
     position: relative;
     top: 6px;
     margin-right: 10px;
 }
-.wallet-tag{
+
+.wallet-tag {
     position: absolute;
     right: 15px;
     font-size: 13px;
     top: 20px;
     color: gray;
 }
-.wallet-list-handler{
+
+.wallet-list-handler {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -79,39 +93,59 @@
     font-size: 16px;
     transition: all ease-in-out 0.3s;
 }
-.wallet-list-handler:hover{
-    box-shadow: 0 0 5px rgba(0,0,0,0.4);
+
+.wallet-list-handler:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
-.explore-title{
+
+.explore-title {
     display: block;
     text-align: center;
     padding: 45px 0 25px;
 }
-.explore-container{
+
+.explore-container {
     margin-bottom: 40px;
+    padding: 0 0 0 46px;
 }
-.explore-container .MuiTabs-fixed{
+
+@media only screen and (max-width: 768px) {
+    .explore-container {
+        padding: 0 24px 0 8PX;
+    }
+}
+
+.explore-container .MuiTabs-fixed {
     text-align: center;
     margin-bottom: 30px !important;
 }
-.explore-container .MuiTabs-flexContainer{
+
+.explore-container .MuiTabs-flexContainer {
     display: inline-block !important;
     margin: 0 auto !important;
     text-align: center !important;
 }
-.nft-collection-parent .header-image{
+
+.nft-collection-parent .header-image {
     width: 100%;
-    height: 15vw;
+    height: 8vw;
 }
-.nft-collection-parent h5{
+@media only screen and (max-width: 768px) {
+    .nft-collection-parent .header-image{
+        width: 100%;
+        height: 28vw;
+    }
+}
+
+.nft-collection-parent h5 {
     display: block;
     text-align: center;
     margin-top: 5%;
     font-weight: bold;
     font-size: 25px;
-    padding: 0 10%;
 }
-.nft-collection-parent .profile-image{
+
+.nft-collection-parent .profile-image {
     width: 7vw;
     height: 7vw;
     border-radius: 50%;
@@ -119,25 +153,27 @@
     position: relative;
     right: 50%;
     transform: translateX(50%);
-    margin-top: -3.5vw;   
+    margin-top: -3.5vw;
 }
-.nft-collection-parent span{
+
+.nft-collection-parent span {
     display: block;
     text-align: center;
     font-size: 1.1vw;
-    margin-bottom: 2.5%;
-    margin-top: 3%;
 }
-.nft-collection-parent p{
+
+.nft-collection-parent p {
     text-align: center;
     padding: 0 10%;
     margin-bottom: 20%;
     font-size: 0.8vw;
-    height: 50px;
 }
-.nft-collection-parent,.nft-collection-parent a{
+
+.nft-collection-parent,
+.nft-collection-parent a {
     text-decoration: none;
 }
+
 .browse-sidebar {
     -ms-overflow-style: none;
     direction: ltr;
@@ -146,22 +182,27 @@
     position: absolute;
     top: 70px;
 }
-.filterbox_title{
-    text-align: center;  
+
+.filterbox_title {
+    text-align: center;
 }
-.filer_gheymat{
+
+.filer_gheymat {
     text-align: start;
 
 }
-.gheymat_title{
+
+.gheymat_title {
     direction: rtl;
     margin-right: 20px;
 }
-.mintext{
+
+.mintext {
     text-align: right;
     margin-right: 3vw;
 }
-.mainbody{
+
+.mainbody {
     flex: 1 1;
     margin-top: 5vh;
     min-height: 80vh;
@@ -169,41 +210,50 @@
     top: 0;
     width: auto;
 }
-.min-max-parent div{
+
+.min-max-parent div {
     font-size: 16px;
 }
-.min-max-parent div:first-child{
+
+.min-max-parent div:first-child {
     margin-bottom: 10px;
 }
-.min-max-parent input{
+
+.min-max-parent input {
     text-align: center;
 }
-.range-price{
+
+.range-price {
     text-align: center;
     margin: 10px;
 }
-.findbtn{
+
+.findbtn {
     background-color: #2F3A8F !important;
-                    color: white !important;
-                    border-radius: 16px !important;
-                    width: 98% !important;
-                    font-weight: bold !important;
+    color: white !important;
+    border-radius: 16px !important;
+    width: 98% !important;
+    font-weight: bold !important;
 }
-.reset-find-btn{
+
+.reset-find-btn {
     background-color: crimson !important;
 }
-.back-icon{
+
+.back-icon {
     margin-right: 99%;
     margin-bottom: 1%;
 }
-.price-number{
+
+.price-number {
     color: blue;
     display: block;
     text-align: center;
     font-size: 0.8vw;
     padding: 0 5%;
 }
-#nftfilter-price{
+
+#nftfilter-price {
     font-size: 13px;
     color: blue;
 }

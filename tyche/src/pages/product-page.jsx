@@ -31,7 +31,7 @@ import MuiAlert from '@mui/material/Alert';
 import { useMoralis, MoralisProvider } from "react-moralis";
 import Moralis from "moralis";
 import { contractABI, contractAddress } from "../contract";
-import { useNavigate, useHistory } from "react-router-dom";
+// import { useNavigate, useHistory } from "react-router-dom";
 
 const web3 = new Web3(window.ethereum);
 const contract = new web3.eth.Contract(contractABI, contractAddress);
@@ -69,7 +69,7 @@ function ProductPage() {
     const [isSubmitOfferSucceeded, setIsSubmitOfferSucceeded] = useState(false);
     const [isLoading, setIsLoading] = useState();
     const [owner, setOwner] = useState();
-    let navigate = useNavigate();
+    // let navigate = useNavigate();
 
     useEffect(async () => {
         const owner = await contract.methods.ownerOf(2);
@@ -196,7 +196,7 @@ function ProductPage() {
     }
 
     const handleGoToUserProfile = (user) => {
-        navigate(`/user-profile/${user}`);
+        // navigate(`/user-profile/${user}`);
         window.scrollTo(0, 0);
     };
 
@@ -382,11 +382,15 @@ function ProductPage() {
                                                             {(offer.Date.replace("T", " ")).replace("-", "/").replace("-", "/")}
                                                         </TableCell>
                                                     }
+
                                                     <TableCell align="center" onClick={() => handleGoToUserProfile(offer.From)}>
-                                                        <Button variant="outlined">
-                                                            {offer.From?.slice(0, 5)}...{offer.From?.slice(-3)}
-                                                        </Button>
+                                                        <Link href={`/user-profile/${offer.From}`}>
+                                                            <Button variant="outlined">
+                                                                {offer.From?.slice(0, 5)}...{offer.From?.slice(-3)}
+                                                            </Button>
+                                                        </Link>
                                                     </TableCell>
+
                                                     <TableCell align="center">
                                                         <div>
                                                             {offer.status === "accepted" &&
