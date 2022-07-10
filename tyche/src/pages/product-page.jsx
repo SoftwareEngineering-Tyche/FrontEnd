@@ -119,6 +119,7 @@ function ProductPage() {
     }
 
     async function handleOpenOfferModal() {
+        setIsOpenOfferModal(true);
         try {
             const correctedAccount = web3.utils.toChecksumAddress(ethAccount);
             const balanceInWei = await web3.eth.getBalance(correctedAccount);
@@ -126,9 +127,8 @@ function ProductPage() {
                 Number(web3.utils.fromWei(balanceInWei, 'ether')).toFixed(5),
             );
         } catch (error) {
-            console.log(error.message);
+            console.log("balance error", error.message);
         }
-        setIsOpenOfferModal(true);
     }
 
     async function handleBuybtnClick(e) {

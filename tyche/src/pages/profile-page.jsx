@@ -64,6 +64,8 @@ function ProfilePage(props) {
     const [collections, setCollections] = useState([]);
     const [favorites, setFavorites] = useState([]);
     const [creations, setCreations] = useState([]);
+    const [myOffers, setMyOffers] = useState();
+    const [offersForMe, setOffersForMe] = useState();
     const [socials, setsocials] = useState();
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isUsernameValid, setIsUsernameValid] = useState(true);
@@ -127,7 +129,7 @@ function ProfilePage(props) {
         if (window.ethereum !== undefined) {
             if (id) {
                 setEthAddress(id);
-                //web3.eth.getBalance(id).then(res => setBalace(ethers.utils.formatEther(res)));
+                web3.eth.getBalance(id).then(res => setBalace(ethers.utils.formatEther(res)));
             }
             else {
                 window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
@@ -170,13 +172,19 @@ function ProfilePage(props) {
             })
         });
         callAPI({ method: "GET", url: `${hostUrl}/Accountcollection/${ethAddress}` }).then(response => {
-            if (response.payload && response.payload.length > 0) setCollections(response.payload);
+            setCollections(response.payload);
         });
         callAPI({ method: "GET", url: `${hostUrl}/AccountWorkarts/${ethAddress}` }).then(response => {
-            if (response.payload && response.payload.length > 0) setCreations(response.payload);
+            setCreations(response.payload);
         });
         callAPI({ method: "GET", url: `${hostUrl}/Accountfavorites/${ethAddress}` }).then(response => {
-            if (response.payload && response.payload.length > 0) setFavorites(response.payload);
+            setFavorites(response.payload);
+        });
+        callAPI({ method: "GET", url: `${hostUrl}/workartofferAccount/${ethAddress}` }).then(response => {
+            setMyOffers(response.payload);
+        });
+        callAPI({ method: "GET", url: `${hostUrl}/workartoffermyAccount/${ethAddress}` }).then(response => {
+            setOffersForMe(response.payload);
         });
     }, [ethAddress]);
     useEffect(() => {
@@ -234,9 +242,10 @@ function ProfilePage(props) {
                 {!isEditMode ?
                     <div className="tabs-container">
                         <StyledTabs value={tabValue} onChange={handleTabChange}>
-                            <Tab label="جمع آوری شده‌ها" classes={{ root: 'tab' }} />
+                            <Tab label="کلکسیون‌ها" classes={{ root: 'tab' }} />
                             <Tab label="ساخته شده‌ها" classes={{ root: 'tab' }} />
                             <Tab label="علاقه‌مندی‌ها" classes={{ root: 'tab' }} />
+                            <Tab label="پیشنهادها" classes={{ root: 'tab' }} />
                         </StyledTabs>
                         <Divider />
                         <div className='tabs-contents'>
@@ -294,6 +303,38 @@ function ProfilePage(props) {
                                         }
                                     </div>
                                 }
+                            </TabPanel>
+                            <TabPanel value={tabValue} index={3}>
+                                {/* <div style={{ width: '95vw' }}> */}
+                                {myOffers && myOffers.length > 0 &&
+                                    <Grid container justifyContent="center">
+                                        <Grid item xs={12} md={4} justifyContent="center">
+                                            پیشنهاد های ثبت شده توسط شما
+                                            <Divider className="m-2" />
+                                            <div className="d-flex flex-wrap justify-content-center">
+                                                {myOffers.map((product, index) => (
+                                                    getCard(product, 'product')
+                                                ))}
+                                            </div>
+                                        </Grid>
+                                        <Grid item xs={0} md={0.1} justifyContent="center">
+                                            <div style={{ height: '100%', width: '1px', backgroundColor: 'red', border: '1px solid redx', display: 'flex', justifyContent: 'center' }} />
+                                        </Grid>
+                                        <Grid item xs={12} md={4}>
+                                            پیشنهاد های ثبت شده برای شما
+                                            <Divider className="m-2" />
+                                            <div className="d-flex flex-wrap justify-content-center">
+                                                {offersForMe && offersForMe.map((product, index) => (
+                                                    getCard(product, 'product')
+                                                ))}
+                                            </div>
+                                        </Grid>
+                                    </Grid>
+                                }
+                                {!myOffers || myOffers.length === 0 &&
+                                    <div>پیشنهاد ثبت شده‌ای موجود نیست</div>
+                                }
+                                {/* </div> */}
                             </TabPanel>
                         </div>
                     </div>

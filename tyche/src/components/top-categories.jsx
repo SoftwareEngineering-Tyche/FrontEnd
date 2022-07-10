@@ -21,7 +21,6 @@ function TopCategories() {
         data.append("latest", "true");
         callAPI({ method: 'POST', url: `https://api.ludushub.io/explore`, data: data }).then(response => {
             setcategories(response.payload.data.latest[0]);
-            console.log("categories", response.payload.data.hotest[0]);
         });
     }, []);
     const flickityRef = useRef();
