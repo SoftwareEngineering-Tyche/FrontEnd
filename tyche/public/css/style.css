@@ -257,3 +257,64 @@
     font-size: 13px;
     color: blue;
 }
+.nft-img-my-request{
+    width: 150px;
+    height: 150px;
+    float: right;
+    border-radius: 10px;
+
+}
+.nft-name-my-request{
+    font-size: 18px;
+    text-align: left;
+    margin-right: 10%;
+    display: inline-block;
+}
+.nft-price-my-request{
+    font-size: 18px;
+    margin-right: 10%;
+    text-align: center;
+    color: blue;
+    direction: ltr;
+    display: inline-block;
+}
+.nft-state-my-request{
+    font-size: 18px;
+    margin-right: 10%;
+    text-align: center;;
+    display: inline-block;
+}
+.request{
+    margin-top: 15px;
+    text-align: right;
+    padding: 2%;
+    border-bottom: 1px solid black;
+    display: flex;
+    width: 100%;
+}
+.requestlabel{
+    font-size: 20px;
+    margin-right: 3%;
+    display: inline-block;
+}
+.neveshtani{
+    float: right;
+    width: calc(100% - 150px);
+    margin-right: 20px;
+    margin-top: 15px;
+}
+#one{
+    color: green;
+}
+#two{
+ color: red;
+}
+.btn-request{
+    background-color: transparent;
+    border: 2px solid #2F3A8F;
+    color: #2F3A8F;
+    border-radius: 16px;
+    float: left;
+    width: 150px;
+    font-weight: bold;
+}

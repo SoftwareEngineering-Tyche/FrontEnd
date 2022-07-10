@@ -9,6 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import emptyCollectionsIcon from '../assets/images/empty-collections.svg';
 import emptyFavoritesIcon from '../assets/images/empty-favorites.svg';
 import emptyCreationsIcon from '../assets/images/empty-creations.svg';
+import NFTImage from '../assets/images/app-logo.png';
 import { Divider, TextField, Grid, Snackbar, Tab, Tabs, Button } from "@mui/material";
 import Init from '../web3client';
 import { styled } from '@mui/material/styles';
@@ -51,6 +52,7 @@ function ProfilePage(props) {
 
     const [ethAddress, setEthAddress] = useState(null);
     const [tabValue, setTabValue] = useState(props.value);
+    const [subTabValue, setSubTabValue] = useState(props.value);
     const [pressCopy, setPressCopy] = useState(false);
     const [balance, setBalace] = useState("0.00");
     const [isEditMode, setIsEditMode] = useState(false);
@@ -74,6 +76,9 @@ function ProfilePage(props) {
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
+    };
+    const handleSubTabChange = (event, newValue) => {
+        setSubTabValue(newValue);
     };
     const copyEthAddress = (value) => {
         navigator.clipboard.writeText(value);
@@ -237,6 +242,7 @@ function ProfilePage(props) {
                             <Tab label="جمع آوری شده‌ها" classes={{ root: 'tab' }} />
                             <Tab label="ساخته شده‌ها" classes={{ root: 'tab' }} />
                             <Tab label="علاقه‌مندی‌ها" classes={{ root: 'tab' }} />
+                            <Tab label="درخواست‌ها" classes={{ root: 'tab' }} />
                         </StyledTabs>
                         <Divider />
                         <div className='tabs-contents'>
@@ -294,6 +300,152 @@ function ProfilePage(props) {
                                         }
                                     </div>
                                 }
+                            </TabPanel>
+                            <TabPanel value={tabValue} index={3}>
+                                <StyledTabs value={subTabValue} onChange={handleSubTabChange}>
+                                    <Tab label="درخواست های من" classes={{ root: 'tab' }} />
+                                    <Tab label="درخواست های دیگران" classes={{ root: 'tab' }} />
+                                </StyledTabs>
+                                <TabPanel value={subTabValue} index={0}>
+                                    <div className="requests">
+                                        <div className="request">
+                                            <img src={NFTImage} alt="" className="nft-img-my-request"/>
+                                            <div className="neveshtani">
+                                                <div className="div-name">
+                                                <h3 className="requestlabel"> نام:</h3>
+                                                <p className="nft-name-my-request">تایکی</p>
+                                                </div>
+                                                <div className="div-price">
+                                                <h3 className="requestlabel">قیمت پیشنهاد شده:</h3>
+                                                 <p className="nft-price-my-request">0.15 EAth</p>
+                                                </div>
+                                                <div className="div-state">
+                                                <h3 className="requestlabel">وضعیت درخواست:</h3>
+                                                <p className="nft-state-my-request" id="one">تایید شده</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="request">
+                                            <img src="/img/gol-abi.png" alt="" className="nft-img-my-request"/>
+                                            <div className="neveshtani">
+                                                <div className="div-name">
+                                                <h3 className="requestlabel"> نام:</h3>
+                                                <p className="nft-name-my-request">گل آبی</p>
+                                                </div>
+                                                <div className="div-price">
+                                                <h3 className="requestlabel">قیمت پیشنهاد شده:</h3>
+                                                 <p className="nft-price-my-request">12 EAth</p>
+                                                </div>
+                                                <div className="div-state">
+                                                <h3 className="requestlabel">وضعیت درخواست:</h3>
+                                                <p className="nft-state-my-request">در حال بررسی</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="request">
+                                            <img src="/img/varzesh.jpg" alt="" className="nft-img-my-request"/>
+                                            <div className="neveshtani">
+                                                <div className="div-name">
+                                                <h3 className="requestlabel"> نام:</h3>
+                                                <p className="nft-name-my-request">ورزشی</p>
+                                                </div>
+                                                <div className="div-price">
+                                                <h3 className="requestlabel">قیمت پیشنهاد شده:</h3>
+                                                 <p className="nft-price-my-request">5.4 EAth</p>
+                                                </div>
+                                                <div className="div-state">
+                                                <h3 className="requestlabel">وضعیت درخواست:</h3>
+                                                <p className="nft-state-my-request" id="two">عدم تایید</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="request">
+                                            <img src="/img/tabiat.jpg" alt="" className="nft-img-my-request"/>
+                                            <div className="neveshtani">
+                                                <div className="div-name">
+                                                <h3 className="requestlabel"> نام:</h3>
+                                                <p className="nft-name-my-request">طبیعت</p>
+                                                </div>
+                                                <div className="div-price">
+                                                <h3 className="requestlabel">قیمت پیشنهاد شده:</h3>
+                                                 <p className="nft-price-my-request">8.3 EAth</p>
+                                                </div>
+                                                <div className="div-state">
+                                                <h3 className="requestlabel">وضعیت درخواست:</h3>
+                                                <p className="nft-state-my-request" id="one">تایید شده</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </TabPanel>
+                                <TabPanel value={subTabValue} index={1}>
+                                <div className="requests">
+                                <div className="request">
+                                            <img src="/img/tabiat.jpg" alt="" className="nft-img-my-request"/>
+                                            <div className="neveshtani">
+                                                <div className="div-name">
+                                                    <h3 className="requestlabel"> نام:</h3>
+                                                    <p className="nft-name-my-request">طبیعت</p>
+                                                </div>
+                                                <div className="div-price">
+                                                    <h3 className="requestlabel">قیمت:</h3>
+                                                    <p className="nft-price-my-request">8.3 EAth</p>
+                                                </div>
+                                                <div className="div-btn">
+                                                    <button className="btn-request">لیست درخواست ها</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="request">
+                                            <img src="/img/gol-abi.png" alt="" className="nft-img-my-request"/>
+                                            <div className="neveshtani">
+                                                <div className="div-name">
+                                                    <h3 className="requestlabel"> نام:</h3>
+                                                     <p className="nft-name-my-request">گل آبی</p>
+                                                </div>
+                                                <div className="div-price">
+                                                    <h3 className="requestlabel">قیمت:</h3>
+                                                     <p className="nft-price-my-request">12 EAth</p>
+                                                </div>
+                                                <div className="div-btn">
+                                                     <button className="btn-request">لیست درخواست ها</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="request">
+                                            <img src="/img/varzesh.jpg" alt="" className="nft-img-my-request"/>
+                                            <div className="neveshtani">
+                                                <div className="div-name">
+                                                    <h3 className="requestlabel"> نام:</h3>
+                                                    <p className="nft-name-my-request">ورزشی</p>
+                                                </div>
+                                                <div className="div-price">
+                                                     <h3 className="requestlabel">قیمت:</h3>
+                                                     <p className="nft-price-my-request">5.4 EAth</p>
+                                                </div>
+                                                <div className="div-btn">
+                                                    <button className="btn-request">لیست درخواست ها</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="request">
+                                            <img src={NFTImage} alt="" className="nft-img-my-request"/>
+                                            <div className="neveshtani">
+                                                <div className="div-name">
+                                                    <h3 className="requestlabel"> نام:</h3>
+                                                    <p className="nft-name-my-request">تایکی</p>
+                                                </div>
+                                                <div className="div-price">
+                                                    <h3 className="requestlabel">قیمت:</h3>
+                                                     <p className="nft-price-my-request">0.15 EAth</p>
+                                                </div>
+                                                <div className="div-btn">
+                                                    <button className="btn-request">لیست درخواست ها</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </TabPanel>
                             </TabPanel>
                         </div>
                     </div>

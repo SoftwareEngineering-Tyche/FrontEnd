@@ -100,12 +100,12 @@ function Header() {
   const list = (anchor) => (
     <Box sx={{ width: 250, direction: 'ltr !important' }} onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
       <List>
-        <Link href='/profile' underline='none' color="inherit">
+        <RouterLink to='/profile' underline='none' color="inherit">
           <ListItem button>
             <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><AccountCircle /></ListItemIcon>
             <span>پروفایل</span>
           </ListItem>
-        </Link>
+        </RouterLink>
         <ListItem button>
           <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><AccountBalanceWalletIcon /></ListItemIcon>
           <span>کیف پول</span>
