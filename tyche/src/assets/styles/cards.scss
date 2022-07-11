@@ -1,0 +1,104 @@
+.item-card {
+    text-decoration: none;
+    background-color: white;
+    padding: 12px;
+    margin: 0 4px;
+    width: 180px;
+    border-radius: 4px;
+    display:inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    box-shadow: 0 0 10px 2px #0000001F;
+    &:hover {
+        background-color: rgba(99, 194, 223, 0.1);
+    }
+    .square-img {
+        width: 100%;
+        height: 156px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+    .round-img {
+        width: 100%;
+        height: 156px;
+        border-radius: 50%;
+        margin-bottom: 8px;
+    }
+    .item-name {
+        color: #2F3A8F;
+        display: flex;
+        justify-content: center;
+    }
+    .item-description {
+        color: #CDBDFF;
+        display: flex;
+        justify-content: center;
+        font-size: small;
+        text-align: center;
+        flex-wrap: wrap;
+    }
+}
+.offer-card {
+    width: 60%;
+    background-color: white;
+    margin: 4px 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    position: relative;
+    border-radius: 4px;
+    box-shadow: 0 0 10px 2px #0000001F;
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+    .info {
+        display: flex;
+        .texts {
+            margin-right: 8px;
+            text-align: right;
+            .name-text {
+                color: #2F3A8F;
+            }
+            .price-text {
+                color: #CDBDFF;
+            }
+        }
+        img {
+            width: 150px;
+            height: 150px;
+            border-radius: 4px;
+            @media (max-width: 768px) {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    }
+    .status {
+        position: absolute;
+        left: 16px;
+        bottom: 8px;
+        font-size: 14px;
+        @media (max-width: 768px) {
+            left: 8px;
+        }
+        .pending {
+            color: #ffcc00;
+        }
+        .accepted {
+            color: #2e7d32;
+        }
+        .rejected {
+            color: #cc0000;
+        }
+    }
+    .action {
+        position: absolute;
+        left: 8px;
+        bottom: 8px;
+        font-size: 14px;
+        text-decoration: none;
+        @media (max-width: 768px) {
+            font-size: 10px;
+        }
+    }
+}
