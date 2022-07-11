@@ -21,6 +21,7 @@ import profileBackground from "../assets/images/profile-background.jpg";
 import { Card, CardActionArea, CardContent, CardMedia, Link } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { useParams } from 'react-router-dom';
+import "../assets/styles/cards.scss"; 
 
 const web3 = new Web3(window.ethereum);
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -114,21 +115,11 @@ function ProfilePage(props) {
     }
     function getCard(item, mode) {
         return (
-            <Card sx={{ borderRadius: '16px', overflow: 'unset', margin: '4px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Link underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
-                    <CardActionArea sx={{ width: '220px', margin: '8px' }}>
-                        <div style={{ height: '70%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '4px', margin: '0px' }}>
-                                {mode === 'product' ? <img src={hostUrl + item.image} width={150} height={150} /> : <img src={hostUrl + item.logoimage} width={150} height={150} style={{ borderRadius: '50%' }} />}
-                            </CardMedia>
-                        </div>
-                        <CardContent sx={{ padding: '8px 16px', height: '30%' }}>
-                            <div style={{ color: '#2F3A8F', display: 'flex', justifyContent: 'center' }}>{item.Name}</div>
-                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small', textAlign: 'center' }}>{item.Description}</div>
-                        </CardContent>
-                    </CardActionArea>
-                </Link>
-            </Card>
+            <Link className="item-card" underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
+                {mode === 'product' ? <img src={hostUrl + item.image} className="square-img"/> : <img src={hostUrl + item.logoimage} className="round-img" />}
+                <div className="item-name">{item.Name}</div>
+                <div className="item-description">{item.Description}</div>
+            </Link>
         );
     }
     const getOfferStatus = (id, index) => {
@@ -146,8 +137,8 @@ function ProfilePage(props) {
             <div className="info">
                 <img src={hostUrl + item.image} />
                 <div className="texts">
-                    <div>نام: {item.Name}</div>
-                    <div><span>{mode === 'myOffers' ? "قیمت پیشنهادی: ": "قیمت: "}</span> 
+                    <div className="name-text">نام: {item.Name}</div>
+                    <div className="price-text"><span>{mode === 'myOffers' ? "قیمت پیشنهادی: " : "قیمت: "}</span>
                         {item.Price}
                     </div>
                 </div>

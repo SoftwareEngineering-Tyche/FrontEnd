@@ -9,6 +9,7 @@ import { styled } from '@mui/material/styles';
 import { callAPI } from "../components/api-call";
 import { hostUrl } from "../host-url";
 import { Card, CardActionArea, CardContent, CardMedia, Link } from '@mui/material';
+import "../assets/styles/cards.scss";
 
 const Input = styled('input')({
     display: 'none',
@@ -98,25 +99,15 @@ function CollectionPage(props) {
     }
     function getCard(item, mode) {
         return (
-            <Card sx={{ borderRadius: '16px', overflow: 'unset', margin: '4px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Link underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
-                    <CardActionArea sx={{ width: '220px', margin: '8px' }}>
-                        <div style={{ height: '70%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '4px', margin: '0px' }}>
-                                {mode === 'product' ? <img src={hostUrl + item.image} width={150} height={150} /> : <img src={hostUrl + item.logoimage} width={150} height={150} style={{ borderRadius: '50%' }} />}
-                            </CardMedia>
-                        </div>
-                        <CardContent sx={{ padding: '8px 16px', height: '30%' }}>
-                            <div style={{ color: '#2F3A8F', display: 'flex', justifyContent: 'center' }}>{item.Name}</div>
-                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small', textAlign:'center' }}>{item.Description}</div>
-                        </CardContent>
-                    </CardActionArea>
-                </Link>
-            </Card>
+            <Link style={{ margin: '4px' }} className="item-card" underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
+                {mode === 'product' ? <img src={hostUrl + item.image} className="square-img" /> : <img src={hostUrl + item.logoimage} className="round-img" />}
+                <div className="item-name">{item.Name}</div>
+                <div className="item-description">{item.Description}</div>
+            </Link>
         );
     }
     const handleCancel = () => {
-        //setIsEditMode(false);
+        setIsEditMode(false);
     }
     return (
         <div className="collection-page">

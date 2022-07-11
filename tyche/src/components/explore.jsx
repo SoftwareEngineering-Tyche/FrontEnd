@@ -26,7 +26,7 @@ const Explore = () => {
         data.append("hotest", "true");
         data.append("favorites", "true");
         data.append("latest", "true");
-        callAPI({ method: 'POST', url: `https://api.ludushub.io/explore`, data: data }).then(response => {
+        callAPI({ method: 'POST', url: `${hostUrl}/explore`, data: data }).then(response => {
             setResault(response.payload);
         });
     }, []);
@@ -34,7 +34,7 @@ const Explore = () => {
         const data = new FormData();
         data.append("params", "liked");
         data.append("kind", "ascending");
-        callAPI({ method: 'POST', url: `https://api.ludushub.io/sortCollection`, data: data }).then(response => {
+        callAPI({ method: 'POST', url: `${hostUrl}/sortCollection`, data: data }).then(response => {
             setSortcollection(response.payload);
         });
     }, []);
@@ -42,7 +42,7 @@ const Explore = () => {
         const data = new FormData();
         data.append("params", "price");
         data.append("kind", "descending");
-        callAPI({ method: 'POST', url: `https://api.ludushub.io/sortNFT`, data: data }).then(response => {
+        callAPI({ method: 'POST', url: `${hostUrl}/sortNFT`, data: data }).then(response => {
             setSortnftprice(response.payload);
         });
     }, []);
@@ -54,7 +54,7 @@ const Explore = () => {
             data.append("price_l", min);
             data.append("price_h", max);
             data.append("blockchain", "Ether");
-            callAPI({ method: 'POST', url: `https://api.ludushub.io/filterNFT`, data: data }).then(response => {
+            callAPI({ method: 'POST', url: `${hostUrl}/filterNFT`, data: data }).then(response => {
                 setFilterResualt(response.payload);
             });
         }
@@ -117,7 +117,7 @@ const Explore = () => {
                 <div className="explore-container">
                     <Grid container spacing={2}>
                         {window.innerWidth > 768 && <Grid item xs={3}>
-                            <aside className='browse-sidebar'>
+                            <aside className='browse-sidebar' style={{margin: '0 16px 0 200px'}}>
                                 <h5 className='filterbox_title'>فیلتر ها</h5>
                                 <hr></hr>
                                 <div className='filter_gheymat'>
@@ -125,26 +125,22 @@ const Explore = () => {
                                     <div>
                                         <label className='min-max-parent'>
                                             <div>
-
                                                 <TextField fullWidth type="number" data-test="min-input" label="حداقل" value={min} onChange={e => setMin(e.target.value)} InputLabelProps={{ shrink: true }}
                                                     InputProps={{
                                                         startAdornment: <InputAdornment position="start">ETH</InputAdornment>,
                                                     }}
                                                 />
-
                                             </div>
                                         </label>
                                     </div>
                                     <div>
                                         <label className='min-max-parent'>
                                             <div>
-
                                                 <TextField fullWidth type="number" data-test="max-input" label="حداکثر" value={max} min="0" onChange={e => setMax(e.target.value)} InputLabelProps={{ shrink: true }}
                                                     InputProps={{
                                                         startAdornment: <InputAdornment position="start">ETH</InputAdornment>,
                                                     }}
                                                 />
-
                                             </div>
                                         </label>
                                     </div>

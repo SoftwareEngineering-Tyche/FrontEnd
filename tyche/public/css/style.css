@@ -176,11 +176,10 @@
 
 .browse-sidebar {
     -ms-overflow-style: none;
-    direction: ltr;
     height: calc(70vh - 15vw);
     padding-top: 5%;
-    position: absolute;
-    top: 70px;
+    width: 200px;
+    margin: 0 16px 100px 0;
 }
 
 .filterbox_title {

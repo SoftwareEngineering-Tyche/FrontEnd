@@ -11,6 +11,7 @@ import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea, Link } from '@mui/material';
 import { callAPI } from "./api-call";
 import { hostUrl } from "../host-url";
+import "../assets/styles/cards.scss";
 
 function TopCategories() {
     const [categories, setcategories] = useState();
@@ -19,8 +20,8 @@ function TopCategories() {
         data.append("hotest", "true");
         data.append("favorites", "true");
         data.append("latest", "true");
-        callAPI({ method: 'POST', url: `https://api.ludushub.io/explore`, data: data }).then(response => {
-            setcategories(response.payload.data.latest[0]);
+        callAPI({ method: 'POST', url: `${hostUrl}/explore`, data: data }).then(response => {
+            setcategories(response.payload.data.latest[0].concat(response.payload.data.favorites[0], response.payload.data.hotest[0]));
         });
     }, []);
     const flickityRef = useRef();
@@ -32,21 +33,11 @@ function TopCategories() {
     }
     function getCard(item, mode) {
         return (
-            <Card sx={{ borderRadius: '16px', overflow: 'unset', margin: '4px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Link underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
-                    <CardActionArea sx={{ width: '220px', margin: '8px' }}>
-                        <div style={{ height: '70%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <CardMedia sx={{ display: 'flex', justifyContent: 'center', padding: '4px', margin: '0px' }}>
-                                {mode === 'product' ? <img src={hostUrl + item.image} width={150} height={150} /> : <img src={hostUrl + item.logoimage} width={150} height={150} style={{ borderRadius: '50%' }} />}
-                            </CardMedia>
-                        </div>
-                        <CardContent sx={{ padding: '8px 16px', height: '30%' }}>
-                            <div style={{ color: '#2F3A8F', display: 'flex', justifyContent: 'center' }}>{item.Name}</div>
-                            <div style={{ color: '#CDBDFF', display: 'flex', justifyContent: 'center', fontSize: 'small', textAlign: 'center' }}>{item.Description}</div>
-                        </CardContent>
-                    </CardActionArea>
-                </Link>
-            </Card>
+            <Link style={{ margin: '4px' }} className="item-card" underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
+                {mode === 'product' ? <img src={hostUrl + item.image} className="square-img" /> : <img src={hostUrl + item.logoimage} className="round-img" />}
+                <div className="item-name">{item.Name}</div>
+                <div className="item-description">{item.Description}</div>
+            </Link>
         );
     }
     return (
@@ -56,7 +47,9 @@ function TopCategories() {
                 <Flickity options={flickityOptions} flickityRef={ref => flickityRef.current = ref}>
                     {categories && categories.length > 0 &&
                         categories.map((collection, index) => {
-                            return (getCard(collection, 'collection'));
+                            return (
+                                getCard(collection, 'collection')
+                            );
                         })
                     }
                 </Flickity>

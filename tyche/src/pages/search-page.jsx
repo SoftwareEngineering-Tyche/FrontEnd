@@ -28,7 +28,7 @@ function SearchPage(props) {
         setIsLoading(true)
         const data = new FormData();
         data.append("search", text);
-        callAPI({ method: 'POST', url: `https://api.ludushub.io/search`, data: data }).then(response => {
+        callAPI({ method: 'POST', url: `${hostUrl}/search`, data: data }).then(response => {
             setSearchResults(response.payload);
             setIsLoading(false);
         });
