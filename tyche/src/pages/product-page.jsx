@@ -168,7 +168,9 @@ function ProductPage() {
             const data = new FormData();
             data.append("From", ethAccount);
             data.append("Price", offerPrice);
-            callAPI({ method: "POST", url: `${hostUrl}/WorkArtOffer/${window.location.pathname.split('/')[2]}`, data: data });
+            callAPI({ method: "POST", url: `${hostUrl}/WorkArtOffer/${window.location.pathname.split('/')[2]}`, data: data }).finally(() => {
+                window.location.reload();
+            });
             setIsSubmitOfferSucceeded(true);
             setIsOpenOfferModal(false);
         }
@@ -352,7 +354,7 @@ function ProductPage() {
                 </Grid>
                 <Grid item xs={12}>
                     <div className="my-2">
-                        <Accordion classes={{ root: 'accordion' }}>
+                        <Accordion classes={{ root: 'accordion' }} defaultExpanded>
                             <AccordionSummary expandIcon={<ExpandMoreRoundedIcon classes={{ root: 'icon' }} />} classes={{ root: 'accordion-summery' }}>
                                 <LocalOfferRoundedIcon />
                                 <span className="mx-2">پیشنهادهای قیمت</span>

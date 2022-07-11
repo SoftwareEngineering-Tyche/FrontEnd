@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../assets/styles/collection.scss";
-import { Button, Divider, Grid, ButtonGroup, Accordion, AccordionSummary, AccordionDetails, TextField, InputLabel, MenuItem, FormHelperText, FormControl, Select, InputAdornment } from "@mui/material";
+import { Button, Grid, TextField, InputLabel, MenuItem, FormControl, Select, Link, Snackbar } from "@mui/material";
 import imageSample from "../assets/images/image.png";
 import collectionBanner from "../assets/images/collection-banner.jpg";
 import 'bootstrap/dist/css/bootstrap.css';
@@ -8,11 +8,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import { styled } from '@mui/material/styles';
 import { callAPI } from "../components/api-call";
 import { hostUrl } from "../host-url";
-import { Card, CardActionArea, CardContent, CardMedia, Link } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 import "../assets/styles/cards.scss";
 
 const Input = styled('input')({
     display: 'none',
+});
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 function CollectionPage(props) {
 
@@ -182,6 +185,9 @@ function CollectionPage(props) {
                             <Button variant="contained" classes={{ root: 'action submit' }} onClick={handleSubmit}>اعمال تغییرات</Button>
                             <Button variant="outlined" classes={{ root: 'action cancel' }} onClick={handleCancel}>انصراف</Button>
                         </div>
+                        {onSubmit && <Snackbar open={onSubmit} autoHideDuration={3000} onClose={() => setOnSubmit(false)}>
+                            <Alert onClose={() => setOnSubmit(false)} severity="success" sx={{ width: '100%' }}>کلکسیون شما با موفقیت ساخته شد</Alert>
+                        </Snackbar>}
                     </Grid>
                     :
                     <Grid container className="mt-1" justifyContent="center">

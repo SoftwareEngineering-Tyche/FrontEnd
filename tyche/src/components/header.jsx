@@ -44,17 +44,15 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 
 var createNotifElements = () => {
   const elements = [];
-  for (var i=0; i < 5; i++) {
+  for (var i = 0; i < 5; i++) {
     elements.push(<Link key={i} href='/profile' underline='none' color="inherit">
-   
       <ListItem button>
         <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><AccountCircle /></ListItemIcon>
         <span>اعلان</span>
       </ListItem>
     </Link>
-  
-)
-  } 
+    )
+  }
   return elements;
 }
 
@@ -83,7 +81,7 @@ function Header() {
   const toggleNotif = (notif_anchor, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift'))
       return;
-      setStateNotif({ ...stateNotif, [notif_anchor]: open });
+    setStateNotif({ ...stateNotif, [notif_anchor]: open });
   };
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -100,12 +98,12 @@ function Header() {
   const list = (anchor) => (
     <Box sx={{ width: 250, direction: 'ltr !important' }} onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
       <List>
-        <RouterLink to='/profile' underline='none' color="inherit">
+        <Link href='/profile' underline='none' color="inherit">
           <ListItem button>
             <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><AccountCircle /></ListItemIcon>
             <span>پروفایل</span>
           </ListItem>
-        </RouterLink>
+        </Link>
         <ListItem button>
           <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><AccountBalanceWalletIcon /></ListItemIcon>
           <span>کیف پول</span>
@@ -139,35 +137,7 @@ function Header() {
   const notifList = (anchor) => (
     <Box sx={{ width: 250, direction: 'ltr !important' }} onClick={toggleNotif(anchor, false)} onKeyDown={toggleNotif(anchor, false)}>
       <List>
-
         {createNotifElements()}
-      
-        {/* <ListItem button>
-          <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><AccountBalanceWalletIcon /></ListItemIcon>
-          <span>کیف پول</span>
-        </ListItem>
-        <Link href='/profile/favorites' underline='none' color="inherit">
-          <ListItem button>
-            <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><StarIcon /></ListItemIcon>
-            <span>علاقه‌مندی‌ها</span>
-          </ListItem>
-        </Link>
-        <Link href='/profile/collections' underline='none' color="inherit">
-          <ListItem button>
-            <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><ShoppingBasketIcon /></ListItemIcon>
-            <span>دارایی‌های من</span>
-          </ListItem>
-        </Link>
-        <Link href='/profile/creations' underline='none' color="inherit">
-          <ListItem button>
-            <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><DashboardIcon /></ListItemIcon>
-            <span>ساخته شده‌ها</span>
-          </ListItem>
-        </Link>
-        <ListItem button>
-          <ListItemIcon sx={{ minWidth: 'unset', marginRight: '8px' }}><SettingsIcon /></ListItemIcon>
-          <span>تنظیمات</span>
-        </ListItem> */}
       </List>
     </Box>
   );
@@ -205,7 +175,7 @@ function Header() {
             </Search>
           </div>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, color: { xs: 'transparent', md: 'transparent' }, }}>
             <span style={{ marginLeft: '10px', cursor: 'pointer' }}>ساخت</span>
             <span style={{ marginLeft: '10px', cursor: 'pointer' }}>دسته‌بندی‌ها</span>
             <span style={{ marginLeft: '10px', width: '58px', cursor: 'pointer' }}>درباره ما</span>

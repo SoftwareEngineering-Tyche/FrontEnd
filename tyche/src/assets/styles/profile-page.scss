@@ -38,6 +38,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
 
             .profile-picture {
                 border-radius: 50%;
@@ -63,19 +64,50 @@
                 position: absolute;
                 right: 24px;
                 margin-top: 46px;
-
                 @media (max-width: 768px) {
                     right: 8px;
                 }
-
-                .edit-text {
+                .text {
                     margin-right: 4px;
-                    padding: 2px;
-
                     @media (max-width: 768px) {
                         display: none;
+                        margin-right: 0;
                     }
                 }
+            }
+            .share-btn {
+                min-width: unset;
+                position: absolute;
+                right: 160px;
+                margin-top: 46px;
+                @media (max-width: 768px) {
+                    right: 56px;
+                }
+                .text {
+                    margin-right: 4px;
+                    @media (max-width: 768px) {
+                        display: none;
+                        margin-right: 0;
+                    }
+                }
+            }
+            .telegram-btn {
+                text-decoration: none;
+                position: absolute;
+                right: 296px;
+                margin-top: 46px;
+                @media (max-width: 768px) {
+                    left: 8px;
+                    right: unset;
+                }
+                .text {
+                    margin-right: 4px;
+                    @media (max-width: 768px) {
+                        display: none;
+                        margin-right: 0;
+                    }
+                }
+
             }
         }
     }

@@ -86,7 +86,10 @@ const Explore = () => {
     return (
         <div className="explore" data-test="main-body">
             {window.innerWidth <= 768 && <>
-                <Button onClick={() => setIsShowFiltersBottomSheet(true)} variant="outlined" sx={{ margin: '8px 0 0 8px' }}>فیلتر ها</Button>
+                <div className="d-flex align-items-center">
+                    <Button onClick={() => setIsShowFiltersBottomSheet(true)} variant="outlined" sx={{ margin: '8px 0 0 8px' }}>فیلتر ها</Button>
+                    {min && max &&<span className="mx-2"> از {min}Eth تا {max}Eth</span>}
+                </div>
                 <Slide in={isShowFiltersBottomSheet} direction="up">
                     <div className='bottom-sheet'>
                         <div className='header'>
@@ -119,7 +122,7 @@ const Explore = () => {
                 <div className="explore-container">
                     <Grid container spacing={2}>
                         {window.innerWidth > 768 && <Grid item xs={3}>
-                            <aside className='browse-sidebar' style={{margin: '0 16px 0 200px'}}>
+                            <aside className='browse-sidebar' style={{ margin: '0 16px 0 200px' }}>
                                 <h5 className='filterbox_title'>فیلتر ها</h5>
                                 <hr></hr>
                                 <div className='filter_gheymat'>

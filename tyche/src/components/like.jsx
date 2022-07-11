@@ -24,7 +24,9 @@ function Like(props) {
             window.ethereum.request({ method: 'eth_requestAccounts' }).then(accounts => {
                 const data = new FormData();
                 data.append("WalletInfo", accounts[0]);
-                callAPI({ method: "POST", url: `${hostUrl}/WorkArtLike/${props.product}`, data: data });
+                callAPI({ method: "POST", url: `${hostUrl}/WorkArtLike/${props.product}`, data: data }).then(() => {
+                    window.location.reload();
+                });
             }).catch((err) => { console.log(err); })
         }
     }

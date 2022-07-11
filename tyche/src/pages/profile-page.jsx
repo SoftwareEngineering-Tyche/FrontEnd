@@ -21,6 +21,8 @@ import profileBackground from "../assets/images/profile-background.jpg";
 import { Card, CardActionArea, CardContent, CardMedia, Link } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { useParams } from 'react-router-dom';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import ShareIcon from '@mui/icons-material/Share';
 import "../assets/styles/cards.scss";
 
 const web3 = new Web3(window.ethereum);
@@ -242,6 +244,15 @@ function ProfilePage(props) {
         }
     }, [onSubmit]);
 
+    const shareProfile = () => {
+        if (navigator.share) {
+            navigator.share({
+                title: 'اشتراک گذاری پروفایل - تایکی',
+                text: `${hostUrl}/user-profile/${ethAddress}`,
+            }).then(() => console.log('Successful share')).catch(() => console.log('Error sharing'));
+        }
+    }
+
     return (
         <div className="profile-page">
             <div className="profile-info">
@@ -252,7 +263,22 @@ function ProfilePage(props) {
                     </div>
                     {!id && <Button variant="outlined" color="inherit" size="small" classes={{ root: 'edit-btn' }} onClick={() => setIsEditMode(true)}>
                         <EditIcon />
+                        <span className="text">ویرایش پروفایل</span>
                     </Button>}
+                    {!id &&
+                        <Button onClick={shareProfile} variant="outlined" color="inherit" size="small" classes={{ root: 'share-btn' }}>
+                            <ShareIcon />
+                            <span className="text">اشتراک پروفایل</span>
+                        </Button>
+                    }
+                    {!id &&
+                        <Link href={`https://telegram.me/tychenft_bot?start=${ethAddress}`} classes={{ root: 'telegram-btn' }}>
+                            <Button variant="outlined" color="inherit" size="small" sx={{ minWidth: 'unset' }}>
+                                <TelegramIcon />
+                                <span className="text">اتصال به تلگرام</span>
+                            </Button>
+                        </Link>
+                    }
                 </div>
                 <div className="name">
                     <span>{(username && username !== 'null') ? username : 'بدون نام کابری'}</span>
@@ -277,8 +303,8 @@ function ProfilePage(props) {
                         <StyledTabs value={tabValue} onChange={handleTabChange}>
                             <Tab label="کلکسیون‌ها" classes={{ root: 'tab' }} data-test="collectiontab" />
                             <Tab label="ساخته شده‌ها" classes={{ root: 'tab' }} data-test="craettab" />
-                            <Tab label="علاقه‌مندی‌ها" classes={{ root: 'tab' }} data-test="favoritetab" />
-                            <Tab label="پیشنهادها" classes={{ root: 'tab' }} data-test="requesttab" />
+                            {!id && <Tab label="علاقه‌مندی‌ها" classes={{ root: 'tab' }} data-test="favoritetab" />}
+                            {!id && <Tab label="پیشنهادها" classes={{ root: 'tab' }} data-test="requesttab" />}
                         </StyledTabs>
                         <Divider />
                         <div className='tabs-contents' data-test="tabs-contents">
@@ -317,25 +343,21 @@ function ProfilePage(props) {
                                 </div>
                             </TabPanel>
                             <TabPanel value={tabValue} index={2} data-test="favoritpanel">
-                                {id ?
-                                    <div>این بخش از اطلاعات کاربر برای شما قابل مشاهده نیست</div>
-                                    :
-                                    <div style={{ width: '95vw' }}>
-                                        {favorites && favorites.length > 0 &&
-                                            <div className="d-flex flex-wrap justify-content-center">
-                                                {favorites.map((product, index) => {
-                                                    return (getCard(product, 'product'));
-                                                })}
-                                            </div>
-                                        }
-                                        {!favorites || favorites.length === 0 &&
-                                            <div>
-                                                <img src={emptyFavoritesIcon} height={150} />
-                                                <div>لیست علاقه‌مندی‌های شما خالی است</div>
-                                            </div>
-                                        }
-                                    </div>
-                                }
+                                <div style={{ width: '95vw' }}>
+                                    {favorites && favorites.length > 0 &&
+                                        <div className="d-flex flex-wrap justify-content-center">
+                                            {favorites.map((product, index) => {
+                                                return (getCard(product, 'product'));
+                                            })}
+                                        </div>
+                                    }
+                                    {!favorites || favorites.length === 0 &&
+                                        <div>
+                                            <img src={emptyFavoritesIcon} height={150} />
+                                            <div>لیست علاقه‌مندی‌های شما خالی است</div>
+                                        </div>
+                                    }
+                                </div>
                             </TabPanel>
                             <TabPanel value={tabValue} index={3} data-test="requestpanel">
                                 <div style={{ width: '95vw' }}>

@@ -67,7 +67,7 @@ const flickityOptions = {
     draggable: true,
     prevNextButtons: false,
     contain: true,
-    groupCells: window.innerWidth < 768 ? 1 : 4,
+    groupCells: window.innerWidth < 768 ? 2 : 5,
     freeScroll: false,
     cellAlign: 'center',
     wrapAround: true
