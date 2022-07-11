@@ -21,7 +21,7 @@ import profileBackground from "../assets/images/profile-background.jpg";
 import { Card, CardActionArea, CardContent, CardMedia, Link } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { useParams } from 'react-router-dom';
-import "../assets/styles/cards.scss"; 
+import "../assets/styles/cards.scss";
 
 const web3 = new Web3(window.ethereum);
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -115,8 +115,8 @@ function ProfilePage(props) {
     }
     function getCard(item, mode) {
         return (
-            <Link className="item-card" underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
-                {mode === 'product' ? <img src={hostUrl + item.image} className="square-img"/> : <img src={hostUrl + item.logoimage} className="round-img" />}
+            <Link style={{ margin: '4px' }} className="item-card" underline="none" href={mode === 'product' ? `/product/${item.id}` : `/collection/${item.id}`}>
+                {mode === 'product' ? <img src={hostUrl + item.image} className="square-img" /> : <img src={hostUrl + item.logoimage} className="round-img" />}
                 <div className="item-name">{item.Name}</div>
                 <div className="item-description">{item.Description}</div>
             </Link>
@@ -260,7 +260,7 @@ function ProfilePage(props) {
                 {bio && bio !== 'null' && <div className="additional-information bio">{bio}</div>}
                 <div className="wallet" data-test="wallet">
                     <Button variant="outlined" data-test="btn-button" onClick={() => copyEthAddress(ethAddress)} classes={{ root: 'copy-btn' }}>
-                        <img src={ethereumIcon} height={16} data-test="img-prof"/>
+                        <img src={ethereumIcon} height={16} data-test="img-prof" />
                         <span style={{ display: 'flex', alignItems: 'center' }}>
                             {ethAddress?.slice(0, 5)}...{ethAddress?.slice(-3)}
                         </span>
@@ -275,10 +275,10 @@ function ProfilePage(props) {
                 {!isEditMode ?
                     <div className="tabs-container">
                         <StyledTabs value={tabValue} onChange={handleTabChange}>
-                            <Tab label="کلکسیون‌ها" classes={{ root: 'tab' }}  data-test="collectiontab"/>
-                            <Tab label="ساخته شده‌ها" classes={{ root: 'tab' }} data-test="craettab"/>
-                            <Tab label="علاقه‌مندی‌ها" classes={{ root: 'tab' }} data-test="favoritetab"/>
-                            <Tab label="پیشنهادها" classes={{ root: 'tab' }} data-test="requesttab"/>
+                            <Tab label="کلکسیون‌ها" classes={{ root: 'tab' }} data-test="collectiontab" />
+                            <Tab label="ساخته شده‌ها" classes={{ root: 'tab' }} data-test="craettab" />
+                            <Tab label="علاقه‌مندی‌ها" classes={{ root: 'tab' }} data-test="favoritetab" />
+                            <Tab label="پیشنهادها" classes={{ root: 'tab' }} data-test="requesttab" />
                         </StyledTabs>
                         <Divider />
                         <div className='tabs-contents' data-test="tabs-contents">
@@ -340,8 +340,8 @@ function ProfilePage(props) {
                             <TabPanel value={tabValue} index={3} data-test="requestpanel">
                                 <div style={{ width: '95vw' }}>
                                     <StyledTabs value={subTabValue} onChange={handleSubTabChange}>
-                                        <Tab label="پیشنهادهای من" classes={{ root: 'tab' }}  data-test="myrequesttab"/>
-                                        <Tab label="پیشنهادهای دیگران" classes={{ root: 'tab' }} data-test="otherrequesttab"/>
+                                        <Tab label="پیشنهادهای من" classes={{ root: 'tab' }} data-test="myrequesttab" />
+                                        <Tab label="پیشنهادهای دیگران" classes={{ root: 'tab' }} data-test="otherrequesttab" />
                                     </StyledTabs>
                                     <TabPanel value={subTabValue} index={0} data-test="myrequestpanel">
                                         {myOffers && myOffers.length > 0 &&
