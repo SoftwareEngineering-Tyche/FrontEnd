@@ -9,6 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import emptyCollectionsIcon from '../assets/images/empty-collections.svg';
 import emptyFavoritesIcon from '../assets/images/empty-favorites.svg';
 import emptyCreationsIcon from '../assets/images/empty-creations.svg';
+import NFTImage from '../assets/images/app-logo.png';
 import { Divider, TextField, Grid, Snackbar, Tab, Tabs, Button } from "@mui/material";
 import Init from '../web3client';
 import { styled } from '@mui/material/styles';
@@ -51,6 +52,7 @@ function ProfilePage(props) {
 
     const [ethAddress, setEthAddress] = useState(null);
     const [tabValue, setTabValue] = useState(props.value);
+    const [subTabValue, setSubTabValue] = useState(0);
     const [pressCopy, setPressCopy] = useState(false);
     const [balance, setBalace] = useState("0.00");
     const [isEditMode, setIsEditMode] = useState(false);
@@ -72,10 +74,14 @@ function ProfilePage(props) {
     const [onSubmit, setOnSubmit] = useState(false);
     const [emailhelper, setemailhelper] = useState("");
     const [userhelper, setuserhelper] = useState("");
+    const [statusOffers, setStatusOffers] = useState([]);
     const { id } = useParams();
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
+    };
+    const handleSubTabChange = (event, newValue) => {
+        setSubTabValue(newValue);
     };
     const copyEthAddress = (value) => {
         navigator.clipboard.writeText(value);
@@ -125,6 +131,42 @@ function ProfilePage(props) {
             </Card>
         );
     }
+    const getOfferStatus = (id, index) => {
+        let status = "";
+        callAPI({ method: "GET", url: `${hostUrl}/WorkArtOffer/${id}` }).then(response => {
+            response.payload.map(offer => {
+                if (offer.From === ethAddress) {
+                    statusOffers[index] = offer.status
+                }
+            });
+        })
+    }
+    const getOfferCard = (item, index, mode) => (
+        <div className="offer-card">
+            <div className="info">
+                <img src={hostUrl + item.image} />
+                <div className="texts">
+                    <div>نام: {item.Name}</div>
+                    <div><span>{mode === 'myOffers' ? "قیمت پیشنهادی: ": "قیمت: "}</span> 
+                        {item.Price}
+                    </div>
+                </div>
+            </div>
+            {getOfferStatus(item.id, index)}
+            {mode === 'myOffers' && <span className="status"><span>وضعیت: </span>
+                {statusOffers[index] === "Pending" ?
+                    <span className="pending">درحال بررسی</span> : statusOffers[index] === "accepted" ?
+                        <span className="accepted">قبول شده</span> :
+                        <span className="rejected">رد شده</span>
+                }
+            </span>}
+            {mode === 'offersForMe' &&
+                <Link href={`/product/${item.id}`} className="action">
+                    <Button variant="outlined">مشاهده لیست پیشنهادها</Button>
+                </Link>
+            }
+        </div>
+    )
     useEffect(() => {
         if (window.ethereum !== undefined) {
             if (id) {
@@ -305,36 +347,36 @@ function ProfilePage(props) {
                                 }
                             </TabPanel>
                             <TabPanel value={tabValue} index={3}>
-                                {/* <div style={{ width: '95vw' }}> */}
-                                {myOffers && myOffers.length > 0 &&
-                                    <Grid container justifyContent="center">
-                                        <Grid item xs={12} md={4} justifyContent="center">
-                                            پیشنهاد های ثبت شده توسط شما
-                                            <Divider className="m-2" />
+                                <div style={{ width: '95vw' }}>
+                                    <StyledTabs value={subTabValue} onChange={handleSubTabChange}>
+                                        <Tab label="پیشنهادهای من" classes={{ root: 'tab' }} />
+                                        <Tab label="پیشنهادهای دیگران" classes={{ root: 'tab' }} />
+                                    </StyledTabs>
+                                    <TabPanel value={subTabValue} index={0}>
+                                        {myOffers && myOffers.length > 0 &&
                                             <div className="d-flex flex-wrap justify-content-center">
                                                 {myOffers.map((product, index) => (
-                                                    getCard(product, 'product')
+                                                    getOfferCard(product, index, 'myOffers')
                                                 ))}
                                             </div>
-                                        </Grid>
-                                        <Grid item xs={0} md={0.1} justifyContent="center">
-                                            <div style={{ height: '100%', width: '1px', backgroundColor: 'red', border: '1px solid redx', display: 'flex', justifyContent: 'center' }} />
-                                        </Grid>
-                                        <Grid item xs={12} md={4}>
-                                            پیشنهاد های ثبت شده برای شما
-                                            <Divider className="m-2" />
+                                        }
+                                        {!myOffers || myOffers.length === 0 &&
+                                            <div>شما هنوز پیشنهاد خرید برای محصولی ثبت نکردین</div>
+                                        }
+                                    </TabPanel>
+                                    <TabPanel value={subTabValue} index={1}>
+                                        {offersForMe && offersForMe.length > 0 &&
                                             <div className="d-flex flex-wrap justify-content-center">
-                                                {offersForMe && offersForMe.map((product, index) => (
-                                                    getCard(product, 'product')
+                                                {offersForMe.map((product, index) => (
+                                                    getOfferCard(product, index, 'offersForMe')
                                                 ))}
                                             </div>
-                                        </Grid>
-                                    </Grid>
-                                }
-                                {!myOffers || myOffers.length === 0 &&
-                                    <div>پیشنهاد ثبت شده‌ای موجود نیست</div>
-                                }
-                                {/* </div> */}
+                                        }
+                                        {!offersForMe || offersForMe.length === 0 &&
+                                            <div>کسی هنوز برای شما پیشنهاد خرید ثبت نکرده است</div>
+                                        }
+                                    </TabPanel>
+                                </div>
                             </TabPanel>
                         </div>
                     </div>

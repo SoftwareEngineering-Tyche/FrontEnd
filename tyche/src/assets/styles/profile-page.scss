@@ -107,6 +107,61 @@
             .tabs-contents {
                 padding: 24px 0;
                 text-align: center;
+                .offer-card {
+                    width: 60%;
+                    background-color: white;
+                    margin: 4px 0;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 8px;
+                    position: relative;
+                    @media (max-width: 768px) {
+                        width: 100%;
+                    }
+                    .info {
+                        display: flex;
+                        .texts {
+                            margin-right: 8px;
+                            text-align: right;
+                        }
+                        img {
+                            width: 150px;
+                            height: 150px;
+                            @media (max-width: 768px) {
+                                width: 100px;
+                                height: 100px;
+                            }
+                        }
+                    }
+                    .status {
+                        position: absolute;
+                        left: 16px;
+                        bottom: 8px;
+                        font-size: 14px;
+                        @media (max-width: 768px) {
+                            left: 8px;
+                        }
+                        .pending {
+                            color: #ffcc00;
+                        }
+                        .accepted {
+                            color: #2e7d32;
+                        }
+                        .rejected {
+                            color: #cc0000;
+                        }
+                    }
+                    .action {
+                        position: absolute;
+                        left: 8px;
+                        bottom: 8px;
+                        font-size: 14px;
+                        text-decoration: none;
+                        @media (max-width: 768px) {
+                            font-size: 10px;
+                        }
+                    }
+                }
             }
         }
 

@@ -102,7 +102,6 @@ function ProductPage() {
         });
         callAPI({ method: "GET", url: `${hostUrl}/WorkArtOffer/${window.location.pathname.split('/')[2]}` }).then(response => {
             setOffers(response.payload);
-            console.log(response.payload);
         });
         callAPI({ method: "GET", url: `${hostUrl}/workartwalletinfo/${window.location.pathname.split('/')[2]}` }).then(response => {
             setOwner(response.payload);
