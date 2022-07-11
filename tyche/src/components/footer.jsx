@@ -32,7 +32,7 @@ function Footer() {
     const getOptions1 = () => {
         return (<>
             <div className="option">
-                <div className="icon-container"><img src={walletIcon} className="icon" /></div>
+                <div className="icon-container"><img src={walletIcon} className="icon"/></div>
                 <span>دسترسی مستقیم به کیف پول</span>
             </div>
             <div className="option">
