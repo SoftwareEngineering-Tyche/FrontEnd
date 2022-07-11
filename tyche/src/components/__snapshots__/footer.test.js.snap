@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the landing page 1`] = `
+<DocumentFragment>
+  <footer
+    text="Hello!"
+  />
+</DocumentFragment>
+`;

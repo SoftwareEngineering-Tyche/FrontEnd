@@ -99,12 +99,14 @@ const Explore = () => {
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">ETH</InputAdornment>,
                                 }}
+                                data-test="min-input"
                             />
                             <TextField fullWidth type="number" label="حداکثر" value={max} min="0" onChange={e => setMax(e.target.value)} InputLabelProps={{ shrink: true }}
                                 sx={{ margin: '16px 0' }}
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">ETH</InputAdornment>,
                                 }}
+                                data-test="max-input"
                             />
                             <Button className="findbtn" data-test="filter-button" onClick={FindNFT}>
                                 پیدا کن

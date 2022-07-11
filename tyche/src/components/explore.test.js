@@ -53,3 +53,13 @@ test('explore Title', () => {
     const exploretabs = findByTestAttr(wrapper, 'explore-tabs');
     expect(exploretabs.length).toBe(1);
   })
+  test('min-input show',() => {
+    const wrapper = setup();
+    const mininput = findByTestAttr(wrapper, 'min-input');
+    expect(mininput.length).toBe(1);
+  })
+  test('max-input show',() => {
+    const wrapper = setup();
+    const maxinput = findByTestAttr(wrapper, 'max-input');
+    expect(maxinput.length).toBe(1);
+  })
