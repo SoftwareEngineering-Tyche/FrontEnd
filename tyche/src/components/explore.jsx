@@ -84,7 +84,7 @@ const Explore = () => {
     )
 
     return (
-        <div className="explore">
+        <div className="explore" data-test="main-body">
             {window.innerWidth <= 768 && <>
                 <Button onClick={() => setIsShowFiltersBottomSheet(true)} variant="outlined" sx={{ margin: '8px 0 0 8px' }}>فیلتر ها</Button>
                 <Slide in={isShowFiltersBottomSheet} direction="up">
