@@ -267,31 +267,31 @@ function ProfilePage(props) {
                     <span>{(username && username !== 'null') ? username : 'بدون نام کابری'}</span>
                 </div>
                 {bio && bio !== 'null' && <div className="additional-information bio">{bio}</div>}
-                <div className="wallet">
-                    <Button variant="outlined" onClick={() => copyEthAddress(ethAddress)} classes={{ root: 'copy-btn' }}>
-                        <img src={ethereumIcon} height={16} />
+                <div className="wallet" data-test="wallet">
+                    <Button variant="outlined" data-test="btn-button" onClick={() => copyEthAddress(ethAddress)} classes={{ root: 'copy-btn' }}>
+                        <img src={ethereumIcon} height={16} data-test="img-prof"/>
                         <span style={{ display: 'flex', alignItems: 'center' }}>
                             {ethAddress?.slice(0, 5)}...{ethAddress?.slice(-3)}
                         </span>
                     </Button>
-                    <Snackbar open={pressCopy} autoHideDuration={3000} onClose={() => setPressCopy(false)}>
-                        <Alert onClose={() => setPressCopy(false)} severity="success" sx={{ width: '100%' }}>آدرس اتریوم شما با موفقیت کپی شد</Alert>
+                    <Snackbar open={pressCopy} autoHideDuration={3000} onClose={() => setPressCopy(false)} data-test="Snackbar">
+                        <Alert onClose={() => setPressCopy(false)} data-test="alert" severity="success" sx={{ width: '100%' }}>آدرس اتریوم شما با موفقیت کپی شد</Alert>
                     </Snackbar>
                 </div>
                 {!id && <div className="additional-information"><div>موجودی کیف پول : {balance}</div></div>}
             </div>
-            <div className="contents">
+            <div className="contents" data-test="contents">
                 {!isEditMode ?
                     <div className="tabs-container">
                         <StyledTabs value={tabValue} onChange={handleTabChange}>
-                            <Tab label="کلکسیون‌ها" classes={{ root: 'tab' }} />
-                            <Tab label="ساخته شده‌ها" classes={{ root: 'tab' }} />
-                            <Tab label="علاقه‌مندی‌ها" classes={{ root: 'tab' }} />
-                            <Tab label="پیشنهادها" classes={{ root: 'tab' }} />
+                            <Tab label="کلکسیون‌ها" classes={{ root: 'tab' }}  data-test="collectiontab"/>
+                            <Tab label="ساخته شده‌ها" classes={{ root: 'tab' }} data-test="craettab"/>
+                            <Tab label="علاقه‌مندی‌ها" classes={{ root: 'tab' }} data-test="favoritetab"/>
+                            <Tab label="پیشنهادها" classes={{ root: 'tab' }} data-test="requesttab"/>
                         </StyledTabs>
                         <Divider />
-                        <div className='tabs-contents'>
-                            <TabPanel value={tabValue} index={0}>
+                        <div className='tabs-contents' data-test="tabs-contents">
+                            <TabPanel value={tabValue} index={0} data-test="collectionpanel">
                                 <div style={{ width: '95vw' }}>
                                     {collections && collections.length > 0 &&
                                         <div className="d-flex flex-wrap justify-content-center">
@@ -308,7 +308,7 @@ function ProfilePage(props) {
                                     }
                                 </div>
                             </TabPanel>
-                            <TabPanel value={tabValue} index={1}>
+                            <TabPanel value={tabValue} index={1} data-test="creatpanel">
                                 <div style={{ width: '95vw' }}>
                                     {creations && creations.length > 0 &&
                                         <div className="d-flex flex-wrap justify-content-center">
@@ -325,7 +325,7 @@ function ProfilePage(props) {
                                     }
                                 </div>
                             </TabPanel>
-                            <TabPanel value={tabValue} index={2}>
+                            <TabPanel value={tabValue} index={2} data-test="favoritpanel">
                                 {id ?
                                     <div>این بخش از اطلاعات کاربر برای شما قابل مشاهده نیست</div>
                                     :
@@ -346,13 +346,13 @@ function ProfilePage(props) {
                                     </div>
                                 }
                             </TabPanel>
-                            <TabPanel value={tabValue} index={3}>
+                            <TabPanel value={tabValue} index={3} data-test="requestpanel">
                                 <div style={{ width: '95vw' }}>
                                     <StyledTabs value={subTabValue} onChange={handleSubTabChange}>
-                                        <Tab label="پیشنهادهای من" classes={{ root: 'tab' }} />
-                                        <Tab label="پیشنهادهای دیگران" classes={{ root: 'tab' }} />
+                                        <Tab label="پیشنهادهای من" classes={{ root: 'tab' }}  data-test="myrequesttab"/>
+                                        <Tab label="پیشنهادهای دیگران" classes={{ root: 'tab' }} data-test="otherrequesttab"/>
                                     </StyledTabs>
-                                    <TabPanel value={subTabValue} index={0}>
+                                    <TabPanel value={subTabValue} index={0} data-test="myrequestpanel">
                                         {myOffers && myOffers.length > 0 &&
                                             <div className="d-flex flex-wrap justify-content-center">
                                                 {myOffers.map((product, index) => (
@@ -364,7 +364,7 @@ function ProfilePage(props) {
                                             <div>شما هنوز پیشنهاد خرید برای محصولی ثبت نکردین</div>
                                         }
                                     </TabPanel>
-                                    <TabPanel value={subTabValue} index={1}>
+                                    <TabPanel value={subTabValue} index={1} data-test="otherrequestpanel">
                                         {offersForMe && offersForMe.length > 0 &&
                                             <div className="d-flex flex-wrap justify-content-center">
                                                 {offersForMe.map((product, index) => (
